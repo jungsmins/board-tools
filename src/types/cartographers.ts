@@ -52,7 +52,7 @@ export interface AmbushCard {
   shape: Shape;
 }
 
-export interface ScoringCard {
+export interface ScoringRule {
   id: string;
   slot: ScoringSlot;
   name: string;
@@ -75,17 +75,13 @@ export interface CartographersSnapshot {
   timestamp: number;
 }
 
-export interface CartographersState {
+export interface CartographersStore {
   gamePhase: GamePhase;
-
   selectedScoringCards: Record<ScoringSlot, string>;
-
   currentSeason: Season;
   currentTimePoints: number;
-
   deck: string[];
   currentExploreCardId: string | null;
-
   history: CartographersSnapshot[];
 
   startGame: () => void;
