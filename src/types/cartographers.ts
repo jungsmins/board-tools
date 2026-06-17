@@ -5,7 +5,7 @@ export type ScoringSlot = 'A' | 'B' | 'C' | 'D';
 export interface SeasonConfig {
   season: Season;
   name: string;
-  maxCost: number;
+  maxTimePoints: number;
   scoringSlots: [ScoringSlot, ScoringSlot];
 }
 
@@ -77,7 +77,7 @@ export interface CartographersSnapshot {
 
 export interface CartographersStore {
   gamePhase: GamePhase;
-  selectedScoringCards: Record<ScoringSlot, string>;
+  selectedScoringRules: Record<ScoringSlot, string>;
   currentSeason: Season;
   currentTimePoints: number;
   deck: string[];

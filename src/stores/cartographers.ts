@@ -5,14 +5,14 @@ import {
   CartographersSnapshot,
   CartographersStore,
 } from '@/types/cartographers';
-import { selectedScoringCard, shuffleDeck } from '@/lib/cartographers';
+import { selectScoringRules, shuffleDeck } from '@/lib/cartographers';
 import { EXPLORE_CARDS } from '@/constants/cartographers';
 
 export const useCartographersStore = create<CartographersStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       gamePhase: 'setup',
-      selectedScoringCards: { A: '', B: '', C: '', D: '' },
+      selectedScoringRules: { A: '', B: '', C: '', D: '' },
       currentSeason: 'spring',
       currentTimePoints: 0,
       deck: [],
@@ -22,7 +22,7 @@ export const useCartographersStore = create<CartographersStore>()(
       startGame: () =>
         set({
           gamePhase: 'season_splash',
-          selectedScoringCards: selectedScoringCard(),
+          selectedScoringRules: selectScoringRules(),
           currentSeason: 'spring',
           currentTimePoints: 0,
           deck: shuffleDeck(),
@@ -46,12 +46,12 @@ export const useCartographersStore = create<CartographersStore>()(
           if (!nextCardId) return state;
 
           const card = EXPLORE_CARDS.find((c) => c.id === nextCardId);
-          const timeCost = card?.cost ?? 0;
+          const cost = card?.cost ?? 0;
 
           return {
             currentExploreCardId: nextCardId,
             deck: remainingDeck,
-            currentTimePoints: state.currentTimePoints + timeCost,
+            currentTimePoints: state.currentTimePoints + cost,
             history: [...state.history, snapshot],
           };
         }),

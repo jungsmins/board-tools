@@ -9,7 +9,7 @@ function getRandomInt(range: number): number {
   return Math.floor(Math.random() * range);
 }
 
-export function selectedScoringCard(): Record<ScoringSlot, string> {
+export function selectScoringRules(): Record<ScoringSlot, string> {
   return {
     A: SCORING_RULES[getRandomInt(4)].id,
     B: SCORING_RULES[getRandomInt(4) + 4].id,
