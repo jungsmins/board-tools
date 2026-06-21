@@ -3,7 +3,7 @@ import {
   EXPLORE_CARDS,
   AMBUSH_CARDS,
 } from '@/constants/cartographers';
-import { ScoringSlot } from '@/types/cartographers';
+import { ScoringSlot, ScoringRule, DeckCard } from '@/types/cartographers';
 
 function getRandomInt(range: number): number {
   return Math.floor(Math.random() * range);
@@ -31,4 +31,22 @@ export function shuffleDeck(): string[] {
   deck.splice(getRandomInt(deck.length + 1), 0, ambush);
 
   return deck;
+}
+
+export const SCORING_RULE_BY_ID = new Map<string, ScoringRule>(
+  SCORING_RULES.map((rule) => [rule.id, rule]),
+);
+
+export function getScoringRuleById(id: string | null): ScoringRule | null {
+  if (!id) return null;
+  return SCORING_RULE_BY_ID.get(id) ?? null;
+}
+
+export const CARD_BY_ID = new Map<string, DeckCard>(
+  [...EXPLORE_CARDS, ...AMBUSH_CARDS].map((card) => [card.id, card]),
+);
+
+export function getCardById(id: string | null): DeckCard | null {
+  if (!id) return null;
+  return CARD_BY_ID.get(id) ?? null;
 }
