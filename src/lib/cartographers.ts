@@ -3,7 +3,12 @@ import {
   EXPLORE_CARDS,
   AMBUSH_CARDS,
 } from '@/constants/cartographers';
-import { ScoringSlot, ScoringRule, DeckCard } from '@/types/cartographers';
+import {
+  ScoringSlot,
+  ScoringRule,
+  DeckCard,
+  Season,
+} from '@/types/cartographers';
 
 function getRandomInt(range: number): number {
   return Math.floor(Math.random() * range);
@@ -49,4 +54,17 @@ export const CARD_BY_ID = new Map<string, DeckCard>(
 export function getCardById(id: string | null): DeckCard | null {
   if (!id) return null;
   return CARD_BY_ID.get(id) ?? null;
+}
+
+export function getNextSeason(season: Season) {
+  switch (season) {
+    case 'spring':
+      return 'summer';
+    case 'summer':
+      return 'automn';
+    case 'autumn':
+      return 'winter';
+    case 'winter':
+      return false;
+  }
 }
