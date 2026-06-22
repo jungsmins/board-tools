@@ -61,7 +61,7 @@ export function getNextSeason(season: Season) {
     case 'spring':
       return 'summer';
     case 'summer':
-      return 'automn';
+      return 'autumn';
     case 'autumn':
       return 'winter';
     case 'winter':
