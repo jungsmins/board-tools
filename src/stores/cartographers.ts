@@ -5,12 +5,16 @@ import {
   CartographersSnapshot,
   CartographersStore,
 } from '@/types/cartographers';
-import { selectScoringRules, shuffleDeck } from '@/lib/cartographers';
-import { EXPLORE_CARDS } from '@/constants/cartographers';
+import {
+  getNextSeason,
+  selectScoringRules,
+  shuffleDeck,
+} from '@/lib/cartographers';
+import { EXPLORE_CARDS, SEASON_CONFIG } from '@/constants/cartographers';
 
 export const useCartographersStore = create<CartographersStore>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       gamePhase: 'setup',
       selectedScoringRules: { A: '', B: '', C: '', D: '' },
       currentSeason: 'spring',
@@ -30,7 +34,10 @@ export const useCartographersStore = create<CartographersStore>()(
           history: [],
         }),
 
-      onSplashComplete: () => set({ gamePhase: 'playing' }),
+      onSplashComplete: () => {
+        get().nextCard();
+        set({ gamePhase: 'playing' });
+      },
 
       nextCard: () =>
         set((state) => {
@@ -48,13 +55,49 @@ export const useCartographersStore = create<CartographersStore>()(
           const card = EXPLORE_CARDS.find((c) => c.id === nextCardId);
           const cost = card?.cost ?? 0;
 
+          const seasonConfig = SEASON_CONFIG.find(
+            (s) => s.season === state.currentSeason,
+          );
+          const maxTimePoints = seasonConfig?.maxTimePoints ?? 0;
+
+          const newTimePoints = Math.min(
+            state.currentTimePoints + cost,
+            maxTimePoints,
+          );
+
           return {
             currentExploreCardId: nextCardId,
             deck: remainingDeck,
-            currentTimePoints: state.currentTimePoints + cost,
+            currentTimePoints: newTimePoints,
             history: [...state.history, snapshot],
           };
         }),
+
+      endSeason: () => {
+        set({ gamePhase: 'season_scoring' });
+      },
+
+      nextSeason: () => {
+        set((state) => {
+          const next = getNextSeason(state.currentSeason);
+
+          if (next) {
+            return {
+              gamePhase: 'season_splash',
+              currentSeason: next,
+              currentTimePoints: 0,
+              deck: shuffleDeck(),
+              currentExploreCardId: null,
+            };
+          }
+
+          return {
+            gamePhase: 'game_end',
+          };
+        });
+      },
+
+      resetGame: () => {},
     }),
     {
       name: 'board-tools-cartographers',
