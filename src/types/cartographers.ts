@@ -11,7 +11,7 @@ export interface SeasonConfig {
 
 export type TerrainType = 'forest' | 'village' | 'farm' | 'water';
 
-export type Shape = [number, number][];
+export type Shape = (0 | 1)[][];
 
 export interface ShapeOption {
   shape: Shape;
@@ -52,6 +52,8 @@ export interface AmbushCard {
   shape: Shape;
 }
 
+export type DeckCard = ExploreCard | AmbushCard;
+
 export interface ScoringRule {
   id: string;
   slot: ScoringSlot;
@@ -89,8 +91,8 @@ export interface CartographersStore {
   nextCard: () => void;
   endSeason: () => void;
   nextSeason: () => void;
-  undo: () => void;
+  // undo: () => void;
   resetGame: () => void;
 
-  selectScoringCard: (slot: ScoringSlot, cardId: string) => void;
+  // selectScoringCard: (slot: ScoringSlot, cardId: string) => void;
 }

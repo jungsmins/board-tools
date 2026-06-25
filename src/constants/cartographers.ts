@@ -2,8 +2,24 @@ import type {
   ExploreCard,
   AmbushCard,
   SeasonConfig,
-  ScoringCard,
+  ScoringSlot,
+  ScoringRule,
 } from '@/types/cartographers';
+
+export const SCORING_SLOT_BADGE_STYLES: Record<ScoringSlot, string> = {
+  A: 'bg-[var(--color-cartographers-forest)] text-white',
+  B: 'bg-[var(--color-cartographers-village)] text-white',
+  C: 'bg-linear-to-r from-[var(--color-cartographers-water)] to-[var(--color-cartographers-farm)] text-white',
+  D: 'bg-[var(--color-cartographers-grid)] text-white',
+};
+
+export const TERRAIN_BG: Record<string, string> = {
+  forest: 'bg-[var(--color-cartographers-forest)]',
+  farm: 'bg-[var(--color-cartographers-farm)]',
+  village: 'bg-[var(--color-cartographers-village)]',
+  water: 'bg-[var(--color-cartographers-water)]',
+  monster: 'bg-[var(--color-cartographers-monster)]',
+};
 
 export const EXPLORE_CARDS: ExploreCard[] = [
   {
@@ -14,23 +30,22 @@ export const EXPLORE_CARDS: ExploreCard[] = [
     terrains: ['forest'],
     shapes: [
       {
-        // ■
+        // ■ .
         // ■ ■
-        //   ■
+        // . ■
         shape: [
-          [0, 0],
           [1, 0],
           [1, 1],
-          [2, 1],
+          [0, 1],
         ],
         hasCoin: false,
       },
       {
-        // ■
-        //   ■
+        // ■ .
+        // . ■
         shape: [
-          [0, 0],
-          [1, 1],
+          [1, 0],
+          [0, 1],
         ],
         hasCoin: true,
       },
@@ -44,25 +59,20 @@ export const EXPLORE_CARDS: ExploreCard[] = [
     terrains: ['farm'],
     shapes: [
       {
-        //   ■
+        // . ■ .
         // ■ ■ ■
-        //   ■
+        // . ■ .
         shape: [
-          [0, 1],
-          [1, 0],
-          [1, 1],
-          [1, 2],
-          [2, 1],
+          [0, 1, 0],
+          [1, 1, 1],
+          [0, 1, 0],
         ],
         hasCoin: false,
       },
       {
         // ■
         // ■
-        shape: [
-          [0, 0],
-          [1, 0],
-        ],
+        shape: [[1], [1]],
         hasCoin: true,
       },
     ],
@@ -75,26 +85,20 @@ export const EXPLORE_CARDS: ExploreCard[] = [
     terrains: ['water'],
     shapes: [
       {
-        //  ■
-        //  ■
-        //  ■
-        shape: [
-          [0, 0],
-          [1, 0],
-          [2, 0],
-        ],
+        // ■
+        // ■
+        // ■
+        shape: [[1], [1], [1]],
         hasCoin: true,
       },
       {
-        //     ■
-        //   ■ ■
-        // ■ ■
+        // . . ■
+        // . ■ ■
+        // ■ ■ .
         shape: [
-          [0, 2],
-          [1, 1],
-          [1, 2],
-          [2, 0],
-          [2, 1],
+          [0, 0, 1],
+          [0, 1, 1],
+          [1, 1, 0],
         ],
         hasCoin: false,
       },
@@ -109,21 +113,17 @@ export const EXPLORE_CARDS: ExploreCard[] = [
     shapes: [
       {
         // ■ ■ ■
-        // ■ ■
+        // ■ ■ .
         shape: [
-          [0, 0],
-          [0, 1],
-          [0, 2],
-          [1, 0],
-          [1, 1],
+          [1, 1, 1],
+          [1, 1, 0],
         ],
         hasCoin: false,
       },
       {
-        // ■
+        // ■ .
         // ■ ■
         shape: [
-          [0, 0],
           [1, 0],
           [1, 1],
         ],
@@ -142,14 +142,13 @@ export const EXPLORE_CARDS: ExploreCard[] = [
     terrains: ['farm', 'village'],
     shapes: [
       {
-        // ■
+        // ■ .
         // ■ ■
-        // ■
+        // ■ .
         shape: [
-          [0, 0],
           [1, 0],
           [1, 1],
-          [2, 0],
+          [1, 0],
         ],
         hasCoin: false,
       },
@@ -164,14 +163,12 @@ export const EXPLORE_CARDS: ExploreCard[] = [
     shapes: [
       {
         // ■ ■ ■
-        // ■
-        // ■
+        // ■ . .
+        // ■ . .
         shape: [
-          [0, 0],
-          [0, 1],
-          [0, 2],
-          [1, 0],
-          [2, 0],
+          [1, 1, 1],
+          [1, 0, 0],
+          [1, 0, 0],
         ],
         hasCoin: false,
       },
@@ -186,12 +183,10 @@ export const EXPLORE_CARDS: ExploreCard[] = [
     shapes: [
       {
         // ■ ■ ■
-        //     ■
+        // . . ■
         shape: [
-          [0, 0],
-          [0, 1],
-          [0, 2],
-          [1, 2],
+          [1, 1, 1],
+          [0, 0, 1],
         ],
         hasCoin: false,
       },
@@ -205,15 +200,13 @@ export const EXPLORE_CARDS: ExploreCard[] = [
     terrains: ['forest', 'water'],
     shapes: [
       {
-        // ■
+        // ■ . .
         // ■ ■ ■
-        // ■
+        // ■ . .
         shape: [
-          [0, 0],
-          [1, 0],
-          [1, 1],
-          [1, 2],
-          [2, 0],
+          [1, 0, 0],
+          [1, 1, 1],
+          [1, 0, 0],
         ],
         hasCoin: false,
       },
@@ -227,14 +220,11 @@ export const EXPLORE_CARDS: ExploreCard[] = [
     terrains: ['forest', 'village'],
     shapes: [
       {
-        //     ■ ■
-        // ■ ■ ■
+        // . . ■ ■
+        // ■ ■ ■ .
         shape: [
-          [0, 2],
-          [0, 3],
-          [1, 0],
-          [1, 1],
-          [1, 2],
+          [0, 0, 1, 1],
+          [1, 1, 1, 0],
         ],
         hasCoin: false,
       },
@@ -249,12 +239,7 @@ export const EXPLORE_CARDS: ExploreCard[] = [
     shapes: [
       {
         // ■ ■ ■ ■
-        shape: [
-          [0, 0],
-          [0, 1],
-          [0, 2],
-          [0, 3],
-        ],
+        shape: [[1, 1, 1, 1]],
         hasCoin: false,
       },
     ],
@@ -289,13 +274,13 @@ export const AMBUSH_CARDS: AmbushCard[] = [
     id: 'goblin_attack',
     name: '고블린 습격',
     direction: 'right',
+    // ■ . .
+    // . ■ .
+    // . . ■
     shape: [
-      // ■
-      //   ■
-      //     ■
-      [0, 0],
-      [1, 1],
-      [2, 2],
+      [1, 0, 0],
+      [0, 1, 0],
+      [0, 0, 1],
     ],
   },
   {
@@ -303,13 +288,11 @@ export const AMBUSH_CARDS: AmbushCard[] = [
     id: 'bugbear_attack',
     name: '버그베어 습격',
     direction: 'left',
+    // ■ . ■
+    // ■ . ■
     shape: [
-      // ■   ■
-      // ■   ■
-      [0, 0],
-      [0, 2],
-      [1, 0],
-      [1, 2],
+      [1, 0, 1],
+      [1, 0, 1],
     ],
   },
   {
@@ -317,26 +300,21 @@ export const AMBUSH_CARDS: AmbushCard[] = [
     id: 'ratman_attack',
     name: '랫맨 습격',
     direction: 'left',
-    shape: [
-      // ■ ■ ■
-      [0, 0],
-      [0, 1],
-      [0, 2],
-    ],
+    // ■ ■ ■
+    shape: [[1, 1, 1]],
   },
   {
     type: 'ambush',
     id: 'insectoid_attack',
     name: '곤충인간 습격',
     direction: 'left',
+    // . ■
+    // ■ ■
+    // ■ .
     shape: [
-      //   ■
-      // ■ ■
-      // ■
       [0, 1],
-      [1, 0],
       [1, 1],
-      [2, 0],
+      [1, 0],
     ],
   },
   {
@@ -344,10 +322,9 @@ export const AMBUSH_CARDS: AmbushCard[] = [
     id: 'mind_infiltrator_attack',
     name: '정신침투자 습격',
     direction: 'right',
+    // ■ .
+    // ■ ■
     shape: [
-      // ■
-      // ■ ■
-      [0, 0],
       [1, 0],
       [1, 1],
     ],
@@ -357,49 +334,47 @@ export const AMBUSH_CARDS: AmbushCard[] = [
     id: 'gnoll_attack',
     name: '놀 습격',
     direction: 'right',
+    // ■ ■
+    // ■ .
+    // ■ ■
     shape: [
-      // ■ ■
-      // ■
-      // ■ ■
-      [0, 0],
-      [0, 1],
+      [1, 1],
       [1, 0],
-      [2, 0],
-      [2, 1],
+      [1, 1],
     ],
   },
 ];
 
-export const SEASON_CARDS: SeasonConfig[] = [
+export const SEASON_CONFIG: SeasonConfig[] = [
   {
     season: 'spring',
     name: '봄',
-    maxCost: 8,
+    maxTimePoints: 8,
     scoringSlots: ['A', 'B'],
   },
   {
     season: 'summer',
     name: '여름',
-    maxCost: 8,
+    maxTimePoints: 8,
     scoringSlots: ['B', 'C'],
   },
   {
     season: 'autumn',
     name: '가을',
-    maxCost: 7,
+    maxTimePoints: 7,
     scoringSlots: ['C', 'D'],
   },
   {
     season: 'winter',
     name: '겨울',
-    maxCost: 6,
+    maxTimePoints: 6,
     scoringSlots: ['D', 'A'],
   },
 ];
 
 // 점수계산 --------------------------------------------------------------------
 
-export const SCORING_CARDS: ScoringCard[] = [
+export const SCORING_RULES: ScoringRule[] = [
   // -- 슬롯 A : 숲 관련 --
   {
     id: 'sentinel_wood',
