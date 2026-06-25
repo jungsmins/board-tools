@@ -5,7 +5,7 @@ type ButtonSize = 'sm' | 'md' | 'lg';
 
 type ButtonProps = {
   children: ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
   variant?: ButtonVariant;
   size?: ButtonSize;
 } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'>;

@@ -3,7 +3,7 @@ import localFont from 'next/font/local';
 import '@/app/globals.css';
 
 const ongleafGeungjeong = localFont({
-  src: '../../public/Ongleaf-Geungjeong.ttf',
+  src: '../../public/fonts/Ongleaf-Geungjeong.ttf',
   variable: '--font-display',
   display: 'swap',
 });

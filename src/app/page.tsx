@@ -1,30 +1,13 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import logo_icon from '../../public/logo_icon.png';
-import logo_text from '../../public/logo_text.png';
 import hero from '../../public/board_tools_main.png';
+import Header from '@/components/shared/Header';
+import Footer from '@/components/shared/Footer';
 
 export default function Home() {
-  const edgeGradientBar = `
-    after:content-['']
-    after:absolute
-    after:left-0
-    after:right-0
-    after:h-1
-    after:bg-[linear-gradient(90deg,var(--color-gradient-red)_0%,var(--color-gradient-blue)_33%,var(--color-gradient-green)_66%,var(--color-gradient-yellow)_100%)]
-  `;
-
   return (
     <div className='h-full w-full bg-canvas'>
-      <header
-        className={`relative flex h-16 w-full items-center justify-between bg-chrome p-6 after:bottom-0 ${edgeGradientBar}`}
-      >
-        <Link href='/' className='flex items-center gap-2.5'>
-          <Image src={logo_icon} alt='로고' width={36} height={36} />
-          <Image src={logo_text} alt='로고' width={115} height={34} />
-        </Link>
-        <div className='font-display text-title'>게임 추천하기</div>
-      </header>
+      <Header />
       <section className='relative w-full'>
         <Image
           src={hero}
@@ -80,11 +63,7 @@ export default function Home() {
           ))}
         </ul>
       </section>
-      <footer
-        className={`relative flex flex-col items-center justify-center bg-chrome py-12 after:top-0 ${edgeGradientBar}`}
-      >
-        <p className='text-title text-xl'>보드툴즈</p>
-      </footer>
+      <Footer />
     </div>
   );
 }
