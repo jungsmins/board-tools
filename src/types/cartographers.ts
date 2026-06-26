@@ -65,8 +65,7 @@ export type GamePhase =
   | 'setup'
   | 'season_splash'
   | 'playing'
-  | 'season_scoring'
-  | 'game_end';
+  | 'season_scoring';
 
 export interface CartographersSnapshot {
   gamePhase: GamePhase;
@@ -91,8 +90,6 @@ export interface CartographersStore {
   nextCard: () => void;
   endSeason: () => void;
   nextSeason: () => void;
-  // undo: () => void;
+  prevCard: () => void;
   resetGame: () => void;
-
-  // selectScoringCard: (slot: ScoringSlot, cardId: string) => void;
 }

@@ -12,6 +12,17 @@ import {
 } from '@/lib/cartographers';
 import { EXPLORE_CARDS, SEASON_CONFIG } from '@/constants/cartographers';
 
+function createSnapshot(state: CartographersStore): CartographersSnapshot {
+  return {
+    gamePhase: state.gamePhase,
+    currentSeason: state.currentSeason,
+    currentTimePoints: state.currentTimePoints,
+    deck: [...state.deck],
+    currentExploreCardId: state.currentExploreCardId,
+    timestamp: Date.now(),
+  };
+}
+
 export const useCartographersStore = create<CartographersStore>()(
   persist(
     (set, get) => ({
@@ -41,14 +52,7 @@ export const useCartographersStore = create<CartographersStore>()(
 
       nextCard: () =>
         set((state) => {
-          const snapshot: CartographersSnapshot = {
-            gamePhase: 'setup',
-            currentSeason: 'spring',
-            currentTimePoints: 0,
-            deck: [],
-            currentExploreCardId: null,
-            timestamp: 1,
-          };
+          const snapshot = createSnapshot(state);
           const [nextCardId, ...remainingDeck] = state.deck;
           if (!nextCardId) return state;
 
@@ -78,26 +82,43 @@ export const useCartographersStore = create<CartographersStore>()(
       },
 
       nextSeason: () => {
-        set((state) => {
-          const next = getNextSeason(state.currentSeason);
+        const next = getNextSeason(get().currentSeason);
 
-          if (next) {
-            return {
-              gamePhase: 'season_splash',
-              currentSeason: next,
-              currentTimePoints: 0,
-              deck: shuffleDeck(),
-              currentExploreCardId: null,
-            };
-          }
+        if (!next) {
+          get().resetGame();
+          return;
+        }
 
-          return {
-            gamePhase: 'game_end',
-          };
+        set({
+          gamePhase: 'season_splash',
+          currentSeason: next,
+          currentTimePoints: 0,
+          deck: shuffleDeck(),
+          currentExploreCardId: null,
+          history: [],
         });
       },
 
-      resetGame: () => {},
+      prevCard: () =>
+        set((state) => {
+          if (state.history.length === 0) return state;
+          const prev = state.history[state.history.length - 1];
+          return {
+            ...prev,
+            history: state.history.slice(0, -1),
+          };
+        }),
+
+      resetGame: () =>
+        set({
+          gamePhase: 'setup',
+          selectedScoringRules: { A: '', B: '', C: '', D: '' },
+          currentSeason: 'spring',
+          currentTimePoints: 0,
+          deck: [],
+          currentExploreCardId: null,
+          history: [],
+        }),
     }),
     {
       name: 'board-tools-cartographers',
