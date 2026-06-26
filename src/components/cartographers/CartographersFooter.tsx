@@ -1,21 +1,34 @@
+import Link from 'next/link';
 import Button from '../ui/Button';
+import NextButton from './NextButton';
+
+interface CartographersFooterProps {
+  onNext: () => void;
+  nextButtonLabel: string;
+  onReset: () => void;
+  onPrev?: () => void;
+}
 
 export default function CartographersFooter({
   onNext,
-}: {
-  onNext: () => void;
-}) {
+  nextButtonLabel,
+  onReset,
+  onPrev,
+}: CartographersFooterProps) {
   return (
     <footer className='flex h-16 w-full items-center bg-[var(--color-cartographers-surface)] p-6 text-[var(--color-cartographers-ink)]'>
-      <Button variant='danger'>홈</Button>
+      <Link href='/'>홈</Link>
       <div className='flex flex-1 justify-center gap-10'>
-        <Button variant='primary'>되돌리기</Button>
-        <Button variant='primary' onClick={onNext}>
-          다음
+        {onPrev && (
+          <Button variant='primary' onClick={onPrev}>
+            이전 카드
+          </Button>
+        )}
+        <NextButton onNext={onNext} label={nextButtonLabel} />
+        <Button variant='primary' onClick={onReset}>
+          처음으로
         </Button>
-        <Button variant='primary'>게임 종료</Button>
       </div>
-      <Button variant='danger'>전체화면</Button>
     </footer>
   );
 }

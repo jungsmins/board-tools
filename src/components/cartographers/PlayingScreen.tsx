@@ -6,7 +6,6 @@ import CartographersHeader from './CartographersHeader';
 import ScoringSection from './ScoringSection';
 import ExploreSection from './ExploreSection';
 import CartographersFooter from './CartographersFooter';
-import Button from '../ui/Button';
 
 export default function PlayingScreen() {
   const {
@@ -16,6 +15,8 @@ export default function PlayingScreen() {
     selectedScoringRules,
     currentExploreCardId,
     endSeason,
+    resetGame,
+    prevCard,
   } = useCartographersStore();
   const scoringRuleIds = Object.values(selectedScoringRules);
   const scoringRules = scoringRuleIds
@@ -38,6 +39,7 @@ export default function PlayingScreen() {
 
   const isSeasonEnd = currentTimePoints >= seasonConfig.maxTimePoints;
   const handleNext = isSeasonEnd ? endSeason : nextCard;
+  const nextButtonLabel = isSeasonEnd ? '계절 종료' : '다음 카드';
 
   return (
     <div className='flex h-screen w-full flex-col'>
@@ -49,7 +51,12 @@ export default function PlayingScreen() {
         <ExploreSection exploreCard={exploreCard} />
         <ScoringSection scoringRules={scoringRules} />
       </main>
-      <CartographersFooter onNext={handleNext} />
+      <CartographersFooter
+        onNext={handleNext}
+        nextButtonLabel={nextButtonLabel}
+        onReset={resetGame}
+        onPrev={prevCard}
+      />
     </div>
   );
 }
