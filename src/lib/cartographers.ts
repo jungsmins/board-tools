@@ -14,12 +14,25 @@ function getRandomInt(range: number): number {
   return Math.floor(Math.random() * range);
 }
 
+function getRandomItem<T>(items: T[]): T {
+  if (items.length === 0) {
+    throw new Error('Cannot select a random item from an empty list.');
+  }
+
+  return items[getRandomInt(items.length)];
+}
+
+function selectScoringRuleBySlot(slot: ScoringSlot): string {
+  const rules = SCORING_RULES.filter((rule) => rule.slot === slot);
+  return getRandomItem(rules).id;
+}
+
 export function selectScoringRules(): Record<ScoringSlot, string> {
   return {
-    A: SCORING_RULES[getRandomInt(4)].id,
-    B: SCORING_RULES[getRandomInt(4) + 4].id,
-    C: SCORING_RULES[getRandomInt(4) + 8].id,
-    D: SCORING_RULES[getRandomInt(4) + 12].id,
+    A: selectScoringRuleBySlot('A'),
+    B: selectScoringRuleBySlot('B'),
+    C: selectScoringRuleBySlot('C'),
+    D: selectScoringRuleBySlot('D'),
   };
 }
 
@@ -54,6 +67,10 @@ export const CARD_BY_ID = new Map<string, DeckCard>(
 export function getCardById(id: string | null): DeckCard | null {
   if (!id) return null;
   return CARD_BY_ID.get(id) ?? null;
+}
+
+export function getCardCost(card: DeckCard): number {
+  return card.type === 'ambush' ? 0 : card.cost;
 }
 
 export function getNextSeason(season: Season) {

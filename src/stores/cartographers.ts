@@ -6,11 +6,13 @@ import {
   CartographersStore,
 } from '@/types/cartographers';
 import {
+  getCardById,
+  getCardCost,
   getNextSeason,
   selectScoringRules,
   shuffleDeck,
 } from '@/lib/cartographers';
-import { EXPLORE_CARDS, SEASON_CONFIG } from '@/constants/cartographers';
+import { SEASON_CONFIG } from '@/constants/cartographers';
 
 function createSnapshot(state: CartographersStore): CartographersSnapshot {
   return {
@@ -56,8 +58,10 @@ export const useCartographersStore = create<CartographersStore>()(
           const [nextCardId, ...remainingDeck] = state.deck;
           if (!nextCardId) return state;
 
-          const card = EXPLORE_CARDS.find((c) => c.id === nextCardId);
-          const cost = card?.cost ?? 0;
+          const card = getCardById(nextCardId);
+          if (!card) return state;
+
+          const cost = getCardCost(card);
 
           const seasonConfig = SEASON_CONFIG.find(
             (s) => s.season === state.currentSeason,
