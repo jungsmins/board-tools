@@ -13,7 +13,7 @@ interface props {
 
 export default function SeasonSplash({ season }: props) {
   const { onSplashComplete } = useCartographersStore();
-  const SEASON_iMAGES = { spring, summer, autumn, winter };
+  const SEASON_IMAGES = { spring, summer, autumn, winter };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -25,7 +25,7 @@ export default function SeasonSplash({ season }: props) {
 
   return (
     <div className='w-full h-screen'>
-      <Image fill alt='계절 이미지' src={SEASON_iMAGES[season]} />
+      <Image fill alt='계절 이미지' src={SEASON_IMAGES[season]} />
     </div>
   );
 }

@@ -3,13 +3,13 @@ import TerrainBlock from './TerrainBlock';
 import ShapeBlock from './ShapeBlock';
 import CoinImage from './CoinImage';
 
-interface NomalCardContentProps {
+interface NormalCardContentProps {
   exploreCard: NormalExploreCard;
 }
 
 export default function NormalCardContent({
   exploreCard,
-}: NomalCardContentProps) {
+}: NormalCardContentProps) {
   const { shapes, terrains } = exploreCard;
 
   return (
