@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Button from '../ui/Button';
-import NextButton from './NextButton';
 
 interface CartographersFooterProps {
   onNext: () => void;
@@ -24,7 +23,9 @@ export default function CartographersFooter({
             이전 카드
           </Button>
         )}
-        <NextButton onNext={onNext} label={nextButtonLabel} />
+        <Button variant='primary' onClick={onNext}>
+          {nextButtonLabel}
+        </Button>
         <Button variant='primary' onClick={onReset}>
           처음으로
         </Button>
