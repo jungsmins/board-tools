@@ -2,18 +2,20 @@ import { Shape } from '@/types/cartographers';
 
 interface ShapeBlockProps {
   shape: Shape;
+  hasCoin?: boolean;
   coin?: React.ReactNode;
   direction?: React.ReactNode;
 }
 
 export default function ShapeBlock({
   shape,
+  hasCoin = false,
   coin,
   direction,
 }: ShapeBlockProps) {
   return (
     <div className='group flex w-full items-center justify-center rounded-lg bg-[var(--color-cartographers-overlay)]'>
-      <div className='flex flex-col group-has-[img]:pl-7'>
+      <div className={`flex flex-col ${hasCoin ? 'pl-7' : ''}`}>
         {shape.map((row, j) => {
           return (
             <div key={j} className='flex'>

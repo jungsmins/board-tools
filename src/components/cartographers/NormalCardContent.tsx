@@ -22,7 +22,12 @@ export default function NormalCardContent({
       <div className='flex flex-1 gap-10'>
         {shapes.map(({ shape, hasCoin }, i) => {
           return (
-            <ShapeBlock key={i} shape={shape} coin={hasCoin && <CoinImage />} />
+            <ShapeBlock
+              key={i}
+              shape={shape}
+              hasCoin={hasCoin}
+              coin={hasCoin ? <CoinImage /> : undefined}
+            />
           );
         })}
       </div>
