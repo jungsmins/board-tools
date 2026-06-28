@@ -14,6 +14,12 @@ export default function CartographersFooter({
   onReset,
   onPrev,
 }: CartographersFooterProps) {
+  const handleReset = () => {
+    if (window.confirm('현재 진행 상황을 초기화할까요?')) {
+      onReset();
+    }
+  };
+
   return (
     <footer className='flex h-16 w-full items-center bg-[var(--color-cartographers-surface)] p-6 text-[var(--color-cartographers-ink)]'>
       <Link href='/'>홈</Link>
@@ -26,7 +32,7 @@ export default function CartographersFooter({
         <Button variant='primary' onClick={onNext}>
           {nextButtonLabel}
         </Button>
-        <Button variant='primary' onClick={onReset}>
+        <Button variant='danger' onClick={handleReset}>
           처음으로
         </Button>
       </div>
