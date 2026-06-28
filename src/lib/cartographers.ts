@@ -2,12 +2,14 @@ import {
   SCORING_RULES,
   EXPLORE_CARDS,
   AMBUSH_CARDS,
+  SEASON_CONFIG,
 } from '@/constants/cartographers';
 import {
   ScoringSlot,
   ScoringRule,
   DeckCard,
   Season,
+  SeasonConfig,
 } from '@/types/cartographers';
 
 function getRandomInt(range: number): number {
@@ -60,6 +62,23 @@ export function getScoringRuleById(id: string | null): ScoringRule | null {
   return SCORING_RULE_BY_ID.get(id) ?? null;
 }
 
+export function getScoringRulesByIds(ids: string[]): ScoringRule[] {
+  return ids
+    .map(getScoringRuleById)
+    .filter((rule): rule is ScoringRule => rule !== null);
+}
+
+export function getSeasonScoringRules(
+  selectedScoringRules: Record<ScoringSlot, string>,
+  seasonConfig: SeasonConfig,
+): ScoringRule[] {
+  const seasonSlots = new Set<ScoringSlot>(seasonConfig.scoringSlots);
+
+  return getScoringRulesByIds(Object.values(selectedScoringRules)).filter(
+    (rule) => seasonSlots.has(rule.slot),
+  );
+}
+
 export const CARD_BY_ID = new Map<string, DeckCard>(
   [...EXPLORE_CARDS, ...AMBUSH_CARDS].map((card) => [card.id, card]),
 );
@@ -71,6 +90,16 @@ export function getCardById(id: string | null): DeckCard | null {
 
 export function getCardCost(card: DeckCard): number {
   return card.type === 'ambush' ? 0 : card.cost;
+}
+
+export function getSeasonConfig(season: Season): SeasonConfig {
+  const config = SEASON_CONFIG.find((item) => item.season === season);
+
+  if (!config) {
+    throw new Error(`Unknown season: ${season}`);
+  }
+
+  return config;
 }
 
 export function getNextSeason(season: Season) {

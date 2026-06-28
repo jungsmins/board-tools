@@ -9,10 +9,10 @@ import {
   getCardById,
   getCardCost,
   getNextSeason,
+  getSeasonConfig,
   selectScoringRules,
   shuffleDeck,
 } from '@/lib/cartographers';
-import { SEASON_CONFIG } from '@/constants/cartographers';
 
 function createSnapshot(state: CartographersStore): CartographersSnapshot {
   return {
@@ -63,10 +63,8 @@ export const useCartographersStore = create<CartographersStore>()(
 
           const cost = getCardCost(card);
 
-          const seasonConfig = SEASON_CONFIG.find(
-            (s) => s.season === state.currentSeason,
-          );
-          const maxTimePoints = seasonConfig?.maxTimePoints ?? 0;
+          const seasonConfig = getSeasonConfig(state.currentSeason);
+          const maxTimePoints = seasonConfig.maxTimePoints;
 
           const newTimePoints = Math.min(
             state.currentTimePoints + cost,

@@ -1,7 +1,9 @@
 import { useCartographersStore } from '@/stores/cartographers';
-import { SEASON_CONFIG } from '@/constants/cartographers';
-import { getScoringRuleById, getCardById } from '@/lib/cartographers';
-import { ScoringRule } from '@/types/cartographers';
+import {
+  getCardById,
+  getScoringRulesByIds,
+  getSeasonConfig,
+} from '@/lib/cartographers';
 import CartographersHeader from './CartographersHeader';
 import ScoringSection from './ScoringSection';
 import ExploreSection from './ExploreSection';
@@ -18,20 +20,9 @@ export default function PlayingScreen() {
     resetGame,
     prevCard,
   } = useCartographersStore();
-  const scoringRuleIds = Object.values(selectedScoringRules);
-  const scoringRules = scoringRuleIds
-    .map((id) => {
-      return getScoringRuleById(id);
-    })
-    .filter((rule): rule is ScoringRule => rule !== null);
-  const seasonConfig = SEASON_CONFIG.find(
-    (season) => season.season === currentSeason,
-  );
+  const scoringRules = getScoringRulesByIds(Object.values(selectedScoringRules));
+  const seasonConfig = getSeasonConfig(currentSeason);
   const exploreCard = getCardById(currentExploreCardId);
-
-  if (!seasonConfig) {
-    return null;
-  }
 
   if (!exploreCard) {
     return null;

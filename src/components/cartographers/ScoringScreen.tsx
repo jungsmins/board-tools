@@ -1,9 +1,10 @@
 import { useCartographersStore } from '@/stores/cartographers';
 import CartographersFooter from './CartographersFooter';
 import CartographersHeader from './CartographersHeader';
-import { SEASON_CONFIG } from '@/constants/cartographers';
-import { getScoringRuleById } from '@/lib/cartographers';
-import { ScoringRule } from '@/types/cartographers';
+import {
+  getSeasonConfig,
+  getSeasonScoringRules,
+} from '@/lib/cartographers';
 import ScoringSection from './ScoringSection';
 
 export default function ScoringScreen() {
@@ -15,22 +16,11 @@ export default function ScoringScreen() {
     resetGame,
   } = useCartographersStore();
 
-  const seasonConfig = SEASON_CONFIG.find(
-    (season) => season.season === currentSeason,
+  const seasonConfig = getSeasonConfig(currentSeason);
+  const currentSeasonScoringRules = getSeasonScoringRules(
+    selectedScoringRules,
+    seasonConfig,
   );
-  const scoringRuleIds = Object.values(selectedScoringRules);
-  const currentSeasonScoringRules = scoringRuleIds
-    .map((id) => {
-      return getScoringRuleById(id);
-    })
-    .filter(
-      (rule) =>
-        rule?.slot === seasonConfig?.scoringSlots[0] ||
-        rule?.slot === seasonConfig?.scoringSlots[1],
-    )
-    .filter((rule): rule is ScoringRule => rule !== null);
-
-  if (!seasonConfig) return null;
 
   const nextButtonLabel =
     currentSeason === 'winter' ? '게임 종료' : '다음 계절';
