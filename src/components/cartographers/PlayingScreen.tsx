@@ -19,6 +19,7 @@ export default function PlayingScreen() {
     endSeason,
     resetGame,
     prevCard,
+    history,
   } = useCartographersStore();
   const scoringRules = getScoringRulesByIds(Object.values(selectedScoringRules));
   const seasonConfig = getSeasonConfig(currentSeason);
@@ -46,7 +47,7 @@ export default function PlayingScreen() {
         onNext={handleNext}
         nextButtonLabel={nextButtonLabel}
         onReset={resetGame}
-        onPrev={prevCard}
+        onPrev={history.length > 1 ? prevCard : undefined}
       />
     </div>
   );

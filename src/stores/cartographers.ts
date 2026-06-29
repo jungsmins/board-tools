@@ -103,7 +103,7 @@ export const useCartographersStore = create<CartographersStore>()(
 
       prevCard: () =>
         set((state) => {
-          if (state.history.length === 0) return state;
+          if (state.history.length <= 1) return state;
           const prev = state.history[state.history.length - 1];
           return {
             ...prev,
