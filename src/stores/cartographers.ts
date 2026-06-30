@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import {
+  CartographersPersistedState,
   CartographersSnapshot,
   CartographersStore,
 } from '@/types/cartographers';
@@ -9,7 +10,6 @@ import {
   getCardById,
   getCardCost,
   getNextSeason,
-  getSeasonConfig,
   selectScoringRules,
   shuffleDeck,
 } from '@/lib/cartographers';
@@ -63,13 +63,7 @@ export const useCartographersStore = create<CartographersStore>()(
 
           const cost = getCardCost(card);
 
-          const seasonConfig = getSeasonConfig(state.currentSeason);
-          const maxTimePoints = seasonConfig.maxTimePoints;
-
-          const newTimePoints = Math.min(
-            state.currentTimePoints + cost,
-            maxTimePoints,
-          );
+          const newTimePoints = state.currentTimePoints + cost;
 
           return {
             currentExploreCardId: nextCardId,
@@ -124,6 +118,15 @@ export const useCartographersStore = create<CartographersStore>()(
     }),
     {
       name: 'board-tools-cartographers',
+      partialize: (state): CartographersPersistedState => ({
+        gamePhase: state.gamePhase,
+        selectedScoringRules: state.selectedScoringRules,
+        currentSeason: state.currentSeason,
+        currentTimePoints: state.currentTimePoints,
+        deck: state.deck,
+        currentExploreCardId: state.currentExploreCardId,
+        history: state.history,
+      }),
     },
   ),
 );

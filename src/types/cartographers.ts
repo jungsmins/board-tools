@@ -93,3 +93,14 @@ export interface CartographersStore {
   prevCard: () => void;
   resetGame: () => void;
 }
+
+export type CartographersPersistedState = Pick<
+  CartographersStore,
+  | 'gamePhase'
+  | 'selectedScoringRules'
+  | 'currentSeason'
+  | 'currentTimePoints'
+  | 'deck'
+  | 'currentExploreCardId'
+  | 'history'
+>;

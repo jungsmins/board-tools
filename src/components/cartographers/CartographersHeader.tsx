@@ -11,7 +11,8 @@ export default function CartographersHeader({
   currentTimePoints,
 }: CartographersHeaderProps) {
   const { name, maxTimePoints, scoringSlots } = seasonConfig;
-  const timePointsProgress = (currentTimePoints / maxTimePoints) * 100;
+  const displayedTimePoints = Math.min(currentTimePoints, maxTimePoints);
+  const timePointsProgress = (displayedTimePoints / maxTimePoints) * 100;
 
   return (
     <header className='flex h-16 w-full items-center gap-10 bg-[var(--color-cartographers-surface)] px-6'>
