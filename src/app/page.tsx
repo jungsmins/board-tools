@@ -4,6 +4,18 @@ import hero from '../../public/board_tools_main.png';
 import Header from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
 
+const TOOL_CARDS = [
+  {
+    href: '/cartographers',
+    title: '지도제작자들',
+    subtitle: '지도 제작자 툴',
+    description:
+      '게임 진행을 도와주는 점수 계산 및 지도 제작 보조 도구. 라운드별 점수를 기록하고 진행 상황을 한눈에 확인하세요.',
+    imageLabel: '이미지',
+    platforms: ['데스크탑', '모바일'],
+  },
+];
+
 export default function Home() {
   return (
     <div className='h-full w-full bg-canvas'>
@@ -28,33 +40,32 @@ export default function Home() {
       <section className='w-full px-6 pt-19 pb-22 flex flex-col items-center'>
         <div className='text-4xl mb-24 font-display'>도구함</div>
         <ul className='w-full grid grid-cols-1 gap-4 lg:grid-cols-2'>
-          {[1, 2, 3].map((i) => (
-            <li key={i}>
+          {TOOL_CARDS.map((tool) => (
+            <li key={tool.href}>
               <Link
-                href='/cartographers'
+                href={tool.href}
                 className='flex w-full overflow-hidden rounded-lg border border-card-border shadow-md'
               >
                 <div className='flex flex-1 items-center justify-center bg-blue-400'>
-                  이미지
+                  {tool.imageLabel}
                 </div>
                 <div className='flex-2 flex flex-col bg-card p-6'>
-                  <p className='text-2xl text-card-ink'>지도제작자들</p>
+                  <p className='text-2xl text-card-ink'>{tool.title}</p>
                   <p className='mb-3 text-sm italic text-card-muted'>
-                    지도 제작자 툴
+                    {tool.subtitle}
                   </p>
                   <div className='mb-3 h-[1px] bg-rule'></div>
-                  <p className='mb-5 text-sm text-card-ink'>
-                    게임 진행을 도와주는 점수 계산 및 지도 제작 보조 도구.
-                    라운드별 점수를 기록하고 진행 상황을 한눈에 확인하세요.
-                  </p>
+                  <p className='mb-5 text-sm text-card-ink'>{tool.description}</p>
                   <div className='flex flex-col gap-10'>
                     <div className='flex items-center gap-2'>
-                      <div className='flex items-center justify-center gap-1 rounded-full border border-chip-border bg-chip px-2 py-1'>
-                        <span className='text-sm'>데스크탑</span>
-                      </div>
-                      <div className='flex items-center justify-center gap-1 rounded-full border border-chip-border bg-chip px-2 py-1'>
-                        <span className='text-sm'>모바일</span>
-                      </div>
+                      {tool.platforms.map((platform) => (
+                        <div
+                          key={platform}
+                          className='flex items-center justify-center gap-1 rounded-full border border-chip-border bg-chip px-2 py-1'
+                        >
+                          <span className='text-sm'>{platform}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
