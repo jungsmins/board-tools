@@ -33,7 +33,7 @@ export default function CartographersHeader({
       </div>
       <div className='h-5 flex-1 overflow-hidden rounded-lg bg-white/60'>
         <div
-          className='h-full bg-[var(--color-cartographers-panel)]'
+          className='h-full bg-[var(--color-cartographers-panel)] transition-[width] duration-700 ease-out'
           style={{ width: `${timePointsProgress}%` }}
         ></div>
       </div>
