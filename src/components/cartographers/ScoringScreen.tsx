@@ -31,8 +31,11 @@ export default function ScoringScreen() {
         seasonConfig={seasonConfig}
         currentTimePoints={currentTimePoints}
       />
-      <main className='flex-1'>
-        <ScoringSection scoringRules={currentSeasonScoringRules} />
+      <main className='flex min-h-0 flex-1'>
+        <ScoringSection
+          scoringRules={currentSeasonScoringRules}
+          variant='showcase'
+        />
       </main>
       <CartographersFooter
         onNext={nextSeason}

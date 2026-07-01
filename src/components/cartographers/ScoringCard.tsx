@@ -3,21 +3,33 @@ import { SCORING_SLOT_BADGE_STYLES } from '@/constants/cartographers';
 
 type ScoringCardProps = {
   scoringRule: ScoringRule;
+  variant?: 'compact' | 'showcase';
 };
 
-export default function ScoringCard({ scoringRule }: ScoringCardProps) {
+export default function ScoringCard({
+  scoringRule,
+  variant = 'compact',
+}: ScoringCardProps) {
+  const isShowcase = variant === 'showcase';
+
   return (
-    <li className='flex w-full flex-1 rounded-lg bg-[var(--color-cartographers-card)] p-4 shadow'>
+    <li
+      className={`flex w-full flex-1 rounded-lg bg-[var(--color-cartographers-card)] shadow ${isShowcase ? 'items-start gap-8 p-10' : 'p-4'}`}
+    >
       <div
-        className={`mr-2 flex h-8 w-8 shrink-0 items-center justify-center rounded-sm font-bold ${SCORING_SLOT_BADGE_STYLES[scoringRule.slot]}`}
+        className={`flex shrink-0 items-center justify-center rounded-sm font-bold ${isShowcase ? 'h-20 w-20 text-5xl' : 'mr-2 h-8 w-8'} ${SCORING_SLOT_BADGE_STYLES[scoringRule.slot]}`}
       >
         {scoringRule.slot}
       </div>
       <div>
-        <div className='text-lg font-bold text-[var(--color-cartographers-ink)]'>
+        <div
+          className={`font-bold text-[var(--color-cartographers-ink)] ${isShowcase ? 'mb-6 text-5xl' : 'text-lg'}`}
+        >
           {scoringRule.name}
         </div>
-        <p className='text-[var(--color-cartographers-muted)]'>
+        <p
+          className={`text-[var(--color-cartographers-muted)] ${isShowcase ? 'text-3xl leading-relaxed' : ''}`}
+        >
           {scoringRule.description}
         </p>
       </div>
