@@ -17,7 +17,9 @@ export default function ScoringSection({
       className={`flex flex-1 flex-col bg-[var(--color-cartographers-panel)] ${isShowcase ? 'h-full p-8' : 'p-4'}`}
     >
       {!isShowcase && (
-        <h2 className='mb-4 text-[var(--color-cartographers-ink)]'>칙령</h2>
+        <h2 className='mb-4 inline-flex w-fit rounded-full border border-white/50 bg-white/70 px-3 py-1 text-sm font-bold text-[var(--color-cartographers-ink)] shadow-sm'>
+          칙령
+        </h2>
       )}
       <ul
         className={`flex w-full gap-3 ${isShowcase ? 'min-h-0 flex-1 flex-row gap-8' : 'h-full flex-col'}`}
