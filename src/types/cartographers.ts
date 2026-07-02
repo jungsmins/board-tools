@@ -9,7 +9,7 @@ export interface SeasonConfig {
   scoringSlots: [ScoringSlot, ScoringSlot];
 }
 
-export type TerrainType = 'forest' | 'village' | 'farm' | 'water';
+export type TerrainType = 'forest' | 'village' | 'farm' | 'water' | 'monster';
 
 export type Shape = (0 | 1)[][];
 

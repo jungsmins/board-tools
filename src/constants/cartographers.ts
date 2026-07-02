@@ -264,7 +264,7 @@ export const EXPLORE_CARDS: ExploreCard[] = [
     id: 'rift_lands',
     name: '변화무쌍한 대지',
     cost: 0,
-    terrains: ['forest', 'village', 'farm', 'water'],
+    terrains: ['forest', 'village', 'farm', 'water', 'monster'],
   },
 ];
 
