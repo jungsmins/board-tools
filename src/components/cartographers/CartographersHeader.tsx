@@ -31,7 +31,7 @@ export default function CartographersHeader({
           {scoringSlots[1]}
         </div>
       </div>
-      <div className='h-5 flex-1 overflow-hidden rounded-lg bg-white/60'>
+      <div className='h-5 flex-1 overflow-hidden rounded-lg bg-[var(--color-cartographers-progress-track)]'>
         <div
           className='h-full bg-[var(--color-cartographers-panel)] transition-[width] duration-700 ease-out'
           style={{ width: `${timePointsProgress}%` }}

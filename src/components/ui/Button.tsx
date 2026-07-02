@@ -11,7 +11,8 @@ type ButtonProps = {
 } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'>;
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: 'bg-[#C0E8CC] text-[#2d1508] hover:bg-[#abdcbc]',
+  primary:
+    'bg-[var(--color-cartographers-button-primary,#C0E8CC)] text-white hover:bg-[var(--color-cartographers-button-primary-hover,#abdcbc)]',
   secondary: 'bg-[#d1d5db] text-[#2d1508] hover:bg-[#c4c9d1]',
   ghost: 'bg-transparent text-[#2d1508] hover:bg-black/5',
   danger: 'bg-[#e04830] text-white hover:bg-[#c93b26]',
@@ -36,7 +37,7 @@ export default function Button({
     <button
       type={type}
       onClick={onClick}
-      className={`cursor-pointer rounded-lg transition ${variantClasses[variant]} ${sizeClasses[size]} ${className}`.trim()}
+      className={`cursor-pointer rounded-lg font-bold transition ${variantClasses[variant]} ${sizeClasses[size]} ${className}`.trim()}
       {...props}
     >
       {children}
