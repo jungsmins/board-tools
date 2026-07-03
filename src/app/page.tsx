@@ -8,11 +8,20 @@ const TOOL_CARDS = [
   {
     href: '/cartographers',
     title: '지도제작자들',
-    subtitle: '지도 제작자 툴',
+    subtitle: '지도제작자들 플레이어',
     description:
       '게임 진행을 도와주는 점수 계산 및 지도 제작 보조 도구. 라운드별 점수를 기록하고 진행 상황을 한눈에 확인하세요.',
     imageLabel: '이미지',
-    platforms: ['데스크탑', '모바일'],
+    platforms: ['데스크탑'],
+  },
+  {
+    href: '/terraforming-mars',
+    title: '테라포밍마스',
+    subtitle: '테라포밍마스 자원 트래킹',
+    description:
+      '테라포밍마스 자원을 추가하고 사용할 수 있는 보조 도구. 테라포밍마스의 자원을 간편하게 관리하세요.',
+    imageLabel: '이미지',
+    platforms: ['모바일', '태블릿'],
   },
 ];
 
@@ -55,7 +64,9 @@ export default function Home() {
                     {tool.subtitle}
                   </p>
                   <div className='mb-3 h-[1px] bg-rule'></div>
-                  <p className='mb-5 text-sm text-card-ink'>{tool.description}</p>
+                  <p className='mb-5 text-sm text-card-ink'>
+                    {tool.description}
+                  </p>
                   <div className='flex flex-col gap-10'>
                     <div className='flex items-center gap-2'>
                       {tool.platforms.map((platform) => (
