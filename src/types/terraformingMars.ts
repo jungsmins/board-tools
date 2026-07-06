@@ -1,4 +1,4 @@
-type ResourceType =
+export type TerraformingMarsResourceType =
   | 'megacredits'
   | 'steel'
   | 'titanium'
@@ -6,38 +6,29 @@ type ResourceType =
   | 'energy'
   | 'heat';
 
-interface Resource {
-  type: ResourceType;
+export interface TerraformingMarsResource {
+  type: TerraformingMarsResourceType;
+  name: string;
   amount: number;
   production: number;
 }
 
-export const PRODUCTION_MIN: Record<ResourceType, number> = {
-  megacredits: -5,
-  steel: 0,
-  titanium: 0,
-  plants: 0,
-  energy: 0,
-  heat: 0,
-};
+export type TerraformingMarsResources = Record<
+  TerraformingMarsResourceType,
+  TerraformingMarsResource
+>;
 
-export interface TerraformingMarsState {
-  resources: Record<ResourceType, Resource>;
-  tr: number;
-  generation: number;
-  history: Snapshot[];
+export interface TerraformingMarsStore {
+  resources: TerraformingMarsResources;
 
-  adjustAmount: (type: ResourceType, delta: number) => void;
-  adjustProduction: (type: ResourceType, delta: number) => void;
-  adjustTR: (delta: number) => void;
-  runProduction: () => void;
-  undo: () => void;
+  adjustAmount: (type: TerraformingMarsResourceType, delta: number) => void;
+  adjustProduction: (
+    type: TerraformingMarsResourceType,
+    delta: number,
+  ) => void;
   resetAll: () => void;
 }
 
-interface Snapshot {
-  resources: Record<ResourceType, Resource>;
-  tr: number;
-  generation: number;
-  timestamp: number;
+export interface TerraformingMarsPersistedState {
+  resources: TerraformingMarsResources;
 }
