@@ -12,6 +12,8 @@ export const TERRAFORMING_MARS_RESOURCE_TYPES = [
   'heat',
 ] as const satisfies readonly TerraformingMarsResourceType[];
 
+export const INITIAL_TERRAFORMING_MARS_TR = 20;
+
 export const INITIAL_TERRAFORMING_MARS_RESOURCES: TerraformingMarsResources = {
   megacredits: {
     type: 'megacredits',

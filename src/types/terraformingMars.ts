@@ -20,15 +20,19 @@ export type TerraformingMarsResources = Record<
 
 export interface TerraformingMarsStore {
   resources: TerraformingMarsResources;
+  tr: number;
 
   adjustAmount: (type: TerraformingMarsResourceType, delta: number) => void;
   adjustProduction: (
     type: TerraformingMarsResourceType,
     delta: number,
   ) => void;
+  adjustTR: (delta: number) => void;
+  runProduction: () => void;
   resetAll: () => void;
 }
 
 export interface TerraformingMarsPersistedState {
   resources: TerraformingMarsResources;
+  tr: number;
 }
