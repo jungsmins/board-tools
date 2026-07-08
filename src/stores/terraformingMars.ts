@@ -11,14 +11,33 @@ import {
 } from '@/lib/terraformingMars';
 import type {
   TerraformingMarsPersistedState,
+  TerraformingMarsSnapshot,
   TerraformingMarsStore,
 } from '@/types/terraformingMars';
+
+const HISTORY_LIMIT = 30;
+
+function createSnapshot(state: TerraformingMarsStore): TerraformingMarsSnapshot {
+  return {
+    resources: structuredClone(state.resources),
+    tr: state.tr,
+    timestamp: Date.now(),
+  };
+}
+
+function appendSnapshot(
+  history: TerraformingMarsSnapshot[],
+  snapshot: TerraformingMarsSnapshot,
+) {
+  return [...history, snapshot].slice(-HISTORY_LIMIT);
+}
 
 export const useTerraformingMarsStore = create<TerraformingMarsStore>()(
   persist(
     (set) => ({
       resources: createInitialTerraformingMarsResources(),
       tr: INITIAL_TERRAFORMING_MARS_TR,
+      history: [],
 
       adjustAmount: (type, delta) =>
         set((state) => {
@@ -32,6 +51,7 @@ export const useTerraformingMarsStore = create<TerraformingMarsStore>()(
                 amount: getNextResourceAmount(resource.amount, delta),
               },
             },
+            history: appendSnapshot(state.history, createSnapshot(state)),
           };
         }),
 
@@ -51,23 +71,39 @@ export const useTerraformingMarsStore = create<TerraformingMarsStore>()(
                 ),
               },
             },
+            history: appendSnapshot(state.history, createSnapshot(state)),
           };
         }),
 
       adjustTR: (delta) =>
         set((state) => ({
           tr: getNextTR(state.tr, delta),
+          history: appendSnapshot(state.history, createSnapshot(state)),
         })),
 
       runProduction: () =>
         set((state) => ({
           resources: produceResources(state.resources, state.tr),
+          history: appendSnapshot(state.history, createSnapshot(state)),
         })),
+
+      undo: () =>
+        set((state) => {
+          const snapshot = state.history[state.history.length - 1];
+          if (!snapshot) return state;
+
+          return {
+            resources: snapshot.resources,
+            tr: snapshot.tr,
+            history: state.history.slice(0, -1),
+          };
+        }),
 
       resetAll: () =>
         set({
           resources: createInitialTerraformingMarsResources(),
           tr: INITIAL_TERRAFORMING_MARS_TR,
+          history: [],
         }),
     }),
     {
@@ -75,6 +111,7 @@ export const useTerraformingMarsStore = create<TerraformingMarsStore>()(
       partialize: (state): TerraformingMarsPersistedState => ({
         resources: state.resources,
         tr: state.tr,
+        history: state.history,
       }),
     },
   ),
