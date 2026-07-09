@@ -1,7 +1,10 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { INITIAL_TERRAFORMING_MARS_TR } from '@/constants/terraformingMars';
+import {
+  INITIAL_TERRAFORMING_MARS_GENERATION,
+  INITIAL_TERRAFORMING_MARS_TR,
+} from '@/constants/terraformingMars';
 import {
   createInitialTerraformingMarsResources,
   getNextResourceAmount,
@@ -21,6 +24,7 @@ function createSnapshot(state: TerraformingMarsStore): TerraformingMarsSnapshot 
   return {
     resources: structuredClone(state.resources),
     tr: state.tr,
+    generation: state.generation,
     timestamp: Date.now(),
   };
 }
@@ -37,18 +41,22 @@ export const useTerraformingMarsStore = create<TerraformingMarsStore>()(
     (set) => ({
       resources: createInitialTerraformingMarsResources(),
       tr: INITIAL_TERRAFORMING_MARS_TR,
+      generation: INITIAL_TERRAFORMING_MARS_GENERATION,
       history: [],
 
       adjustAmount: (type, delta) =>
         set((state) => {
           const resource = state.resources[type];
+          const nextAmount = getNextResourceAmount(resource.amount, delta);
+
+          if (nextAmount === resource.amount) return state;
 
           return {
             resources: {
               ...state.resources,
               [type]: {
                 ...resource,
-                amount: getNextResourceAmount(resource.amount, delta),
+                amount: nextAmount,
               },
             },
             history: appendSnapshot(state.history, createSnapshot(state)),
@@ -58,17 +66,20 @@ export const useTerraformingMarsStore = create<TerraformingMarsStore>()(
       adjustProduction: (type, delta) =>
         set((state) => {
           const resource = state.resources[type];
+          const nextProduction = getNextResourceProduction(
+            type,
+            resource.production,
+            delta,
+          );
+
+          if (nextProduction === resource.production) return state;
 
           return {
             resources: {
               ...state.resources,
               [type]: {
                 ...resource,
-                production: getNextResourceProduction(
-                  type,
-                  resource.production,
-                  delta,
-                ),
+                production: nextProduction,
               },
             },
             history: appendSnapshot(state.history, createSnapshot(state)),
@@ -76,14 +87,21 @@ export const useTerraformingMarsStore = create<TerraformingMarsStore>()(
         }),
 
       adjustTR: (delta) =>
-        set((state) => ({
-          tr: getNextTR(state.tr, delta),
-          history: appendSnapshot(state.history, createSnapshot(state)),
-        })),
+        set((state) => {
+          const nextTR = getNextTR(state.tr, delta);
+
+          if (nextTR === state.tr) return state;
+
+          return {
+            tr: nextTR,
+            history: appendSnapshot(state.history, createSnapshot(state)),
+          };
+        }),
 
       runProduction: () =>
         set((state) => ({
           resources: produceResources(state.resources, state.tr),
+          generation: state.generation + 1,
           history: appendSnapshot(state.history, createSnapshot(state)),
         })),
 
@@ -95,6 +113,7 @@ export const useTerraformingMarsStore = create<TerraformingMarsStore>()(
           return {
             resources: snapshot.resources,
             tr: snapshot.tr,
+            generation: snapshot.generation,
             history: state.history.slice(0, -1),
           };
         }),
@@ -103,6 +122,7 @@ export const useTerraformingMarsStore = create<TerraformingMarsStore>()(
         set({
           resources: createInitialTerraformingMarsResources(),
           tr: INITIAL_TERRAFORMING_MARS_TR,
+          generation: INITIAL_TERRAFORMING_MARS_GENERATION,
           history: [],
         }),
     }),
@@ -111,6 +131,7 @@ export const useTerraformingMarsStore = create<TerraformingMarsStore>()(
       partialize: (state): TerraformingMarsPersistedState => ({
         resources: state.resources,
         tr: state.tr,
+        generation: state.generation,
         history: state.history,
       }),
     },
