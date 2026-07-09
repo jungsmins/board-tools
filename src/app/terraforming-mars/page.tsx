@@ -15,6 +15,7 @@ export default function TerraformingMarsPage() {
   const {
     resources,
     tr,
+    generation,
     history,
     adjustAmount,
     adjustProduction,
@@ -26,16 +27,17 @@ export default function TerraformingMarsPage() {
 
   return (
     <main className='min-h-dvh bg-white text-[#24140b]'>
-      <div className='mx-auto min-h-dvh w-full max-w-[430px] bg-[#efe6d6] p-4 shadow-2xl landscape:max-w-[720px]'>
+      <div className='mx-auto flex h-dvh w-full max-w-[1180px] flex-col bg-[#efe6d6] p-3 shadow-2xl landscape:p-2 lg:p-4 xl:p-5'>
         <TopStatusPanel
           tr={tr}
+          generation={generation}
           canUndo={history.length > 0}
           onTRChange={adjustTR}
           onUndo={undo}
           onReset={() => setDialogType('reset')}
         />
 
-        <section className='grid grid-cols-2 gap-3 landscape:grid-cols-3'>
+        <section className='grid min-h-0 flex-1 grid-cols-2 auto-rows-fr gap-2 landscape:grid-cols-3 landscape:gap-1.5 md:grid-cols-3 lg:gap-3 xl:gap-4'>
           {TERRAFORMING_MARS_RESOURCE_TYPES.map((type) => {
             const resource = resources[type];
 
@@ -51,7 +53,7 @@ export default function TerraformingMarsPage() {
         </section>
 
         <button
-          className='mt-4 flex w-full items-center justify-center rounded-lg bg-[#2f8f5b] px-4 py-4 text-lg font-bold text-white shadow-md landscape:mt-3 landscape:py-3'
+          className='mt-3 flex w-full items-center justify-center rounded-lg bg-[#2f8f5b] px-4 py-3 text-base font-bold text-white shadow-md landscape:mt-2 landscape:py-2 landscape:text-sm lg:mt-4 lg:py-5 lg:text-2xl xl:py-6 xl:text-3xl'
           onClick={() => setDialogType('production')}
         >
           생산하기
