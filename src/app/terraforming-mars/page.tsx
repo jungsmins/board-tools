@@ -4,14 +4,21 @@ import { useState } from 'react';
 
 import ConfirmDialog from '@/components/terraforming-mars/ConfirmDialog';
 import ResourceCard from '@/components/terraforming-mars/ResourceCard';
+import SpecialActionPanel from '@/components/terraforming-mars/SpecialActionPanel';
 import TopStatusPanel from '@/components/terraforming-mars/TopStatusPanel';
 import { TERRAFORMING_MARS_RESOURCE_TYPES } from '@/constants/terraformingMars';
 import { useTerraformingMarsStore } from '@/stores/terraformingMars';
+import type { TerraformingMarsSpecialAction } from '@/constants/terraformingMars';
 
 type DialogType = 'production' | 'reset' | null;
 
 export default function TerraformingMarsPage() {
   const [dialogType, setDialogType] = useState<DialogType>(null);
+  const [isSpecialActionPanelOpen, setIsSpecialActionPanelOpen] =
+    useState(false);
+  const [specialActionGuide, setSpecialActionGuide] = useState<string | null>(
+    null,
+  );
   const {
     resources,
     tr,
@@ -20,10 +27,20 @@ export default function TerraformingMarsPage() {
     adjustAmount,
     adjustProduction,
     adjustTR,
+    performSpecialAction,
     runProduction,
     undo,
     resetAll,
   } = useTerraformingMarsStore();
+
+  const handleSpecialAction = (action: TerraformingMarsSpecialAction) => {
+    performSpecialAction(action.id);
+    setIsSpecialActionPanelOpen(false);
+
+    if (action.guide) {
+      setSpecialActionGuide(action.guide);
+    }
+  };
 
   return (
     <main className='min-h-dvh bg-white text-[#24140b]'>
@@ -33,6 +50,7 @@ export default function TerraformingMarsPage() {
           generation={generation}
           canUndo={history.length > 0}
           onTRChange={adjustTR}
+          onSpecialActionsOpen={() => setIsSpecialActionPanelOpen(true)}
           onUndo={undo}
           onReset={() => setDialogType('reset')}
         />
@@ -60,6 +78,14 @@ export default function TerraformingMarsPage() {
         </button>
       </div>
 
+      {isSpecialActionPanelOpen && (
+        <SpecialActionPanel
+          resources={resources}
+          onClose={() => setIsSpecialActionPanelOpen(false)}
+          onAction={handleSpecialAction}
+        />
+      )}
+
       {dialogType === 'production' && (
         <ConfirmDialog
           title='생산을 진행할까요?'
@@ -70,6 +96,17 @@ export default function TerraformingMarsPage() {
             runProduction();
             setDialogType(null);
           }}
+        />
+      )}
+
+      {specialActionGuide && (
+        <ConfirmDialog
+          title='배치 안내'
+          description={specialActionGuide}
+          confirmLabel='확인'
+          showCancel={false}
+          onCancel={() => setSpecialActionGuide(null)}
+          onConfirm={() => setSpecialActionGuide(null)}
         />
       )}
 

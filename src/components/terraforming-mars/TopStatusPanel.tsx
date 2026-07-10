@@ -3,6 +3,7 @@ type TopStatusPanelProps = {
   generation: number;
   canUndo: boolean;
   onTRChange: (delta: number) => void;
+  onSpecialActionsOpen: () => void;
   onUndo: () => void;
   onReset: () => void;
 };
@@ -12,6 +13,7 @@ export default function TopStatusPanel({
   generation,
   canUndo,
   onTRChange,
+  onSpecialActionsOpen,
   onUndo,
   onReset,
 }: TopStatusPanelProps) {
@@ -24,6 +26,7 @@ export default function TopStatusPanel({
         <button
           className='flex h-9 w-9 flex-col items-center justify-center gap-1 rounded-lg bg-[#2f3840] landscape:h-full landscape:w-full lg:h-12 lg:w-12 lg:gap-1.5 xl:h-14 xl:w-14'
           aria-label='특수 액션 열기'
+          onClick={onSpecialActionsOpen}
         >
           <span className='h-0.5 w-5 rounded-full bg-white lg:w-7' />
           <span className='h-0.5 w-5 rounded-full bg-white lg:w-7' />

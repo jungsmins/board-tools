@@ -6,6 +6,15 @@ export type TerraformingMarsResourceType =
   | 'energy'
   | 'heat';
 
+export type TerraformingMarsSpecialActionId =
+  | 'power-plant'
+  | 'asteroid'
+  | 'aquifer'
+  | 'greenery'
+  | 'city'
+  | 'use-plants'
+  | 'use-heat';
+
 export interface TerraformingMarsResource {
   type: TerraformingMarsResourceType;
   name: string;
@@ -30,6 +39,7 @@ export interface TerraformingMarsStore {
     delta: number,
   ) => void;
   adjustTR: (delta: number) => void;
+  performSpecialAction: (id: TerraformingMarsSpecialActionId) => void;
   runProduction: () => void;
   undo: () => void;
   resetAll: () => void;

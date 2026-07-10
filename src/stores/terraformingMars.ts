@@ -4,6 +4,7 @@ import { persist } from 'zustand/middleware';
 import {
   INITIAL_TERRAFORMING_MARS_GENERATION,
   INITIAL_TERRAFORMING_MARS_TR,
+  TERRAFORMING_MARS_SPECIAL_ACTIONS,
 } from '@/constants/terraformingMars';
 import {
   createInitialTerraformingMarsResources,
@@ -94,6 +95,46 @@ export const useTerraformingMarsStore = create<TerraformingMarsStore>()(
 
           return {
             tr: nextTR,
+            history: appendSnapshot(state.history, createSnapshot(state)),
+          };
+        }),
+
+      performSpecialAction: (id) =>
+        set((state) => {
+          const action = TERRAFORMING_MARS_SPECIAL_ACTIONS.find(
+            (specialAction) => specialAction.id === id,
+          );
+
+          if (!action) return state;
+
+          const costResource = state.resources[action.cost.type];
+
+          if (costResource.amount < action.cost.amount) return state;
+
+          const resources = {
+            ...state.resources,
+            [action.cost.type]: {
+              ...costResource,
+              amount: costResource.amount - action.cost.amount,
+            },
+          };
+
+          if (action.productionDelta) {
+            const productionResource =
+              resources[action.productionDelta.type];
+
+            resources[action.productionDelta.type] = {
+              ...productionResource,
+              production: getNextResourceProduction(
+                action.productionDelta.type,
+                productionResource.production,
+                action.productionDelta.amount,
+              ),
+            };
+          }
+
+          return {
+            resources,
             history: appendSnapshot(state.history, createSnapshot(state)),
           };
         }),
