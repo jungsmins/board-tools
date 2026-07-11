@@ -36,8 +36,15 @@ export default function SpecialActionPanel({
   onAction,
 }: SpecialActionPanelProps) {
   return (
-    <div className='fixed inset-0 z-20 flex items-end bg-black/45 p-0 xl:items-center xl:justify-center xl:p-4'>
-      <section className='max-h-[100dvh] w-full overflow-y-auto overscroll-contain rounded-t-lg bg-[#efe6d6] p-3 pb-4 text-[#24140b] shadow-2xl xl:max-w-[420px] xl:rounded-lg xl:p-4'>
+    <div
+      className='fixed inset-0 z-20 flex items-end bg-black/45 p-0 xl:items-center xl:justify-center xl:p-4'
+      onClick={onClose}
+    >
+      <section
+        className='max-h-[100dvh] w-full overflow-y-auto overscroll-contain rounded-t-lg bg-[#efe6d6] p-3 pb-4 text-[#24140b] shadow-2xl xl:max-w-[420px] xl:rounded-lg xl:p-4'
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className='mx-auto mb-2 h-1.5 w-10 rounded-full bg-[#7a6555]/35 xl:hidden' />
         <div className='mb-3 flex items-center justify-between gap-3 landscape:mb-2'>
           <div>
             <h2 className='text-xl font-black landscape:text-lg xl:text-2xl'>
@@ -60,6 +67,7 @@ export default function SpecialActionPanel({
           {TERRAFORMING_MARS_SPECIAL_ACTIONS.map((action) => {
             const costResource = resources[action.cost.type];
             const isDisabled = costResource.amount < action.cost.amount;
+            const shortage = action.cost.amount - costResource.amount;
             const summary = getActionSummary(action, resources);
 
             return (
@@ -79,8 +87,16 @@ export default function SpecialActionPanel({
                     </span>
                   )}
                 </span>
-                <span className='shrink-0 rounded-md bg-[#e4d6c3] px-2.5 py-1 text-sm font-black landscape:text-xs xl:text-base'>
-                  {action.cost.amount} {costResource.name}
+                <span
+                  className={`shrink-0 rounded-md px-2.5 py-1 text-sm font-black landscape:text-xs xl:text-base ${
+                    isDisabled
+                      ? 'bg-[#f0d3cb] text-[#9d3b2f]'
+                      : 'bg-[#e4d6c3]'
+                  }`}
+                >
+                  {isDisabled
+                    ? `${shortage} ${costResource.name} 부족`
+                    : `${action.cost.amount} ${costResource.name}`}
                 </span>
               </button>
             );

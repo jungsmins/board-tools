@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import ConfirmDialog from '@/components/terraforming-mars/ConfirmDialog';
 import ResourceCard from '@/components/terraforming-mars/ResourceCard';
@@ -16,7 +16,7 @@ export default function TerraformingMarsPage() {
   const [dialogType, setDialogType] = useState<DialogType>(null);
   const [isSpecialActionPanelOpen, setIsSpecialActionPanelOpen] =
     useState(false);
-  const [specialActionGuide, setSpecialActionGuide] = useState<string | null>(
+  const [specialActionNotice, setSpecialActionNotice] = useState<string | null>(
     null,
   );
   const {
@@ -38,9 +38,19 @@ export default function TerraformingMarsPage() {
     setIsSpecialActionPanelOpen(false);
 
     if (action.guide) {
-      setSpecialActionGuide(action.guide);
+      setSpecialActionNotice(action.guide);
     }
   };
+
+  useEffect(() => {
+    if (!specialActionNotice) return;
+
+    const timeoutId = window.setTimeout(() => {
+      setSpecialActionNotice(null);
+    }, 2400);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [specialActionNotice]);
 
   return (
     <main className='min-h-dvh bg-white text-[#24140b]'>
@@ -99,15 +109,15 @@ export default function TerraformingMarsPage() {
         />
       )}
 
-      {specialActionGuide && (
-        <ConfirmDialog
-          title='배치 안내'
-          description={specialActionGuide}
-          confirmLabel='확인'
-          showCancel={false}
-          onCancel={() => setSpecialActionGuide(null)}
-          onConfirm={() => setSpecialActionGuide(null)}
-        />
+      {specialActionNotice && (
+        <div className='fixed inset-x-3 bottom-4 z-30 flex justify-center'>
+          <button
+            className='w-full max-w-[420px] rounded-lg bg-[#2f3840] px-4 py-3 text-left text-sm font-bold text-white shadow-2xl'
+            onClick={() => setSpecialActionNotice(null)}
+          >
+            {specialActionNotice}
+          </button>
+        </div>
       )}
 
       {dialogType === 'reset' && (
