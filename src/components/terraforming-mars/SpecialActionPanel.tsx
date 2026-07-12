@@ -3,6 +3,7 @@ import {
   type TerraformingMarsSpecialAction,
 } from '@/constants/terraformingMars';
 import type { TerraformingMarsResources } from '@/types/terraformingMars';
+import ResourceIcon from './ResourceIcon';
 
 type SpecialActionPanelProps = {
   resources: TerraformingMarsResources;
@@ -67,13 +68,12 @@ export default function SpecialActionPanel({
           {TERRAFORMING_MARS_SPECIAL_ACTIONS.map((action) => {
             const costResource = resources[action.cost.type];
             const isDisabled = costResource.amount < action.cost.amount;
-            const shortage = action.cost.amount - costResource.amount;
             const summary = getActionSummary(action, resources);
 
             return (
               <button
                 key={action.id}
-                className='flex min-h-16 items-center justify-between gap-3 rounded-lg bg-white p-3 text-left shadow-sm disabled:cursor-not-allowed disabled:opacity-45 landscape:min-h-12 landscape:p-2 xl:p-4'
+                className='flex min-h-16 items-center justify-between gap-3 rounded-lg bg-white p-3 text-left shadow-sm disabled:cursor-not-allowed landscape:min-h-12 landscape:p-2 xl:p-4'
                 disabled={isDisabled}
                 onClick={() => onAction(action)}
               >
@@ -88,15 +88,20 @@ export default function SpecialActionPanel({
                   )}
                 </span>
                 <span
-                  className={`shrink-0 rounded-md px-2.5 py-1 text-sm font-black landscape:text-xs xl:text-base ${
+                  className={`flex shrink-0 items-center gap-1.5 rounded-md px-2.5 py-1 text-sm font-black landscape:text-xs xl:text-base ${
                     isDisabled
                       ? 'bg-[#f0d3cb] text-[#9d3b2f]'
                       : 'bg-[#e4d6c3]'
                   }`}
                 >
-                  {isDisabled
-                    ? `${shortage} ${costResource.name} 부족`
-                    : `${action.cost.amount} ${costResource.name}`}
+                  <ResourceIcon
+                    type={action.cost.type}
+                    className='h-5 w-5 shrink-0 landscape:h-4 landscape:w-4 xl:h-6 xl:w-6'
+                  />
+                  <span>
+                    {costResource.name} {costResource.amount} /{' '}
+                    {action.cost.amount}
+                  </span>
                 </span>
               </button>
             );

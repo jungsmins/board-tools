@@ -2,16 +2,17 @@ import type { TerraformingMarsResourceType } from '@/types/terraformingMars';
 
 type ResourceIconProps = {
   type: TerraformingMarsResourceType;
+  className?: string;
 };
 
 const ICON_CLASS =
   'h-6 w-6 shrink-0 landscape:h-6 landscape:w-6 lg:h-11 lg:w-11 lg:landscape:h-9 lg:landscape:w-9 xl:h-12 xl:w-12';
 
-export default function ResourceIcon({ type }: ResourceIconProps) {
+export default function ResourceIcon({ type, className = ICON_CLASS }: ResourceIconProps) {
   switch (type) {
     case 'megacredits':
       return (
-        <svg viewBox='0 0 48 48' aria-hidden='true' className={ICON_CLASS}>
+        <svg viewBox='0 0 48 48' aria-hidden='true' className={className}>
           <rect
             x='7'
             y='7'
@@ -36,7 +37,7 @@ export default function ResourceIcon({ type }: ResourceIconProps) {
       );
     case 'steel':
       return (
-        <svg viewBox='0 0 48 48' aria-hidden='true' className={ICON_CLASS}>
+        <svg viewBox='0 0 48 48' aria-hidden='true' className={className}>
           <rect
             x='8'
             y='8'
@@ -57,7 +58,7 @@ export default function ResourceIcon({ type }: ResourceIconProps) {
       );
     case 'titanium':
       return (
-        <svg viewBox='0 0 48 48' aria-hidden='true' className={ICON_CLASS}>
+        <svg viewBox='0 0 48 48' aria-hidden='true' className={className}>
           <rect
             x='8'
             y='8'
@@ -79,7 +80,7 @@ export default function ResourceIcon({ type }: ResourceIconProps) {
       );
     case 'plants':
       return (
-        <svg viewBox='0 0 48 48' aria-hidden='true' className={ICON_CLASS}>
+        <svg viewBox='0 0 48 48' aria-hidden='true' className={className}>
           <rect
             x='7'
             y='7'
@@ -104,7 +105,7 @@ export default function ResourceIcon({ type }: ResourceIconProps) {
       );
     case 'energy':
       return (
-        <svg viewBox='0 0 48 48' aria-hidden='true' className={ICON_CLASS}>
+        <svg viewBox='0 0 48 48' aria-hidden='true' className={className}>
           <rect
             x='7'
             y='7'
@@ -126,7 +127,7 @@ export default function ResourceIcon({ type }: ResourceIconProps) {
       );
     case 'heat':
       return (
-        <svg viewBox='0 0 48 48' aria-hidden='true' className={ICON_CLASS}>
+        <svg viewBox='0 0 48 48' aria-hidden='true' className={className}>
           <rect
             x='7'
             y='7'
