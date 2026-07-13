@@ -6,7 +6,10 @@ import ResourceIcon from './ResourceIcon';
 
 type ResourceCardProps = {
   resource: TerraformingMarsResource;
-  onAmountChange: (type: TerraformingMarsResourceType, delta: number) => void;
+  onAmountAdjustOpen: (
+    type: TerraformingMarsResourceType,
+    direction: 'increase' | 'decrease',
+  ) => void;
   onProductionChange: (
     type: TerraformingMarsResourceType,
     delta: number,
@@ -15,7 +18,7 @@ type ResourceCardProps = {
 
 export default function ResourceCard({
   resource,
-  onAmountChange,
+  onAmountAdjustOpen,
   onProductionChange,
 }: ResourceCardProps) {
   return (
@@ -34,7 +37,7 @@ export default function ResourceCard({
         <div className='flex items-center gap-1 landscape:gap-1 lg:gap-2 xl:gap-3'>
           <button
             className='flex h-7 w-7 items-center justify-center rounded-md bg-[#e4d6c3] text-lg font-bold landscape:h-7 landscape:w-7 landscape:text-lg lg:h-12 lg:w-12 lg:text-3xl lg:landscape:h-10 lg:landscape:w-10 xl:h-14 xl:w-14'
-            onClick={() => onAmountChange(resource.type, -1)}
+            onClick={() => onAmountAdjustOpen(resource.type, 'decrease')}
           >
             -
           </button>
@@ -43,7 +46,7 @@ export default function ResourceCard({
           </strong>
           <button
             className='flex h-7 w-7 items-center justify-center rounded-md bg-[#e4d6c3] text-lg font-bold landscape:h-7 landscape:w-7 landscape:text-lg lg:h-12 lg:w-12 lg:text-3xl lg:landscape:h-10 lg:landscape:w-10 xl:h-14 xl:w-14'
-            onClick={() => onAmountChange(resource.type, 1)}
+            onClick={() => onAmountAdjustOpen(resource.type, 'increase')}
           >
             +
           </button>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
+import AmountAdjustDialog from '@/components/terraforming-mars/AmountAdjustDialog';
 import ConfirmDialog from '@/components/terraforming-mars/ConfirmDialog';
 import ResourceCard from '@/components/terraforming-mars/ResourceCard';
 import SpecialActionPanel from '@/components/terraforming-mars/SpecialActionPanel';
@@ -9,11 +10,18 @@ import TopStatusPanel from '@/components/terraforming-mars/TopStatusPanel';
 import { TERRAFORMING_MARS_RESOURCE_TYPES } from '@/constants/terraformingMars';
 import { useTerraformingMarsStore } from '@/stores/terraformingMars';
 import type { TerraformingMarsSpecialAction } from '@/constants/terraformingMars';
+import type { TerraformingMarsResourceType } from '@/types/terraformingMars';
 
 type DialogType = 'production' | 'reset' | null;
+type AmountAdjustment = {
+  type: TerraformingMarsResourceType;
+  direction: 'increase' | 'decrease';
+} | null;
 
 export default function TerraformingMarsPage() {
   const [dialogType, setDialogType] = useState<DialogType>(null);
+  const [amountAdjustment, setAmountAdjustment] =
+    useState<AmountAdjustment>(null);
   const [isSpecialActionPanelOpen, setIsSpecialActionPanelOpen] =
     useState(false);
   const [specialActionNotice, setSpecialActionNotice] = useState<string | null>(
@@ -73,7 +81,9 @@ export default function TerraformingMarsPage() {
               <ResourceCard
                 key={resource.type}
                 resource={resource}
-                onAmountChange={adjustAmount}
+                onAmountAdjustOpen={(resourceType, direction) =>
+                  setAmountAdjustment({ type: resourceType, direction })
+                }
                 onProductionChange={adjustProduction}
               />
             );
@@ -118,6 +128,22 @@ export default function TerraformingMarsPage() {
             {specialActionNotice}
           </button>
         </div>
+      )}
+
+      {amountAdjustment && (
+        <AmountAdjustDialog
+          resourceName={resources[amountAdjustment.type].name}
+          currentAmount={resources[amountAdjustment.type].amount}
+          direction={amountAdjustment.direction}
+          onCancel={() => setAmountAdjustment(null)}
+          onConfirm={(amount) => {
+            adjustAmount(
+              amountAdjustment.type,
+              amountAdjustment.direction === 'increase' ? amount : -amount,
+            );
+            setAmountAdjustment(null);
+          }}
+        />
       )}
 
       {dialogType === 'reset' && (
