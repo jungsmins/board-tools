@@ -72,10 +72,8 @@ export function getSeasonScoringRules(
   selectedScoringRules: Record<ScoringSlot, string>,
   seasonConfig: SeasonConfig,
 ): ScoringRule[] {
-  const seasonSlots = new Set<ScoringSlot>(seasonConfig.scoringSlots);
-
-  return getScoringRulesByIds(Object.values(selectedScoringRules)).filter(
-    (rule) => seasonSlots.has(rule.slot),
+  return getScoringRulesByIds(
+    seasonConfig.scoringSlots.map((slot) => selectedScoringRules[slot]),
   );
 }
 

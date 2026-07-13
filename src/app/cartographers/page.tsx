@@ -11,7 +11,7 @@ export default function CartographersPage() {
   const { gamePhase, currentSeason } = useCartographersStore();
 
   return (
-    <div className={styles[currentSeason]}>
+    <div className={`${styles.theme} ${styles[currentSeason]}`}>
       {gamePhase === 'setup' && <SetupScreen />}
       {gamePhase === 'season_splash' && <SeasonSplash season={currentSeason} />}
       {gamePhase === 'playing' && <PlayingScreen />}
