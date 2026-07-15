@@ -23,6 +23,15 @@ const TOOL_CARDS = [
     imageLabel: '이미지',
     platforms: ['모바일', '태블릿'],
   },
+  {
+    href: '/avalon-roles',
+    title: '아발론',
+    subtitle: '아발론 역할 배정',
+    description:
+      '방을 만들고 참가자들에게 역할을 배정하는 아발론 보조 도구. 각자 휴대폰에서 본인 역할과 확인 가능한 대상을 볼 수 있습니다.',
+    imageLabel: '이미지',
+    platforms: ['모바일'],
+  },
 ];
 
 export default function Home() {
