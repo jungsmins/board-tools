@@ -8,49 +8,28 @@ export default function AvalonRolesPage() {
     <div className='min-h-dvh bg-canvas text-card-ink'>
       <Header />
 
-      <main className='mx-auto flex min-h-[calc(100dvh-4rem)] w-full max-w-[960px] flex-col px-5 py-8 sm:px-8 lg:py-12'>
-        <Link
-          href='/'
-          className='mb-8 w-fit text-sm font-semibold text-card-muted underline-offset-4 hover:underline'
-        >
-          홈으로
-        </Link>
-
-        <section className='mb-8'>
-          <p className='mb-2 text-sm font-bold text-card-muted'>아발론</p>
-          <h1 className='font-display text-4xl text-title sm:text-5xl'>
-            역할 배정
-          </h1>
-        </section>
-
-        <section className='grid flex-1 gap-4 lg:grid-cols-[0.9fr_1.1fr]'>
-          <div className='flex min-h-[220px] flex-col justify-between rounded-lg border border-card-border bg-card p-6 shadow-md sm:p-8'>
-            <div>
-              <p className='mb-3 text-2xl font-bold text-card-ink'>
-                방 만들기
-              </p>
-              <p className='text-sm leading-6 text-card-muted'>
-                인원과 역할을 정하고 방 코드를 만듭니다.
-              </p>
-            </div>
-
-            <button
-              type='button'
-              className='mt-8 flex h-13 w-full items-center justify-center rounded-lg bg-[#2d1508] px-5 text-base font-bold text-white shadow-md transition hover:bg-[#482616]'
-            >
-              방 만들기
-            </button>
+      <main className='mx-auto flex min-h-[calc(100dvh-4rem)] w-full max-w-[560px] flex-col justify-center px-5 py-8 sm:px-8'>
+        <section className='rounded-lg border border-card-border bg-card p-6 shadow-md sm:p-8'>
+          <div className='mb-8 text-center'>
+            <p className='mb-2 text-sm font-bold text-card-muted'>아발론</p>
+            <h1 className='text-4xl font-bold text-title sm:text-5xl'>
+              아발론 역할 배정
+            </h1>
           </div>
 
-          <form className='rounded-lg border border-card-border bg-card p-6 shadow-md sm:p-8'>
-            <div className='mb-6'>
-              <p className='mb-3 text-2xl font-bold text-card-ink'>
-                방 참가하기
-              </p>
-              <p className='text-sm leading-6 text-card-muted'>
-                받은 코드와 닉네임을 입력합니다.
-              </p>
-            </div>
+          <div className='mb-8 border-b border-rule pb-8'>
+            <Link
+              href='/avalon-roles/create'
+              className='flex h-14 w-full items-center justify-center rounded-lg bg-[#2d1508] px-5 text-base font-bold text-white shadow-md transition hover:bg-[#482616]'
+            >
+              방 만들기
+            </Link>
+          </div>
+
+          <form>
+            <p className='mb-5 text-xl font-bold text-card-ink'>
+              방 참가하기
+            </p>
 
             <label className='mb-5 block'>
               <span className='mb-2 block text-sm font-bold text-card-ink'>
@@ -66,7 +45,7 @@ export default function AvalonRolesPage() {
               />
             </label>
 
-            <label className='mb-8 block'>
+            <label className='mb-6 block'>
               <span className='mb-2 block text-sm font-bold text-card-ink'>
                 닉네임
               </span>
