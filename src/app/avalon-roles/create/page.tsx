@@ -147,12 +147,12 @@ export default function AvalonRolesCreatePage() {
               </div>
             </fieldset>
 
-            <button
-              type='button'
+            <Link
+              href='/avalon-roles/A3K7'
               className='flex h-14 w-full items-center justify-center rounded-lg bg-[#2d1508] px-5 text-base font-bold text-white shadow-md transition hover:bg-[#482616]'
             >
               방 생성하기
-            </button>
+            </Link>
           </form>
         </section>
       </main>
