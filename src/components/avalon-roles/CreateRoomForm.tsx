@@ -5,6 +5,7 @@ import {
   AVALON_ROLE_CONFIGS,
   AVALON_SELECTABLE_ROLE_IDS,
 } from '@/constants/avalonRoles';
+import RoleOptionCard from '@/components/avalon-roles/RoleOptionCard';
 import { getAvalonTeamComposition } from '@/lib/avalonRoles';
 import { useAvalonRolesStore } from '@/stores/avalonRoles';
 import type { AvalonPlayerCount, AvalonRoleId } from '@/types/avalonRoles';
@@ -69,7 +70,7 @@ export default function CreateRoomForm() {
                   type='radio'
                   value={count}
                 />
-                <span className='flex min-h-20 flex-col items-center justify-center rounded-lg border border-chip-border bg-white px-3 py-3 text-center transition peer-checked:border-[#2d1508] peer-checked:bg-[#2d1508] peer-checked:text-white'>
+                <span className='flex min-h-20 flex-col items-center justify-center rounded-lg border border-chip-border bg-white px-3 py-3 text-center transition peer-checked:border-[#2d1508] peer-checked:bg-[#2d1508] peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-[#2d1508]/25'>
                   <span className='text-lg font-bold'>{count}명</span>
                   <span className='mt-1 text-xs opacity-75'>
                     선 {countComposition.good} · 악 {countComposition.evil}
@@ -84,31 +85,20 @@ export default function CreateRoomForm() {
       <fieldset className='mb-8 border-t border-rule pt-8'>
         <div className='mb-4 flex items-end justify-between gap-3'>
           <legend className='text-xl font-bold text-card-ink'>선 역할</legend>
-          <span className='text-sm font-bold text-card-muted'>
+          <span className='rounded-full bg-[#eef8f2] px-3 py-1 text-sm font-bold text-[#237348]'>
             {selectedGoodCount} / {composition.good}
           </span>
         </div>
         <div className='grid gap-3 sm:grid-cols-2'>
           {selectableGoodRoleIds.map((roleId) => {
-            const role = AVALON_ROLE_CONFIGS[roleId];
-
             return (
-              <label key={role.id} className='block'>
-                <input
-                  checked={selectedRoleIds.includes(role.id)}
-                  className='peer sr-only'
-                  name='selectedRoleIds'
-                  onChange={() => toggleRole(role.id)}
-                  type='checkbox'
-                  value={role.id}
-                />
-                <span className='flex min-h-28 flex-col rounded-lg border border-chip-border bg-white p-4 transition peer-checked:border-[#2f8f5b] peer-checked:bg-[#eef8f2]'>
-                  <span className='text-base font-bold'>{role.name}</span>
-                  <span className='mt-2 text-sm leading-6 text-card-muted'>
-                    {role.description}
-                  </span>
-                </span>
-              </label>
+              <RoleOptionCard
+                key={roleId}
+                checked={selectedRoleIds.includes(roleId)}
+                onChange={() => toggleRole(roleId)}
+                roleId={roleId}
+                side='good'
+              />
             );
           })}
         </div>
@@ -117,31 +107,20 @@ export default function CreateRoomForm() {
       <fieldset className='mb-8 border-t border-rule pt-8'>
         <div className='mb-4 flex items-end justify-between gap-3'>
           <legend className='text-xl font-bold text-card-ink'>악 역할</legend>
-          <span className='text-sm font-bold text-card-muted'>
+          <span className='rounded-full bg-[#fff1ee] px-3 py-1 text-sm font-bold text-[#8f3a2f]'>
             {selectedEvilCount} / {composition.evil}
           </span>
         </div>
         <div className='grid gap-3 sm:grid-cols-2'>
           {selectableEvilRoleIds.map((roleId) => {
-            const role = AVALON_ROLE_CONFIGS[roleId];
-
             return (
-              <label key={role.id} className='block'>
-                <input
-                  checked={selectedRoleIds.includes(role.id)}
-                  className='peer sr-only'
-                  name='selectedRoleIds'
-                  onChange={() => toggleRole(role.id)}
-                  type='checkbox'
-                  value={role.id}
-                />
-                <span className='flex min-h-28 flex-col rounded-lg border border-chip-border bg-white p-4 transition peer-checked:border-[#8f3a2f] peer-checked:bg-[#fff1ee]'>
-                  <span className='text-base font-bold'>{role.name}</span>
-                  <span className='mt-2 text-sm leading-6 text-card-muted'>
-                    {role.description}
-                  </span>
-                </span>
-              </label>
+              <RoleOptionCard
+                key={roleId}
+                checked={selectedRoleIds.includes(roleId)}
+                onChange={() => toggleRole(roleId)}
+                roleId={roleId}
+                side='evil'
+              />
             );
           })}
         </div>
@@ -171,7 +150,7 @@ export default function CreateRoomForm() {
       <button
         disabled={!validation.isValid}
         type='button'
-        className='flex h-14 w-full items-center justify-center rounded-lg bg-[#2d1508] px-5 text-base font-bold text-white shadow-md transition hover:bg-[#482616] disabled:cursor-not-allowed disabled:bg-card-muted disabled:shadow-none'
+        className='flex h-14 w-full items-center justify-center rounded-lg bg-[#2d1508] px-5 text-base font-bold text-white shadow-md transition hover:bg-[#482616] focus-visible:ring-2 focus-visible:ring-[#2d1508]/30 disabled:cursor-not-allowed disabled:bg-card-muted disabled:shadow-none'
       >
         방 생성하기
       </button>
