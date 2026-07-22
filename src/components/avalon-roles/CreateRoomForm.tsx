@@ -6,6 +6,7 @@ import {
   AVALON_SELECTABLE_ROLE_IDS,
 } from '@/constants/avalonRoles';
 import RoleOptionCard from '@/components/avalon-roles/RoleOptionCard';
+import RoleDeckPreview from '@/components/avalon-roles/RoleDeckPreview';
 import { getAvalonTeamComposition } from '@/lib/avalonRoles';
 import { useAvalonRolesStore } from '@/stores/avalonRoles';
 import type { AvalonPlayerCount, AvalonRoleId } from '@/types/avalonRoles';
@@ -146,6 +147,12 @@ export default function CreateRoomForm() {
           ))}
         </div>
       )}
+
+      <RoleDeckPreview
+        isValid={validation.isValid}
+        playerCount={playerCount}
+        selectedRoleIds={selectedRoleIds}
+      />
 
       <button
         disabled={!validation.isValid}
