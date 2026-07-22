@@ -58,6 +58,14 @@ export interface AvalonPlayer {
   joinedAt: string;
 }
 
+export interface AvalonWaitingPlayer {
+  id: string;
+  isHost: boolean;
+  nickname: string;
+}
+
+export type AvalonVisiblePlayer = Pick<AvalonPlayer, 'id' | 'nickname'>;
+
 export interface AvalonRolesDraft {
   playerCount: AvalonPlayerCount;
   selectedRoleIds: AvalonRoleId[];
