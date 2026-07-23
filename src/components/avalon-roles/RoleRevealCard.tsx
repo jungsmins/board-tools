@@ -1,3 +1,7 @@
+'use client';
+
+import { useState } from 'react';
+
 import { AVALON_ROLE_CONFIGS } from '@/constants/avalonRoles';
 import type { AvalonRoleId, AvalonRoleSide } from '@/types/avalonRoles';
 import VisiblePlayersList from '@/components/avalon-roles/VisiblePlayersList';
@@ -38,6 +42,7 @@ export default function RoleRevealCard({
   roleId,
   visiblePlayers,
 }: RoleRevealCardProps) {
+  const [isHidden, setIsHidden] = useState(false);
   const role = AVALON_ROLE_CONFIGS[roleId];
   const styles = sideStyles[role.side];
 
@@ -50,34 +55,58 @@ export default function RoleRevealCard({
         </h1>
       </div>
 
-      <div className={`mb-8 rounded-lg border p-5 shadow-sm ${styles.panel}`}>
-        <div className='mb-4 flex items-center justify-between gap-3'>
-          <p className='text-sm font-bold text-card-muted'>배정된 역할</p>
-          <span className={`rounded-full px-3 py-1 text-sm font-bold ${styles.badge}`}>
-            {sideLabels[role.side]}
-          </span>
-        </div>
-        <p className='mb-4 text-4xl font-black text-title sm:text-5xl'>
-          {role.name}
-        </p>
-        <p className='text-sm leading-6 text-card-ink'>{role.description}</p>
+      <div
+        className={`mb-8 rounded-lg border p-5 shadow-sm ${
+          isHidden ? 'border-chip-border bg-white' : styles.panel
+        }`}
+      >
+        {isHidden ? (
+          <div className='flex min-h-40 flex-col items-center justify-center text-center'>
+            <p className='mb-2 text-3xl font-black text-title'>역할 가림</p>
+            <p className='text-sm font-bold text-card-muted'>
+              다시 확인하기 전까지 역할 정보가 보이지 않습니다.
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className='mb-4 flex items-center justify-between gap-3'>
+              <p className='text-sm font-bold text-card-muted'>배정된 역할</p>
+              <span
+                className={`rounded-full px-3 py-1 text-sm font-bold ${styles.badge}`}
+              >
+                {sideLabels[role.side]}
+              </span>
+            </div>
+            <p className='mb-4 text-4xl font-black text-title sm:text-5xl'>
+              {role.name}
+            </p>
+            <p className='text-sm leading-6 text-card-ink'>
+              {role.description}
+            </p>
+          </>
+        )}
       </div>
 
-      <section className='mb-8'>
-        <div className='mb-4'>
-          <h2 className='text-xl font-bold text-card-ink'>확인 가능한 대상</h2>
-          <p className='mt-1 text-sm text-card-muted'>
-            역할 능력으로 확인되는 참가자입니다.
-          </p>
-        </div>
-        <VisiblePlayersList players={visiblePlayers} />
-      </section>
+      {!isHidden && (
+        <section className='mb-8'>
+          <div className='mb-4'>
+            <h2 className='text-xl font-bold text-card-ink'>
+              확인 가능한 대상
+            </h2>
+            <p className='mt-1 text-sm text-card-muted'>
+              역할 능력으로 확인되는 참가자입니다.
+            </p>
+          </div>
+          <VisiblePlayersList players={visiblePlayers} />
+        </section>
+      )}
 
       <button
         type='button'
         className='flex h-14 w-full items-center justify-center rounded-lg bg-[#2d1508] px-5 text-base font-bold text-white shadow-md transition hover:bg-[#482616] focus-visible:ring-2 focus-visible:ring-[#2d1508]/30'
+        onClick={() => setIsHidden((current) => !current)}
       >
-        확인 완료
+        {isHidden ? '다시 확인하기' : '역할 가리기'}
       </button>
     </section>
   );
