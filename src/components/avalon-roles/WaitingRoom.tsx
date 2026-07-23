@@ -1,3 +1,4 @@
+import CopyRoomCodeButton from '@/components/avalon-roles/CopyRoomCodeButton';
 import PlayerList from '@/components/avalon-roles/PlayerList';
 import type { AvalonWaitingPlayer } from '@/types/avalonRoles';
 
@@ -42,12 +43,7 @@ export default function WaitingRoom({
       <div className='mb-8 rounded-lg border border-chip-border bg-white p-5 shadow-sm'>
         <div className='mb-3 flex items-center justify-between gap-3'>
           <p className='text-sm font-bold text-card-muted'>방 코드</p>
-          <button
-            type='button'
-            className='rounded-lg border border-chip-border px-3 py-1.5 text-sm font-bold text-card-ink transition hover:bg-chip focus-visible:ring-2 focus-visible:ring-[#2d1508]/20'
-          >
-            복사
-          </button>
+          <CopyRoomCodeButton roomCode={roomCode} />
         </div>
         <p className='text-center text-5xl font-black tracking-[0.22em] text-[#2d1508] sm:text-6xl'>
           {roomCode}
