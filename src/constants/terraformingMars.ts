@@ -15,7 +15,6 @@ export const TERRAFORMING_MARS_RESOURCE_TYPES = [
 
 export const INITIAL_TERRAFORMING_MARS_TR = 20;
 export const INITIAL_TERRAFORMING_MARS_GENERATION = 1;
-
 export const INITIAL_TERRAFORMING_MARS_RESOURCES: TerraformingMarsResources = {
   megacredits: {
     type: 'megacredits',

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import AmountAdjustDialog from '@/components/terraforming-mars/AmountAdjustDialog';
-import ConfirmDialog from '@/components/terraforming-mars/ConfirmDialog';
+import ConfirmDialog from '@/components/shared/ConfirmDialog';
 import ResourceCard from '@/components/terraforming-mars/ResourceCard';
 import SpecialActionPanel from '@/components/terraforming-mars/SpecialActionPanel';
 import TopStatusPanel from '@/components/terraforming-mars/TopStatusPanel';
@@ -72,7 +72,6 @@ export default function TerraformingMarsPage() {
           onUndo={undo}
           onReset={() => setDialogType('reset')}
         />
-
         <section className='grid min-h-0 flex-1 grid-cols-2 auto-rows-fr gap-2 landscape:grid-cols-3 landscape:gap-1.5 md:grid-cols-3 lg:gap-3 xl:gap-4'>
           {TERRAFORMING_MARS_RESOURCE_TYPES.map((type) => {
             const resource = resources[type];
@@ -89,7 +88,6 @@ export default function TerraformingMarsPage() {
             );
           })}
         </section>
-
         <button
           className='mt-3 flex w-full items-center justify-center rounded-lg bg-[#2f8f5b] px-4 py-3 text-base font-bold text-white shadow-md landscape:mt-2 landscape:py-2 landscape:text-sm lg:mt-4 lg:py-5 lg:text-2xl xl:py-6 xl:text-3xl'
           onClick={() => setDialogType('production')}
@@ -97,7 +95,6 @@ export default function TerraformingMarsPage() {
           생산하기
         </button>
       </div>
-
       {isSpecialActionPanelOpen && (
         <SpecialActionPanel
           resources={resources}
@@ -105,7 +102,6 @@ export default function TerraformingMarsPage() {
           onAction={handleSpecialAction}
         />
       )}
-
       {dialogType === 'production' && (
         <ConfirmDialog
           title='생산을 진행할까요?'
@@ -118,7 +114,6 @@ export default function TerraformingMarsPage() {
           }}
         />
       )}
-
       {specialActionNotice && (
         <div className='fixed inset-x-3 bottom-4 z-30 flex justify-center'>
           <button
@@ -129,7 +124,6 @@ export default function TerraformingMarsPage() {
           </button>
         </div>
       )}
-
       {amountAdjustment && (
         <AmountAdjustDialog
           resourceName={resources[amountAdjustment.type].name}
@@ -145,7 +139,6 @@ export default function TerraformingMarsPage() {
           }}
         />
       )}
-
       {dialogType === 'reset' && (
         <ConfirmDialog
           title='초기화할까요?'
