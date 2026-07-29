@@ -7,7 +7,7 @@ import {
 } from '@/constants/avalonRoles';
 import RoleOptionCard from '@/components/avalon-roles/RoleOptionCard';
 import RoleDeckPreview from '@/components/avalon-roles/RoleDeckPreview';
-import { getAvalonTeamComposition } from '@/lib/avalonRoles';
+import { getAvalonTeamComposition } from '@/lib/avalon-roles/avalonRoles';
 import { useAvalonRolesStore } from '@/stores/avalonRoles';
 import type { AvalonPlayerCount, AvalonRoleId } from '@/types/avalonRoles';
 
@@ -54,9 +54,7 @@ export default function CreateRoomForm() {
   return (
     <form>
       <fieldset className='mb-8'>
-        <legend className='mb-4 text-xl font-bold text-card-ink'>
-          인원수
-        </legend>
+        <legend className='mb-4 text-xl font-bold text-card-ink'>인원수</legend>
         <div className='grid grid-cols-3 gap-2 sm:grid-cols-6'>
           {AVALON_PLAYER_COUNTS.map((count) => {
             const countComposition = getAvalonTeamComposition(count);

@@ -1,5 +1,5 @@
 import { AVALON_ROLE_CONFIGS } from '@/constants/avalonRoles';
-import { buildAvalonRoleDeck } from '@/lib/avalonRoles';
+import { buildAvalonRoleDeck } from '@/lib/avalon-roles/avalonRoles';
 import type { AvalonPlayerCount, AvalonRoleId } from '@/types/avalonRoles';
 
 interface RoleDeckPreviewProps {

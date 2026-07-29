@@ -3,7 +3,7 @@ import RoleRevealCard from '@/components/avalon-roles/RoleRevealCard';
 import WaitingRoom from '@/components/avalon-roles/WaitingRoom';
 import Footer from '@/components/shared/Footer';
 import Header from '@/components/shared/Header';
-import { getAvalonVisiblePlayers } from '@/lib/avalonRoles';
+import { getAvalonVisiblePlayers } from '@/lib/avalon-roles/avalonRoles';
 import {
   AVALON_MOCK_ASSIGNED_PLAYERS,
   AVALON_MOCK_CURRENT_PLAYER_ID,
@@ -37,11 +37,11 @@ export default function AvalonRolesWaitingRoomPage() {
         )}
         {AVALON_MOCK_ROOM_STATUS === 'playing' &&
           currentPlayer?.assignedRoleId && (
-          <RoleRevealCard
-            roleId={currentPlayer.assignedRoleId}
-            visiblePlayers={visiblePlayers}
-          />
-        )}
+            <RoleRevealCard
+              roleId={currentPlayer.assignedRoleId}
+              visiblePlayers={visiblePlayers}
+            />
+          )}
       </main>
 
       <Footer />
