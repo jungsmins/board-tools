@@ -1,21 +1,14 @@
 import { AVALON_ROLE_CONFIGS } from '@/constants/avalonRoles';
-import { buildAvalonRoleDeck } from '@/lib/avalon-roles/avalonRoles';
+import {
+  buildAvalonRoleDeck,
+  getAvalonRoleCounts,
+} from '@/lib/avalon-roles/avalonRoles';
 import type { AvalonPlayerCount, AvalonRoleId } from '@/types/avalonRoles';
 
 interface RoleDeckPreviewProps {
   isValid: boolean;
   playerCount: AvalonPlayerCount;
   selectedRoleIds: AvalonRoleId[];
-}
-
-function getRoleCounts(roleIds: AvalonRoleId[]) {
-  return roleIds.reduce<Partial<Record<AvalonRoleId, number>>>(
-    (counts, roleId) => ({
-      ...counts,
-      [roleId]: (counts[roleId] ?? 0) + 1,
-    }),
-    {},
-  );
 }
 
 export default function RoleDeckPreview({
@@ -26,7 +19,7 @@ export default function RoleDeckPreview({
   const roleDeck = isValid
     ? buildAvalonRoleDeck(playerCount, selectedRoleIds)
     : [];
-  const roleCounts = getRoleCounts(roleDeck);
+  const roleCounts = getAvalonRoleCounts(roleDeck);
   const previewRoleIds = Object.keys(roleCounts) as AvalonRoleId[];
 
   return (

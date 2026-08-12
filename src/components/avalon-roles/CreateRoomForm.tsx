@@ -1,15 +1,25 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
 import {
   AVALON_PLAYER_COUNTS,
   AVALON_ROLE_CONFIGS,
   AVALON_SELECTABLE_ROLE_IDS,
 } from '@/constants/avalonRoles';
-import RoleOptionCard from '@/components/avalon-roles/RoleOptionCard';
+import { createAvalonRoom } from '@/lib/avalon-roles/api';
+import {
+  createDefaultAvalonRoleSelection,
+  getAvalonTeamComposition,
+  normalizeAvalonRoleSelection,
+  validateAvalonRoleSelection,
+} from '@/lib/avalon-roles/avalonRoles';
 import RoleDeckPreview from '@/components/avalon-roles/RoleDeckPreview';
-import { getAvalonTeamComposition } from '@/lib/avalon-roles/avalonRoles';
-import { useAvalonRolesStore } from '@/stores/avalonRoles';
+import RoleOptionCard from '@/components/avalon-roles/RoleOptionCard';
 import type { AvalonPlayerCount, AvalonRoleId } from '@/types/avalonRoles';
+
+const NICKNAME_MAX_LENGTH = 12;
 
 const selectableGoodRoleIds = AVALON_SELECTABLE_ROLE_IDS.filter(
   (roleId) => AVALON_ROLE_CONFIGS[roleId].side === 'good',
@@ -29,17 +39,21 @@ function getSelectedRoleCount(roleIds: AvalonRoleId[], side: 'good' | 'evil') {
 }
 
 export default function CreateRoomForm() {
-  const {
-    playerCount,
-    selectedRoleIds,
-    setPlayerCount,
-    toggleRole,
-    getValidation,
-  } = useAvalonRolesStore();
+  const router = useRouter();
+  const [playerCount, setPlayerCount] = useState<AvalonPlayerCount>(5);
+  const [selectedRoleIds, setSelectedRoleIds] = useState<AvalonRoleId[]>(() =>
+    createDefaultAvalonRoleSelection(),
+  );
+  const [nickname, setNickname] = useState('');
+  const [isNicknameTouched, setIsNicknameTouched] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const composition = getAvalonTeamComposition(playerCount);
-  const validation = getValidation();
+  const validation = validateAvalonRoleSelection(playerCount, selectedRoleIds);
   const selectedGoodCount = getSelectedRoleCount(selectedRoleIds, 'good');
   const selectedEvilCount = getSelectedRoleCount(selectedRoleIds, 'evil');
+  const nicknameError = nickname.trim() ? '' : '닉네임을 입력해 주세요.';
+  const canCreate = validation.isValid && !nicknameError && !isSubmitting;
 
   const handlePlayerCountChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -51,8 +65,90 @@ export default function CreateRoomForm() {
     }
   };
 
+  const toggleRole = (roleId: AvalonRoleId) => {
+    if (
+      !(AVALON_SELECTABLE_ROLE_IDS as readonly AvalonRoleId[]).includes(roleId)
+    ) {
+      return;
+    }
+
+    setSelectedRoleIds((currentRoleIds) => {
+      const isSelected = currentRoleIds.includes(roleId);
+      const nextRoleIds = isSelected
+        ? currentRoleIds.filter((currentRoleId) => currentRoleId !== roleId)
+        : [...currentRoleIds, roleId];
+
+      return normalizeAvalonRoleSelection(nextRoleIds);
+    });
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsNicknameTouched(true);
+    setSubmitError('');
+
+    if (!canCreate) return;
+
+    setIsSubmitting(true);
+
+    try {
+      const room = await createAvalonRoom(
+        playerCount,
+        selectedRoleIds,
+        nickname.trim(),
+      );
+
+      if (!room?.roomCode) {
+        throw new Error('방 생성 결과를 확인할 수 없습니다.');
+      }
+
+      router.push(`/avalon-roles/${room.roomCode}`);
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : '방 생성 중 문제가 발생했습니다.',
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
-    <form>
+    <form noValidate onSubmit={handleSubmit}>
+      <label className='mb-8 block'>
+        <span className='mb-2 block text-sm font-bold text-card-ink'>
+          방장 닉네임
+        </span>
+        <input
+          aria-describedby='host-nickname-message'
+          aria-invalid={Boolean(isNicknameTouched && nicknameError)}
+          autoComplete='nickname'
+          className='h-13 w-full rounded-lg border border-chip-border bg-white px-4 text-base text-card-ink outline-none transition placeholder:text-card-muted focus:border-[#2d1508] focus:ring-2 focus:ring-[#2d1508]/15 aria-invalid:border-[#8f3a2f] aria-invalid:ring-2 aria-invalid:ring-[#8f3a2f]/15'
+          maxLength={NICKNAME_MAX_LENGTH}
+          name='hostNickname'
+          onBlur={() => setIsNicknameTouched(true)}
+          onChange={(event) =>
+            setNickname(event.target.value.slice(0, NICKNAME_MAX_LENGTH))
+          }
+          placeholder='이름'
+          type='text'
+          value={nickname}
+        />
+        <span
+          id='host-nickname-message'
+          className={`mt-2 block text-sm font-bold ${
+            isNicknameTouched && nicknameError
+              ? 'text-[#8f3a2f]'
+              : 'text-card-muted'
+          }`}
+        >
+          {isNicknameTouched && nicknameError
+            ? nicknameError
+            : `${nickname.length} / ${NICKNAME_MAX_LENGTH}`}
+        </span>
+      </label>
+
       <fieldset className='mb-8'>
         <legend className='mb-4 text-xl font-bold text-card-ink'>인원수</legend>
         <div className='grid grid-cols-3 gap-2 sm:grid-cols-6'>
@@ -152,12 +248,18 @@ export default function CreateRoomForm() {
         selectedRoleIds={selectedRoleIds}
       />
 
+      {submitError && (
+        <p className='mb-6 rounded-lg border border-[#e2a7a1] bg-[#fff1ee] px-4 py-3 text-sm font-bold text-[#8f3a2f]'>
+          {submitError}
+        </p>
+      )}
+
       <button
-        disabled={!validation.isValid}
-        type='button'
+        disabled={!canCreate}
+        type='submit'
         className='flex h-14 w-full items-center justify-center rounded-lg bg-[#2d1508] px-5 text-base font-bold text-white shadow-md transition hover:bg-[#482616] focus-visible:ring-2 focus-visible:ring-[#2d1508]/30 disabled:cursor-not-allowed disabled:bg-card-muted disabled:shadow-none'
       >
-        방 생성하기
+        {isSubmitting ? '방 생성 중' : '방 생성하기'}
       </button>
     </form>
   );

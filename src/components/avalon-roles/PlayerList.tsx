@@ -1,8 +1,8 @@
-import type { AvalonWaitingPlayer } from '@/types/avalonRoles';
+import type { AvalonRoomPlayer } from '@/types/avalonRoles';
 
 interface PlayerListProps {
   emptyMessage?: string;
-  players: AvalonWaitingPlayer[];
+  players: AvalonRoomPlayer[];
 }
 
 export default function PlayerList({
@@ -19,14 +19,14 @@ export default function PlayerList({
 
   return (
     <ul className='grid gap-2'>
-      {players.map((player, index) => (
+      {players.map((player) => (
         <li
           key={player.id}
           className='flex min-h-14 items-center justify-between rounded-lg border border-chip-border bg-white px-4 shadow-sm'
         >
           <div className='flex items-center gap-3'>
             <span className='flex h-8 w-8 items-center justify-center rounded-full bg-[#2d1508] text-sm font-bold text-white'>
-              {index + 1}
+              {player.seatNumber}
             </span>
             <span className='font-bold text-card-ink'>{player.nickname}</span>
           </div>

@@ -1,14 +1,26 @@
+import { AVALON_PLAYER_COUNTS } from '@/constants/avalonRoles';
 import CopyRoomCodeButton from '@/components/avalon-roles/CopyRoomCodeButton';
 import PlayerList from '@/components/avalon-roles/PlayerList';
-import type { AvalonWaitingPlayer } from '@/types/avalonRoles';
+import RoleCompositionSummary from '@/components/avalon-roles/RoleCompositionSummary';
+import type {
+  AvalonPlayerCount,
+  AvalonRoleId,
+  AvalonRoomPlayer,
+} from '@/types/avalonRoles';
 
 interface WaitingRoomProps {
   errorMessage?: string;
   isHost?: boolean;
   isLoading?: boolean;
   playerCount: number;
-  players: AvalonWaitingPlayer[];
+  players: AvalonRoomPlayer[];
   roomCode: string;
+  selectedRoleIds?: AvalonRoleId[];
+  onStartGame: () => void;
+}
+
+function isAvalonPlayerCount(value: number): value is AvalonPlayerCount {
+  return (AVALON_PLAYER_COUNTS as readonly number[]).includes(value);
 }
 
 export default function WaitingRoom({
@@ -18,6 +30,8 @@ export default function WaitingRoom({
   playerCount,
   players,
   roomCode,
+  selectedRoleIds = [],
+  onStartGame,
 }: WaitingRoomProps) {
   const isFull = players.length >= playerCount;
   const neededPlayerCount = Math.max(0, playerCount - players.length);
@@ -81,6 +95,13 @@ export default function WaitingRoom({
         )}
       </section>
 
+      {selectedRoleIds.length > 0 && isAvalonPlayerCount(playerCount) && (
+        <RoleCompositionSummary
+          playerCount={playerCount}
+          selectedRoleIds={selectedRoleIds}
+        />
+      )}
+
       {!isHost && (
         <p className='mb-4 rounded-lg border border-chip-border bg-white px-4 py-3 text-center text-sm font-bold text-card-muted shadow-sm'>
           방장이 게임을 시작할 때까지 기다려 주세요.
@@ -91,6 +112,7 @@ export default function WaitingRoom({
         disabled={!canStart}
         type='button'
         className='flex h-14 w-full items-center justify-center rounded-lg bg-[#2d1508] px-5 text-base font-bold text-white shadow-md transition hover:bg-[#482616] focus-visible:ring-2 focus-visible:ring-[#2d1508]/30 disabled:cursor-not-allowed disabled:bg-card-muted disabled:shadow-none'
+        onClick={onStartGame}
       >
         {isFull ? '게임 시작' : `${neededPlayerCount}명 더 필요`}
       </button>

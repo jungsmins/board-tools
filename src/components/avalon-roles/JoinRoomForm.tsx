@@ -3,6 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+import { joinAvalonRoom } from '@/lib/avalon-roles/api';
+
 const ROOM_CODE_LENGTH = 4;
 const NICKNAME_MAX_LENGTH = 12;
 
@@ -21,18 +23,39 @@ export default function JoinRoomForm() {
     roomCode: false,
     nickname: false,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const roomCodeError =
     roomCode.length === ROOM_CODE_LENGTH ? '' : '방 코드는 4자리입니다.';
   const nicknameError = nickname.trim() ? '' : '닉네임을 입력해 주세요.';
-  const canJoin = !roomCodeError && !nicknameError;
+  const canJoin = !roomCodeError && !nicknameError && !isSubmitting;
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setTouchedFields({ roomCode: true, nickname: true });
+    setSubmitError('');
 
     if (!canJoin) return;
 
-    router.push(`/avalon-roles/${roomCode}`);
+    setIsSubmitting(true);
+
+    try {
+      const room = await joinAvalonRoom(roomCode, nickname.trim());
+
+      if (!room?.roomCode) {
+        throw new Error('방 참가 결과를 확인할 수 없습니다.');
+      }
+
+      router.push(`/avalon-roles/${room.roomCode}`);
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : '방 참가 중 문제가 발생했습니다.',
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -109,12 +132,18 @@ export default function JoinRoomForm() {
         </span>
       </label>
 
+      {submitError && (
+        <p className='mb-5 rounded-lg border border-[#e2a7a1] bg-[#fff1ee] px-4 py-3 text-sm font-bold text-[#8f3a2f]'>
+          {submitError}
+        </p>
+      )}
+
       <button
         disabled={!canJoin}
         type='submit'
         className='flex h-13 w-full items-center justify-center rounded-lg bg-[#2f8f5b] px-5 text-base font-bold text-white shadow-md transition hover:bg-[#237348] focus-visible:ring-2 focus-visible:ring-[#2f8f5b]/30 disabled:cursor-not-allowed disabled:bg-card-muted disabled:shadow-none'
       >
-        참가하기
+        {isSubmitting ? '참가 중' : '참가하기'}
       </button>
     </form>
   );
