@@ -1,34 +1,20 @@
 import {
   AVALON_DEFAULT_SELECTED_ROLE_IDS,
-  AVALON_EVIL_ROLE_IDS,
   AVALON_ROLE_CONFIGS,
   AVALON_SELECTABLE_ROLE_IDS,
   AVALON_TEAM_COMPOSITION,
 } from '@/constants/avalonRoles';
 import type {
-  AvalonPlayer,
   AvalonPlayerCount,
-  AvalonRoleAssignment,
   AvalonRoleId,
   AvalonRoleValidationResult,
   AvalonTeamComposition,
 } from '@/types/avalonRoles';
 
-const EVIL_VISIBLE_TO_EACH_OTHER = [
-  'minion',
-  'assassin',
-  'mordred',
-  'morgana',
-] as const satisfies readonly AvalonRoleId[];
-
 export function getAvalonTeamComposition(
   playerCount: AvalonPlayerCount,
 ): AvalonTeamComposition {
   return AVALON_TEAM_COMPOSITION[playerCount];
-}
-
-export function getAvalonRoleConfig(roleId: AvalonRoleId) {
-  return AVALON_ROLE_CONFIGS[roleId];
 }
 
 export function createDefaultAvalonRoleSelection(): AvalonRoleId[] {
@@ -122,78 +108,14 @@ export function buildAvalonRoleDeck(
   ];
 }
 
-export function shuffleAvalonRoleDeck(roleIds: AvalonRoleId[]): AvalonRoleId[] {
-  const shuffledRoleIds = [...roleIds];
-
-  for (let index = shuffledRoleIds.length - 1; index > 0; index -= 1) {
-    const targetIndex = Math.floor(Math.random() * (index + 1));
-    [shuffledRoleIds[index], shuffledRoleIds[targetIndex]] = [
-      shuffledRoleIds[targetIndex],
-      shuffledRoleIds[index],
-    ];
-  }
-
-  return shuffledRoleIds;
-}
-
-export function calculateAvalonVisiblePlayerIds(
-  viewerPlayerId: string,
-  assignments: AvalonRoleAssignment[],
-): string[] {
-  const viewer = assignments.find(
-    (assignment) => assignment.playerId === viewerPlayerId,
+export function getAvalonRoleCounts(
+  roleIds: AvalonRoleId[],
+): Partial<Record<AvalonRoleId, number>> {
+  return roleIds.reduce<Partial<Record<AvalonRoleId, number>>>(
+    (counts, roleId) => ({
+      ...counts,
+      [roleId]: (counts[roleId] ?? 0) + 1,
+    }),
+    {},
   );
-
-  if (!viewer) return [];
-
-  if (viewer.roleId === 'merlin') {
-    return assignments
-      .filter((assignment) => assignment.playerId !== viewerPlayerId)
-      .filter((assignment) =>
-        (AVALON_EVIL_ROLE_IDS as readonly AvalonRoleId[]).includes(
-          assignment.roleId,
-        ),
-      )
-      .filter((assignment) => assignment.roleId !== 'mordred')
-      .map((assignment) => assignment.playerId);
-  }
-
-  if (viewer.roleId === 'percival') {
-    return assignments
-      .filter((assignment) => assignment.playerId !== viewerPlayerId)
-      .filter(
-        (assignment) =>
-          assignment.roleId === 'merlin' || assignment.roleId === 'morgana',
-      )
-      .map((assignment) => assignment.playerId);
-  }
-
-  if (
-    (EVIL_VISIBLE_TO_EACH_OTHER as readonly AvalonRoleId[]).includes(
-      viewer.roleId,
-    )
-  ) {
-    return assignments
-      .filter((assignment) => assignment.playerId !== viewerPlayerId)
-      .filter((assignment) =>
-        (EVIL_VISIBLE_TO_EACH_OTHER as readonly AvalonRoleId[]).includes(
-          assignment.roleId,
-        ),
-      )
-      .map((assignment) => assignment.playerId);
-  }
-
-  return [];
-}
-
-export function getAvalonVisiblePlayers(
-  viewerPlayerId: string,
-  players: AvalonPlayer[],
-): AvalonPlayer[] {
-  const visiblePlayerIds = new Set(
-    players.find((player) => player.id === viewerPlayerId)?.visiblePlayerIds ??
-      [],
-  );
-
-  return players.filter((player) => visiblePlayerIds.has(player.id));
 }

@@ -34,65 +34,26 @@ export interface AvalonRoleValidationResult {
   warnings: string[];
 }
 
-export interface AvalonRoleAssignment {
-  playerId: string;
-  roleId: AvalonRoleId;
-}
-
 export interface AvalonRoom {
   id: string;
   code: string;
-  hostId: string;
+  hostUserId: string;
   status: AvalonRoomStatus;
   playerCount: AvalonPlayerCount;
   selectedRoleIds: AvalonRoleId[];
   createdAt: string;
 }
 
-export interface AvalonPlayer {
-  id: string;
-  roomId: string;
-  nickname: string;
-  assignedRoleId: AvalonRoleId | null;
-  visiblePlayerIds: string[];
-  joinedAt: string;
-}
-
-export interface AvalonWaitingPlayer {
+export interface AvalonRoomPlayer {
   id: string;
   isHost: boolean;
   nickname: string;
+  seatNumber: number;
 }
 
-export type AvalonVisiblePlayer = Pick<AvalonPlayer, 'id' | 'nickname'>;
-
-export interface AvalonRolesDraft {
-  playerCount: AvalonPlayerCount;
-  selectedRoleIds: AvalonRoleId[];
-}
-
-export interface AvalonRolesStore extends AvalonRolesDraft {
-  currentRoomId: string | null;
-  currentPlayerId: string | null;
-  hostId: string | null;
-  room: AvalonRoom | null;
-  players: AvalonPlayer[];
-
-  setPlayerCount: (playerCount: AvalonPlayerCount) => void;
-  setSelectedRoleIds: (roleIds: AvalonRoleId[]) => void;
-  toggleRole: (roleId: AvalonRoleId) => void;
-  resetDraft: () => void;
-  getValidation: () => AvalonRoleValidationResult;
-
-  setSession: (session: {
-    roomId: string | null;
-    playerId: string | null;
-    hostId?: string | null;
-  }) => void;
-  clearSession: () => void;
-  setRoom: (room: AvalonRoom | null) => void;
-  setPlayers: (players: AvalonPlayer[]) => void;
-  upsertPlayer: (player: AvalonPlayer) => void;
-  removePlayer: (playerId: string) => void;
-  resetRemoteState: () => void;
+export interface AvalonRoomState {
+  currentPlayerId: string;
+  isHost: boolean;
+  players: AvalonRoomPlayer[];
+  room: AvalonRoom;
 }
