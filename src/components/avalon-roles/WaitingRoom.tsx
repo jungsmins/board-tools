@@ -2,21 +2,19 @@ import { AVALON_PLAYER_COUNTS } from '@/constants/avalonRoles';
 import CopyRoomCodeButton from '@/components/avalon-roles/CopyRoomCodeButton';
 import PlayerList from '@/components/avalon-roles/PlayerList';
 import RoleCompositionSummary from '@/components/avalon-roles/RoleCompositionSummary';
+import { startAvalonGame } from '@/lib/avalon-roles/api';
 import type {
   AvalonPlayerCount,
-  AvalonRoleId,
+  AvalonRoom,
   AvalonRoomPlayer,
 } from '@/types/avalonRoles';
+import { useState } from 'react';
 
 interface WaitingRoomProps {
-  errorMessage?: string;
   isHost?: boolean;
-  isLoading?: boolean;
-  playerCount: number;
   players: AvalonRoomPlayer[];
-  roomCode: string;
-  selectedRoleIds?: AvalonRoleId[];
-  onStartGame: () => void;
+  room: AvalonRoom;
+  onGameStarted: () => void;
 }
 
 function isAvalonPlayerCount(value: number): value is AvalonPlayerCount {
@@ -24,26 +22,33 @@ function isAvalonPlayerCount(value: number): value is AvalonPlayerCount {
 }
 
 export default function WaitingRoom({
-  errorMessage,
   isHost = true,
-  isLoading = false,
-  playerCount,
   players,
-  roomCode,
-  selectedRoleIds = [],
-  onStartGame,
+  room,
+  onGameStarted,
 }: WaitingRoomProps) {
+  const { code, playerCount, selectedRoleIds } = room;
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const isFull = players.length >= playerCount;
   const neededPlayerCount = Math.max(0, playerCount - players.length);
-  const canStart = isHost && isFull && !isLoading && !errorMessage;
-  const statusLabel = isLoading
-    ? '불러오는 중'
-    : isFull
-      ? '시작 가능'
-      : '대기 중';
-  const statusClassName = isFull
-    ? 'border-[#2f8f5b] bg-[#eef8f2] text-[#237348]'
-    : 'border-[#ead18d] bg-[#fff9e8] text-[#765b13]';
+  const canStart = isHost && isFull;
+
+  const handleStartGame = async () => {
+    setIsLoading(true);
+
+    try {
+      await startAvalonGame(code);
+
+      onGameStarted();
+    } catch (error) {
+      if (error instanceof Error) {
+        setErrorMessage('게임을 시작할 수 없습니다.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <section className='rounded-lg border border-card-border bg-card p-5 shadow-md sm:p-7'>
@@ -57,10 +62,10 @@ export default function WaitingRoom({
       <div className='mb-8 rounded-lg border border-chip-border bg-white p-5 shadow-sm'>
         <div className='mb-3 flex items-center justify-between gap-3'>
           <p className='text-sm font-bold text-card-muted'>방 코드</p>
-          <CopyRoomCodeButton roomCode={roomCode} />
+          <CopyRoomCodeButton roomCode={code} />
         </div>
         <p className='text-center text-5xl font-black tracking-[0.22em] text-[#2d1508] sm:text-6xl'>
-          {roomCode}
+          {code}
         </p>
       </div>
 
@@ -72,27 +77,8 @@ export default function WaitingRoom({
               {players.length} / {playerCount}명
             </p>
           </div>
-          <span
-            className={`rounded-full border px-3 py-1 text-sm font-bold ${statusClassName}`}
-          >
-            {statusLabel}
-          </span>
         </div>
-
-        {errorMessage ? (
-          <div className='rounded-lg border border-[#e2a7a1] bg-[#fff1ee] px-4 py-5 text-sm font-bold text-[#8f3a2f] shadow-sm'>
-            {errorMessage}
-          </div>
-        ) : (
-          <PlayerList
-            emptyMessage={
-              isLoading
-                ? '참가자 목록을 불러오는 중입니다.'
-                : '아직 참가자가 없습니다.'
-            }
-            players={isLoading ? [] : players}
-          />
-        )}
+        <PlayerList players={players} />
       </section>
 
       {selectedRoleIds.length > 0 && isAvalonPlayerCount(playerCount) && (
@@ -108,13 +94,23 @@ export default function WaitingRoom({
         </p>
       )}
 
+      {errorMessage && (
+        <p className='mb-4 rounded-lg border border-[#e2a7a1] bg-[#fff1ee] px-4 py-3 text-sm font-bold text-[#8f3a2f]'>
+          {errorMessage}
+        </p>
+      )}
+
       <button
-        disabled={!canStart}
+        disabled={!canStart || isLoading}
         type='button'
         className='flex h-14 w-full items-center justify-center rounded-lg bg-[#2d1508] px-5 text-base font-bold text-white shadow-md transition hover:bg-[#482616] focus-visible:ring-2 focus-visible:ring-[#2d1508]/30 disabled:cursor-not-allowed disabled:bg-card-muted disabled:shadow-none'
-        onClick={onStartGame}
+        onClick={handleStartGame}
       >
-        {isFull ? '게임 시작' : `${neededPlayerCount}명 더 필요`}
+        {isLoading
+          ? '게임 시작 중'
+          : isFull
+            ? '게임 시작'
+            : `${neededPlayerCount}명 더 필요`}
       </button>
     </section>
   );
