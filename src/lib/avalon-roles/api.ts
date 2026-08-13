@@ -232,7 +232,7 @@ export async function startAvalonGame(
     throw error;
   }
 
-  return data?.[0] as StartAvalonGameResult | null;
+  return data as StartAvalonGameResult | null;
 }
 
 export async function getMyAvalonRole(
