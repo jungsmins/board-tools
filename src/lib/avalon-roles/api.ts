@@ -17,7 +17,7 @@ interface JoinAvalonRoomResponse extends CreateAvalonRoomResponse {
   seat_number: number;
 }
 
-interface AvalonRoomStateResponsePlayer {
+interface AvalonRoomPlayerResponse {
   id: string;
   is_host: boolean;
   nickname: string;
@@ -30,14 +30,28 @@ interface AvalonRoomStateResponse {
   host_user_id?: string;
   is_host: boolean;
   player_count: AvalonPlayerCount;
-  players: AvalonRoomStateResponsePlayer[];
-  roleIds?: AvalonRoleId[];
-  role_ids?: AvalonRoleId[];
+  players: AvalonRoomPlayerResponse[];
   room_code: string;
   room_id: string;
-  selectedRoleIds?: AvalonRoleId[];
-  selected_role_ids?: AvalonRoleId[];
+  selected_role_ids: AvalonRoleId[];
   status: AvalonRoomStatus;
+}
+
+interface AvalonVisiblePlayerResponse {
+  id: string;
+  nickname: string;
+  seat_number: number;
+}
+
+interface GetMyAvalonRoleResponse {
+  player_id: string;
+  nickname: string;
+  role_id: AvalonRoleId;
+  visible_players: AvalonVisiblePlayerResponse[];
+}
+
+interface GetMyActiveAvalonRoomResponse {
+  room_code: string;
 }
 
 export interface CreateAvalonRoomResult {
@@ -56,19 +70,6 @@ export interface StartAvalonGameResult {
   status: string;
 }
 
-interface AvalonVisiblePlayerResponse {
-  id: string;
-  nickname: string;
-  seat_number: number;
-}
-
-interface GetMyAvalonRoleResponse {
-  player_id: string;
-  nickname: string;
-  role_id: AvalonRoleId;
-  visible_players: AvalonVisiblePlayerResponse[];
-}
-
 export interface GetMyAvalonRoleResult {
   playerId: string;
   nickname: string;
@@ -78,6 +79,10 @@ export interface GetMyAvalonRoleResult {
     nickname: string;
     seatNumber: number;
   }[];
+}
+
+export interface GetMyActiveAvalonRoomResult {
+  roomCode: string;
 }
 
 function mapCreateAvalonRoomResult(
@@ -114,14 +119,15 @@ function mapGetMyAvalonRoleResult(
   };
 }
 
-function mapAvalonRoomState(data: AvalonRoomStateResponse): AvalonRoomState {
-  const selectedRoleIds =
-    data.selected_role_ids ??
-    data.selectedRoleIds ??
-    data.role_ids ??
-    data.roleIds ??
-    [];
+function mapGetMyActiveAvalonRoomResult(
+  data: GetMyActiveAvalonRoomResponse,
+): GetMyActiveAvalonRoomResult {
+  return {
+    roomCode: data.room_code,
+  };
+}
 
+function mapAvalonRoomState(data: AvalonRoomStateResponse): AvalonRoomState {
   return {
     currentPlayerId: data.current_player_id,
     isHost: data.is_host,
@@ -137,10 +143,20 @@ function mapAvalonRoomState(data: AvalonRoomStateResponse): AvalonRoomState {
       hostUserId: data.host_user_id ?? '',
       status: data.status,
       playerCount: data.player_count,
-      selectedRoleIds,
+      selectedRoleIds: data.selected_role_ids,
       createdAt: data.created_at ?? '',
     },
   };
+}
+
+async function getCurrentSession() {
+  const { data, error } = await supabase.auth.getSession();
+
+  if (error) {
+    throw error;
+  }
+
+  return data.session;
 }
 
 export async function createAvalonRoom(
@@ -188,14 +204,9 @@ export async function joinAvalonRoom(
 export async function getAvalonRoomState(
   roomCode: string,
 ): Promise<AvalonRoomState | null> {
-  const { data: sessionData, error: sessionError } =
-    await supabase.auth.getSession();
+  const session = await getCurrentSession();
 
-  if (sessionError) {
-    throw sessionError;
-  }
-
-  if (!sessionData.session) {
+  if (!session) {
     return null;
   }
 
@@ -213,14 +224,9 @@ export async function getAvalonRoomState(
 export async function startAvalonGame(
   roomCode: string,
 ): Promise<StartAvalonGameResult | null> {
-  const { data: sessionData, error: sessionError } =
-    await supabase.auth.getSession();
+  const session = await getCurrentSession();
 
-  if (sessionError) {
-    throw sessionError;
-  }
-
-  if (!sessionData.session) {
+  if (!session) {
     throw new Error('참가 기록을 찾을 수 없습니다.');
   }
 
@@ -238,15 +244,10 @@ export async function startAvalonGame(
 export async function getMyAvalonRole(
   roomCode: string,
 ): Promise<GetMyAvalonRoleResult | null> {
-  const { data: sessionData, error: sessionError } =
-    await supabase.auth.getSession();
+  const session = await getCurrentSession();
 
-  if (sessionError) {
-    throw sessionError;
-  }
-
-  if (!sessionData.session) {
-    throw new Error('참가 기록을 찾을 수 없습니다.');
+  if (!session) {
+    return null;
   }
 
   const { data, error } = await supabase.rpc('get_my_avalon_role', {
@@ -260,4 +261,22 @@ export async function getMyAvalonRole(
   const result = data as GetMyAvalonRoleResponse | null;
 
   return result ? mapGetMyAvalonRoleResult(result) : null;
+}
+
+export async function getMyActiveAvalonRoom(): Promise<GetMyActiveAvalonRoomResult | null> {
+  const session = await getCurrentSession();
+
+  if (!session) {
+    return null;
+  }
+
+  const { data, error } = await supabase.rpc('get_my_active_avalon_room');
+
+  if (error) {
+    throw error;
+  }
+
+  const result = data as GetMyActiveAvalonRoomResponse | null;
+
+  return result ? mapGetMyActiveAvalonRoomResult(result) : null;
 }

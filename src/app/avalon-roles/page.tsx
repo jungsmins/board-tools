@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import JoinRoomForm from '@/components/avalon-roles/JoinRoomForm';
+import ActiveRoomRedirect from '@/components/avalon-roles/ActiveRoomRedirect';
 import Footer from '@/components/shared/Footer';
 import Header from '@/components/shared/Header';
 
@@ -8,7 +9,7 @@ export default function AvalonRolesPage() {
   return (
     <div className='min-h-dvh bg-canvas text-card-ink'>
       <Header />
-
+      <ActiveRoomRedirect />
       <main className='mx-auto flex min-h-[calc(100dvh-4rem)] w-full max-w-[540px] flex-col justify-center px-5 py-8 sm:px-8'>
         <section className='rounded-lg border border-card-border bg-card p-5 shadow-md sm:p-7'>
           <div className='mb-8 text-center'>
