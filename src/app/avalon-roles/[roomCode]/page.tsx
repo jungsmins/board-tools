@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 
 import { getAvalonRoomState } from '@/lib/avalon-roles/api';
+import { supabase } from '@/lib/supabase/client';
 import BackLink from '@/components/avalon-roles/BackLink';
-import WaitingRoom from '@/components/avalon-roles/WaitingRoom';
 import PlayingRoom from '@/components/avalon-roles/PlayingRoom';
+import WaitingRoom from '@/components/avalon-roles/WaitingRoom';
 import Footer from '@/components/shared/Footer';
 import Header from '@/components/shared/Header';
 import type { AvalonRoomState } from '@/types/avalonRoles';
@@ -14,54 +15,98 @@ import type { AvalonRoomState } from '@/types/avalonRoles';
 type RoomPageStatus = 'loading' | 'error' | 'ready';
 
 export default function AvalonRolesWaitingRoomPage() {
-  const params = useParams<{ roomId: string }>();
+  const params = useParams<{ roomCode: string }>();
   const [roomState, setRoomState] = useState<AvalonRoomState | null>(null);
   const [roomPageStatus, setRoomPageStatus] =
     useState<RoomPageStatus>('loading');
   const [errorMessage, setErrorMessage] = useState('');
-  const isMountedRef = useRef(true);
+  const isMountedRef = useRef(false);
+  const roomDbId = roomState?.room.id;
 
-  const getRoomState = useCallback(async () => {
-    setRoomPageStatus('loading');
-    setErrorMessage('');
-
-    try {
-      const data = await getAvalonRoomState(params.roomId);
-
-      if (!isMountedRef.current) return;
-
-      if (!data) {
-        setRoomState(null);
-        setErrorMessage('이 브라우저의 참가 기록을 찾을 수 없습니다.');
-        setRoomPageStatus('error');
-        return;
+  const getRoomState = useCallback(
+    async (options?: { showLoading?: boolean }) => {
+      if (options?.showLoading ?? true) {
+        setRoomPageStatus('loading');
       }
+      setErrorMessage('');
 
-      setRoomState(data);
-      setRoomPageStatus('ready');
-    } catch (error) {
-      if (!isMountedRef.current) return;
+      try {
+        const data = await getAvalonRoomState(params.roomCode);
 
-      setRoomState(null);
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : '방 정보를 불러오지 못했습니다.',
-      );
-      setRoomPageStatus('error');
-    }
-  }, [params.roomId]);
+        if (!isMountedRef.current) return;
+
+        if (!data) {
+          setRoomState(null);
+          setErrorMessage('이 브라우저의 참가 기록을 찾을 수 없습니다.');
+          setRoomPageStatus('error');
+          return;
+        }
+
+        setRoomState(data);
+        setRoomPageStatus('ready');
+      } catch (error) {
+        if (!isMountedRef.current) return;
+
+        setRoomState(null);
+        setErrorMessage(
+          error instanceof Error
+            ? error.message
+            : '방 정보를 불러오지 못했습니다.',
+        );
+        setRoomPageStatus('error');
+      }
+    },
+    [params.roomCode],
+  );
 
   useEffect(() => {
     isMountedRef.current = true;
 
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    getRoomState();
+    getRoomState({ showLoading: true });
 
     return () => {
       isMountedRef.current = false;
     };
   }, [getRoomState]);
+
+  useEffect(() => {
+    if (roomPageStatus !== 'ready' || !roomDbId) return;
+
+    const channel = supabase
+      .channel(`avalon-room:${roomDbId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'avalon_players',
+          filter: `room_id=eq.${roomDbId}`,
+          select: ['id', 'room_id'],
+        },
+        () => {
+          getRoomState({ showLoading: false });
+        },
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'avalon_rooms',
+          filter: `id=eq.${roomDbId}`,
+          select: ['id', 'status'],
+        },
+        () => {
+          getRoomState({ showLoading: false });
+        },
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [roomPageStatus, roomDbId, getRoomState]);
 
   return (
     <div className='min-h-dvh bg-canvas text-card-ink'>
