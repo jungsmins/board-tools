@@ -22,7 +22,9 @@ board-tools의 세 가지 도구(지도제작자들, 테라포밍마스, 아발�
 
 ## 디자인 토큰
 
-`src/app/globals.css`의 `@theme` 블록을 아래 팔레트로 교체한다. 기존 `gradient-*`, `canvas`, `chrome`, `card-*`, `chip-*`, `title`, `rule` 토큰은 제거하고 이 팔레트로 대체한다.
+`src/app/globals.css`의 `@theme` 블록에 아래 팔레트를 **추가**한다.
+
+> **주의**: 기존 `gradient-*`, `canvas`, `chrome`, `card-*`, `chip-*`, `title`, `rule` 토큰은 지도제작자들·아발론 페이지의 다수 컴포넌트(`RoleOptionCard`, `PlayerList`, `WaitingRoom`, `ExploreSection`, `ScoringCard` 등, 아직 리팩토링 전)가 사용 중이므로 **이번 라운드에서는 삭제하지 않는다**. 각 페이지가 자기 라운드에서 새 팔레트로 이전할 때 옛 토큰 참조를 걷어내고, 4라운드가 모두 끝난 뒤 더 이상 참조가 없는 옛 토큰을 일괄 정리한다.
 
 | 토큰 | 값 | 용도 |
 |---|---|---|
