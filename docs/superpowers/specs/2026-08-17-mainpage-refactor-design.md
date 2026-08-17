@@ -42,7 +42,8 @@ board-tools의 세 가지 도구(지도제작자들, 테라포밍마스, 아발�
 ### Header ([src/components/shared/Header.tsx](../../../src/components/shared/Header.tsx))
 - 배경을 `bg-chrome`(흰색) → `bg-brand-900`로 변경
 - 4색 그라디언트 바(`after:` 의사요소) 제거 — 심플한 브랜드 방향과 맞지 않음
-- 로고 옆 텍스트/포인트를 머스타드 액센트로 소폭 강조 (예: 얇은 밑줄)
+- 우측 텍스트("게임 추천하기")는 `--color-accent`(머스타드) 색상으로 변경해 포인트를 줌
+- **로고 처리**: `logo_icon.png`/`logo_text.png`는 흰색/크림 배경이 이미지에 포함되어 있고 텍스트 로고는 구 레인보우 컬러라, 어두운 헤더 위에 그대로 올리면 흰 박스처럼 튀어 보인다. 로고 이미지는 교체하지 않고, **로고 뒤에 `--color-surface` 배경의 알약형(pill) 컨테이너**(`rounded-full`, 좌우 패딩)를 두어 로고가 그 안에 자연스럽게 놓이도록 한다.
 
 ### Footer ([src/components/shared/Footer.tsx](../../../src/components/shared/Footer.tsx))
 - 배경을 `bg-brand-900`로 통일, 그라디언트 바 제거
