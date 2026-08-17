@@ -280,3 +280,35 @@ export async function getMyActiveAvalonRoom(): Promise<GetMyActiveAvalonRoomResu
 
   return result ? mapGetMyActiveAvalonRoomResult(result) : null;
 }
+
+export async function leaveAvalonRoom(roomCode: string): Promise<void> {
+  const session = await getCurrentSession();
+
+  if (!session) {
+    throw new Error('참가 기록을 찾을 수 없습니다.');
+  }
+
+  const { error } = await supabase.rpc('leave_avalon_room', {
+    p_room_code: roomCode,
+  });
+
+  if (error) {
+    throw error;
+  }
+}
+
+export async function endAvalonRoom(roomCode: string): Promise<void> {
+  const session = await getCurrentSession();
+
+  if (!session) {
+    throw new Error('참가 기록을 찾을 수 없습니다.');
+  }
+
+  const { error } = await supabase.rpc('end_avalon_room', {
+    p_room_code: roomCode,
+  });
+
+  if (error) {
+    throw error;
+  }
+}

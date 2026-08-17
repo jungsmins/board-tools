@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 import { getAvalonRoomState } from '@/lib/avalon-roles/api';
 import { supabase } from '@/lib/supabase/client';
@@ -16,6 +16,7 @@ type RoomPageStatus = 'loading' | 'error' | 'ready';
 
 export default function AvalonRolesWaitingRoomPage() {
   const params = useParams<{ roomCode: string }>();
+  const router = useRouter();
   const [roomState, setRoomState] = useState<AvalonRoomState | null>(null);
   const [roomPageStatus, setRoomPageStatus] =
     useState<RoomPageStatus>('loading');
@@ -42,6 +43,11 @@ export default function AvalonRolesWaitingRoomPage() {
           return;
         }
 
+        if (data.room.status === 'ended') {
+          router.replace('/avalon-roles');
+          return;
+        }
+
         setRoomState(data);
         setRoomPageStatus('ready');
       } catch (error) {
@@ -56,7 +62,7 @@ export default function AvalonRolesWaitingRoomPage() {
         setRoomPageStatus('error');
       }
     },
-    [params.roomCode],
+    [params.roomCode, router],
   );
 
   useEffect(() => {
@@ -91,7 +97,19 @@ export default function AvalonRolesWaitingRoomPage() {
       .on(
         'postgres_changes',
         {
-          event: 'UPDATE',
+          event: 'DELETE',
+          schema: 'public',
+          table: 'avalon_players',
+          select: ['id'],
+        },
+        () => {
+          getRoomState({ showLoading: false });
+        },
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
           schema: 'public',
           table: 'avalon_rooms',
           filter: `id=eq.${roomDbId}`,
@@ -106,7 +124,7 @@ export default function AvalonRolesWaitingRoomPage() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [roomPageStatus, roomDbId, getRoomState]);
+  }, [roomPageStatus, roomDbId, getRoomState, router]);
 
   return (
     <div className='min-h-dvh bg-canvas text-card-ink'>
@@ -138,7 +156,10 @@ export default function AvalonRolesWaitingRoomPage() {
         )}
 
         {roomPageStatus === 'ready' && roomState?.room.status === 'playing' && (
-          <PlayingRoom roomCode={roomState.room.code} />
+          <PlayingRoom
+            roomCode={roomState.room.code}
+            isHost={roomState.isHost}
+          />
         )}
       </main>
       <Footer />

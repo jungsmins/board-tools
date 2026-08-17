@@ -6,9 +6,11 @@ import { AVALON_ROLE_CONFIGS } from '@/constants/avalonRoles';
 import { getMyAvalonRole } from '@/lib/avalon-roles/api';
 import type { GetMyAvalonRoleResult } from '@/lib/avalon-roles/api';
 import type { AvalonRoleSide } from '@/types/avalonRoles';
+import EndOrLeaveRoomButton from './EndOrLeaveRoomButton';
 
 interface PlayingRoomProps {
   roomCode: string;
+  isHost: boolean;
 }
 
 const sideLabels: Record<AvalonRoleSide, string> = {
@@ -91,7 +93,7 @@ function getVisiblePlayerSignal(roleId: GetMyAvalonRoleResult['roleId']) {
   return null;
 }
 
-export default function PlayingRoom({ roomCode }: PlayingRoomProps) {
+export default function PlayingRoom({ roomCode, isHost }: PlayingRoomProps) {
   const [myRole, setMyRole] = useState<GetMyAvalonRoleResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -151,11 +153,14 @@ export default function PlayingRoom({ roomCode }: PlayingRoomProps) {
 
   return (
     <section className='rounded-lg border border-card-border bg-card p-5 shadow-md sm:p-7'>
-      <div className='mb-8'>
-        <p className='mb-2 text-sm font-bold text-[#2f8f5b]'>게임 진행</p>
-        <h1 className='text-3xl font-bold text-title sm:text-4xl'>
-          게임 진행 중
-        </h1>
+      <div className='flex items-center justify-between mb-8'>
+        <div>
+          <p className='mb-2 text-sm font-bold text-[#2f8f5b]'>게임 진행</p>
+          <h1 className='text-3xl font-bold text-title sm:text-4xl'>
+            게임 진행 중
+          </h1>
+        </div>
+        {isHost && <EndOrLeaveRoomButton isHost={isHost} roomCode={roomCode} />}
       </div>
 
       <section>
@@ -189,7 +194,8 @@ export default function PlayingRoom({ roomCode }: PlayingRoomProps) {
                     역할 가림
                   </p>
                   <p className='max-w-sm text-sm font-bold leading-6 text-card-muted'>
-                    역할 확인하기를 누르면 배정된 역할과 확인 가능한 대상이 표시됩니다.
+                    역할 확인하기를 누르면 배정된 역할과 확인 가능한 대상이
+                    표시됩니다.
                   </p>
                 </div>
               ) : (

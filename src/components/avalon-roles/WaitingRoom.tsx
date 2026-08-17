@@ -1,14 +1,18 @@
+'use client';
+
+import { useState } from 'react';
+
 import { AVALON_PLAYER_COUNTS } from '@/constants/avalonRoles';
+import { startAvalonGame } from '@/lib/avalon-roles/api';
 import CopyRoomCodeButton from '@/components/avalon-roles/CopyRoomCodeButton';
 import PlayerList from '@/components/avalon-roles/PlayerList';
 import RoleCompositionSummary from '@/components/avalon-roles/RoleCompositionSummary';
-import { startAvalonGame } from '@/lib/avalon-roles/api';
+import EndOrLeaveRoomButton from './EndOrLeaveRoomButton';
 import type {
   AvalonPlayerCount,
   AvalonRoom,
   AvalonRoomPlayer,
 } from '@/types/avalonRoles';
-import { useState } from 'react';
 
 interface WaitingRoomProps {
   isHost?: boolean;
@@ -52,13 +56,15 @@ export default function WaitingRoom({
 
   return (
     <section className='rounded-lg border border-card-border bg-card p-5 shadow-md sm:p-7'>
-      <div className='mb-8'>
-        <p className='mb-2 text-sm font-bold text-[#2f8f5b]'>대기방</p>
-        <h1 className='text-3xl font-bold text-title sm:text-4xl'>
-          참가자를 기다리는 중
-        </h1>
+      <div className='flex items-center justify-between mb-8'>
+        <div>
+          <p className='mb-2 text-sm font-bold text-[#2f8f5b]'>대기방</p>
+          <h1 className='text-3xl font-bold text-title sm:text-4xl'>
+            참가자를 기다리는 중
+          </h1>
+        </div>
+        <EndOrLeaveRoomButton isHost={isHost} roomCode={room.code} />
       </div>
-
       <div className='mb-8 rounded-lg border border-chip-border bg-white p-5 shadow-sm'>
         <div className='mb-3 flex items-center justify-between gap-3'>
           <p className='text-sm font-bold text-card-muted'>방 코드</p>
@@ -68,7 +74,6 @@ export default function WaitingRoom({
           {code}
         </p>
       </div>
-
       <section className='mb-8'>
         <div className='mb-4 flex items-end justify-between gap-4'>
           <div>
@@ -80,26 +85,22 @@ export default function WaitingRoom({
         </div>
         <PlayerList players={players} />
       </section>
-
       {selectedRoleIds.length > 0 && isAvalonPlayerCount(playerCount) && (
         <RoleCompositionSummary
           playerCount={playerCount}
           selectedRoleIds={selectedRoleIds}
         />
       )}
-
       {!isHost && (
         <p className='mb-4 rounded-lg border border-chip-border bg-white px-4 py-3 text-center text-sm font-bold text-card-muted shadow-sm'>
           방장이 게임을 시작할 때까지 기다려 주세요.
         </p>
       )}
-
       {errorMessage && (
         <p className='mb-4 rounded-lg border border-[#e2a7a1] bg-[#fff1ee] px-4 py-3 text-sm font-bold text-[#8f3a2f]'>
           {errorMessage}
         </p>
       )}
-
       <button
         disabled={!canStart || isLoading}
         type='button'
