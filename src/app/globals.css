@@ -22,7 +22,10 @@
   --color-rule: #d1d5db;
 
   /* Typography */
-  --font-display: 'Noto Serif KR', Georgia, serif;
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic',
+    'Segoe UI', sans-serif;
+  --font-display: var(--font-sans);
 }
 
 @layer base {

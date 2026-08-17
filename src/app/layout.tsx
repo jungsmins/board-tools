@@ -1,12 +1,5 @@
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
 import '@/app/globals.css';
-
-const ongleafGeungjeong = localFont({
-  src: '../../public/fonts/Ongleaf-Geungjeong.ttf',
-  variable: '--font-display',
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: 'BoardTools',
@@ -19,10 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang='ko'
-      className={`${ongleafGeungjeong.variable} h-full antialiased`}
-    >
+    <html lang='ko' className='h-full antialiased'>
       <body className='min-h-full flex flex-col'>{children}</body>
     </html>
   );
