@@ -4,4 +4,5 @@ export interface Tool {
   subtitle: string;
   description: string;
   platforms: string[];
+  image: string;
 }
