@@ -237,3 +237,8 @@
   background-size: 6px 1px;
   background-repeat: repeat-x;
 }
+
+.clip-diagonal {
+  /* 위쪽은 박스 전체 너비, 아래로 내려갈수록 안쪽으로 좁아지는 사선 컷 */
+  clip-path: polygon(0 0, 100% 0, 72% 100%, 0 100%);
+}

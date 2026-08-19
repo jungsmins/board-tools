@@ -19,22 +19,22 @@ export default function ToolListItem({ tool, index }: ToolListItemProps) {
       href={tool.href}
       style={{ animationDelay: `${index * 80}ms` }}
       className={clsx(
-        'group flex w-full items-center gap-5 overflow-hidden rounded-md p-5 text-white shadow-card transition',
+        'group flex w-full items-stretch gap-5 overflow-hidden rounded-md text-white shadow-card transition',
         'hover:translate-x-1.5 hover:shadow-modal',
         'animate-pop-in',
         tone,
       )}
     >
-      <div className='flex h-[72px] w-[72px] shrink-0 items-center justify-center overflow-hidden rounded-md bg-black/10 transition group-hover:rotate-[-4deg] group-hover:scale-[1.06]'>
+      <div className='clip-diagonal relative w-[38%] max-w-[180px] shrink-0'>
         <Image
           src={tool.image}
           alt={tool.title}
-          width={72}
-          height={72}
-          className='h-full w-full object-cover'
+          fill
+          sizes='180px'
+          className='object-cover transition group-hover:scale-105'
         />
       </div>
-      <div className='flex min-w-0 flex-1 flex-col gap-1'>
+      <div className='flex min-w-0 flex-1 flex-col justify-center gap-1 py-5'>
         <p className='truncate text-2xl font-bold'>{tool.title}</p>
         <p className='text-sm italic opacity-80'>{tool.subtitle}</p>
         <p className='min-h-10 text-sm leading-5 opacity-90 line-clamp-2'>
@@ -46,7 +46,7 @@ export default function ToolListItem({ tool, index }: ToolListItemProps) {
           ))}
         </div>
       </div>
-      <span className='shrink-0 text-2xl transition group-hover:translate-x-1'>
+      <span className='shrink-0 self-center pr-5 text-2xl transition group-hover:translate-x-1'>
         →
       </span>
     </Link>
