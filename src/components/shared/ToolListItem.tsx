@@ -20,7 +20,7 @@ export default function ToolListItem({ tool, index }: ToolListItemProps) {
       style={{ animationDelay: `${index * 80}ms` }}
       className={clsx(
         'group flex w-full items-center gap-5 overflow-hidden rounded-md p-5 text-white shadow-card transition',
-        'hover: translate-x-1.5 hover:shadow-modal',
+        'hover:translate-x-1.5 hover:shadow-modal',
         'animate-pop-in',
         tone,
       )}
@@ -34,10 +34,12 @@ export default function ToolListItem({ tool, index }: ToolListItemProps) {
           className='h-full w-full object-cover'
         />
       </div>
-      <div className='flex flex-1 flex-col gap-1'>
-        <p className='text-2xl font-bold'>{tool.title}</p>
+      <div className='flex min-w-0 flex-1 flex-col gap-1'>
+        <p className='truncate text-2xl font-bold'>{tool.title}</p>
         <p className='text-sm italic opacity-80'>{tool.subtitle}</p>
-        <p className='text-sm opacity-90'>{tool.description}</p>
+        <p className='min-h-10 text-sm leading-5 opacity-90 line-clamp-2'>
+          {tool.description}
+        </p>
         <div className='mt-2 flex items-center gap-2'>
           {tool.platforms.map((platform) => (
             <Badge key={platform}>{platform}</Badge>

@@ -20,6 +20,11 @@ describe('ToolListItem', () => {
     expect(screen.getByText('설명')).toBeInTheDocument();
   });
 
+  it('description이 카드마다 다른 길이여도 항상 2줄 높이를 확보한다.', () => {
+    render(<ToolListItem tool={tool} index={0} />);
+    expect(screen.getByText('설명')).toHaveClass('line-clamp-2', 'min-h-10');
+  });
+
   it('tool.image를 src로, tool.title을 alt로 갖는 이미지를 렌더링한다.', () => {
     render(<ToolListItem tool={tool} index={0} />);
     const image = screen.getByRole('img', { name: '지도제작자들' });
