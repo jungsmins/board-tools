@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import Image from 'next/image';
 import { Season } from '@/types/cartographers';
-import spring from '../../../public/cartographers_images/season/spring.png';
-import summer from '../../../public/cartographers_images/season/summer.png';
-import autumn from '../../../public/cartographers_images/season/autumn.png';
-import winter from '../../../public/cartographers_images/season/winter.png';
+import spring from '../../../public/cartographers-images/season/spring.png';
+import summer from '../../../public/cartographers-images/season/summer.png';
+import autumn from '../../../public/cartographers-images/season/autumn.png';
+import winter from '../../../public/cartographers-images/season/winter.png';
 import { useCartographersStore } from '@/stores/cartographers';
 
 interface props {

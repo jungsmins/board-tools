@@ -11,7 +11,7 @@ interface ExploreSectionProps {
 
 export default function ExploreSection({ exploreCard }: ExploreSectionProps) {
   const { name, type, id } = exploreCard;
-  const cardImageSrc = `/cartographers_images/explore/${id}.png`;
+  const cardImageSrc = `/cartographers-images/explore/${id}.png`;
 
   return (
     <section className='relative w-full flex-2 items-center justify-center overflow-hidden'>

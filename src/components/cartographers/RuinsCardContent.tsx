@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import ruinsImage from '../../../public/cartographers_images/ruins.png';
+import ruinsImage from '../../../public/cartographers-images/ruins.png';
 
 export default function RuinsCardContent() {
   return (
