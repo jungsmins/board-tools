@@ -8,4 +8,12 @@ describe('Footer', () => {
     expect(screen.getByRole('contentinfo')).toHaveClass('bg-brand-900');
     expect(screen.getByText('보드툴즈')).toBeInTheDocument();
   });
+
+  it('연락용 이메일을 mailto 링크로 렌더링한다.', () => {
+    render(<Footer />);
+    const emailLink = screen.getByRole('link', {
+      name: 'boardtools@gmail.com',
+    });
+    expect(emailLink).toHaveAttribute('href', 'mailto:boardtools@gmail.com');
+  });
 });
