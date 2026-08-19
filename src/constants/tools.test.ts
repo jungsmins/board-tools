@@ -21,7 +21,7 @@ describe('TOOLS', () => {
     expect(cartographers).toMatchObject({
       title: '지도제작자들',
       platforms: ['데스크탑'],
-      image: '/image_A.png',
+      image: '/tool-images/cartographers.png',
     });
   });
 });
