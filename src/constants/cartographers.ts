@@ -7,18 +7,18 @@ import type {
 } from '@/types/cartographers';
 
 export const SCORING_SLOT_BADGE_STYLES: Record<ScoringSlot, string> = {
-  A: 'bg-cartographers-forest text-white',
-  B: 'bg-cartographers-village text-white',
-  C: 'bg-linear-to-r from-cartographers-water to-cartographers-farm text-white',
-  D: 'bg-cartographers-grid text-white',
+  A: 'bg-[var(--color-cartographers-forest)] text-white',
+  B: 'bg-[var(--color-cartographers-village)] text-white',
+  C: 'bg-linear-to-r from-[var(--color-cartographers-water)] to-[var(--color-cartographers-farm)] text-white',
+  D: 'bg-[var(--color-cartographers-grid)] text-white',
 };
 
 export const TERRAIN_BG: Record<string, string> = {
-  forest: 'bg-cartographers-forest',
-  farm: 'bg-cartographers-farm',
-  village: 'bg-cartographers-village',
-  water: 'bg-cartographers-water',
-  monster: 'bg-cartographers-monster',
+  forest: 'bg-[var(--color-cartographers-forest)]',
+  farm: 'bg-[var(--color-cartographers-farm)]',
+  village: 'bg-[var(--color-cartographers-village)]',
+  water: 'bg-[var(--color-cartographers-water)]',
+  monster: 'bg-[var(--color-cartographers-monster)]',
 };
 
 export const EXPLORE_CARDS: ExploreCard[] = [
