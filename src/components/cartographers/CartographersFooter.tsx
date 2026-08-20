@@ -24,7 +24,7 @@ export default function CartographersFooter({
 
   return (
     <>
-      <footer className='flex h-20 w-full items-center bg-[var(--color-cartographers-surface)] p-6 text-[var(--color-cartographers-ink)]'>
+      <footer className='flex h-20 w-full items-center bg-cartographers-surface p-6 text-cartographers-ink'>
         <Link href='/'>홈</Link>
         <div className='grid flex-1 grid-cols-3 items-center'>
           <div className='justify-self-end'>

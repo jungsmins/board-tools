@@ -16,6 +16,22 @@
   --color-ink-muted: #7a6555;
   --color-danger: #e04830;
 
+  /* cartographers */
+  --color-cartographers-forest: #2d8b46;
+  --color-cartographers-farm: #e8b822;
+  --color-cartographers-village: #d4403a;
+  --color-cartographers-water: #3b7dd8;
+  --color-cartographers-monster: #7b5ea7;
+  --color-cartographers-surface: #ecf9ef;
+  --color-cartographers-panel: #c0e8cc;
+  --color-cartographers-card: #ffffff;
+  --color-cartographers-ink: #16311d;
+  --color-cartographers-muted: #4d6a56;
+  --color-cartographers-overlay: rgb(0 0 0 / 65%);
+  --color-cartographers-grid: #5f6368;
+  --color-cartographers-grid-border: #9aa0a6;
+  --color-cartographers-progress-track: #dcefd6;
+
   /* radius */
   --radius-sm: 0.375rem;
   --radius-md: 0.75rem;

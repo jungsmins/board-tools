@@ -14,18 +14,19 @@ export default function ExploreSection({ exploreCard }: ExploreSectionProps) {
   const cardImageSrc = `/cartographers-images/explore/${id}.png`;
 
   return (
-    <section className='relative w-full flex-2 items-center justify-center overflow-hidden'>
+    <section className='relative w-full flex-[2] items-center justify-center overflow-hidden'>
       <Image
         alt={`${name} 이미지`}
         src={cardImageSrc}
         fill
+        sizes='(min-width: 1024px) 66vw, 100vw'
         className='object-cover'
       />
       <div
         key={`${id}-content`}
         className='absolute flex h-full w-full flex-col gap-10 p-6 animate-card-content'
       >
-        <div className='self-start rounded-lg bg-[var(--color-cartographers-overlay)] px-5 py-4 shadow-lg'>
+        <div className='self-start rounded-lg bg-cartographers-overlay px-5 py-4 shadow-lg'>
           <div className='text-xl font-semibold text-white'>탐험</div>
           <div className='text-5xl font-bold text-white'>{name}</div>
         </div>
