@@ -37,6 +37,7 @@ export default function SeasonSplash({ season }: props) {
         fill
         alt={`${label.ko} 계절 이미지`}
         src={SEASON_IMAGES[season]}
+        sizes='100vw'
         className='object-cover animate-season-image'
         priority
       />

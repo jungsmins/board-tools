@@ -14,7 +14,7 @@ export default function ScoringCard({
 
   return (
     <li
-      className={`flex w-full flex-1 rounded-lg bg-[var(--color-cartographers-card)] shadow ${isShowcase ? 'items-start gap-8 p-10' : 'p-4'}`}
+      className={`flex w-full flex-1 rounded-lg bg-cartographers-card shadow ${isShowcase ? 'items-start gap-8 p-10' : 'p-4'}`}
     >
       <div
         className={`flex shrink-0 items-center justify-center rounded-sm font-bold ${isShowcase ? 'h-20 w-20 text-5xl' : 'mr-2 h-8 w-8'} ${SCORING_SLOT_BADGE_STYLES[scoringRule.slot]}`}
@@ -23,12 +23,12 @@ export default function ScoringCard({
       </div>
       <div>
         <div
-          className={`font-bold text-[var(--color-cartographers-ink)] ${isShowcase ? 'mb-6 text-5xl' : 'text-lg'}`}
+          className={`font-bold text-cartographers-ink ${isShowcase ? 'mb-6 text-5xl' : 'text-lg'}`}
         >
           {scoringRule.name}
         </div>
         <p
-          className={`text-[var(--color-cartographers-muted)] ${isShowcase ? 'text-3xl leading-relaxed' : ''}`}
+          className={`text-cartographers-muted ${isShowcase ? 'text-3xl leading-relaxed' : ''}`}
         >
           {scoringRule.description}
         </p>

@@ -14,10 +14,10 @@ export default function ScoringSection({
 
   return (
     <section
-      className={`flex flex-1 flex-col bg-[var(--color-cartographers-panel)] ${isShowcase ? 'h-full p-8' : 'p-4'}`}
+      className={`flex flex-1 flex-col bg-cartographers-panel ${isShowcase ? 'h-full p-8' : 'p-4'}`}
     >
       {!isShowcase && (
-        <h2 className='mb-4 inline-flex w-fit rounded-full border border-white/50 bg-white/70 px-3 py-1 text-sm font-bold text-[var(--color-cartographers-ink)] shadow-sm'>
+        <h2 className='mb-4 inline-flex w-fit rounded-full border border-white/50 bg-white/70 px-3 py-1 text-sm font-bold text-cartographers-ink shadow-sm'>
           칙령
         </h2>
       )}
