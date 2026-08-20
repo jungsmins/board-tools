@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import clsx from 'clsx';
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
 type ButtonSize = 'sm' | 'md' | 'lg';
@@ -12,10 +13,10 @@ type ButtonProps = {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    'bg-[var(--color-cartographers-button-primary,#C0E8CC)] text-white hover:bg-[var(--color-cartographers-button-primary-hover,#abdcbc)]',
-  secondary: 'bg-[#d1d5db] text-[#2d1508] hover:bg-[#c4c9d1]',
-  ghost: 'bg-transparent text-[#2d1508] hover:bg-black/5',
-  danger: 'bg-[#e04830] text-white hover:bg-[#c93b26]',
+    'bg-[var(--color-cartographers-button-primary,var(--color-brand-700))] text-white hover:bg-[var(--color-cartographers-button-primary-hover,var(--color-brand-900))]',
+  secondary: 'bg-[#e7dcc8] text-ink hover:bg-[#dacbae]',
+  ghost: 'bg-transparent text-ink hover:bg-black/5',
+  danger: 'bg-danger text-white hover:bg-[#c93b26]',
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
@@ -37,7 +38,12 @@ export default function Button({
     <button
       type={type}
       onClick={onClick}
-      className={`cursor-pointer rounded-lg font-bold transition ${variantClasses[variant]} ${sizeClasses[size]} ${className}`.trim()}
+      className={clsx(
+        'cursor-pointer rounded-md font-bold transition active:scale-[0.97]',
+        variantClasses[variant],
+        sizeClasses[size],
+        className,
+      )}
       {...props}
     >
       {children}

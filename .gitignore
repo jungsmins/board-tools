@@ -45,4 +45,6 @@ next-env.d.ts
 
 # superpowers brainstorming companion
 .superpowers/
-docs/superpowers
+
+# project docs (specs/plans) — kept local only, not committed
+/docs/

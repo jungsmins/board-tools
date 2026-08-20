@@ -1,28 +1,35 @@
 @import 'tailwindcss';
 
 @theme {
-  /* gradient */
-  --color-gradient-red: #e04830;
-  --color-gradient-blue: #4a88d8;
-  --color-gradient-green: #42a858;
-  --color-gradient-yellow: #e8b828;
-
   /* bg, border, text */
   --color-canvas: #eee7c4;
   --color-chrome: rgb(255 255 255 / 90%);
 
-  --color-card: #fdf8f0;
-  --color-card-ink: #2d1508;
-  --color-card-muted: #9ca3af;
-  --color-card-border: #faf2e0;
+  /* brand */
+  --color-brand-900: #123f3a;
+  --color-brand-700: #1c7c74;
+  --color-brand-400: #5cb3a6;
+  --color-accent: #f2b33d;
+  --color-surface: #fffbf2;
+  --color-surface-raised: #ffffff;
+  --color-ink: #241f1c;
+  --color-ink-muted: #7a6555;
+  --color-danger: #e04830;
 
-  --color-chip: #e5e7eb;
-  --color-chip-border: #d1d5db;
-  --color-title: #111827;
-  --color-rule: #d1d5db;
+  /* radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-full: 9999px;
+
+  /* shadow */
+  --shadow-card: 0 2px 8px rgb(18 63 58 / 12%);
+  --shadow-modal: 0 12px 32px rgb(18 63 58 / 28%);
 
   /* Typography */
-  --font-display: 'Noto Serif KR', Georgia, serif;
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic',
+    'Segoe UI', sans-serif;
+  --font-display: var(--font-sans);
 }
 
 @layer base {
@@ -197,4 +204,41 @@
   .animate-card-content {
     animation: card-content 260ms ease-out both;
   }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-pop-in {
+  animation: pop-in 420ms ease-out both;
+}
+
+.bg-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+.divider-dotted {
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    var(--color-ink-muted) 50%,
+    transparent 0
+  );
+  background-position: top;
+  background-size: 6px 1px;
+  background-repeat: repeat-x;
+}
+
+.clip-diagonal {
+  /* 위쪽은 박스 전체 너비, 아래로 내려갈수록 안쪽으로 좁아지는 사선 컷 */
+  clip-path: polygon(0 0, 100% 0, 72% 100%, 0 100%);
 }
