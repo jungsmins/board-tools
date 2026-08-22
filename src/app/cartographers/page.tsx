@@ -6,16 +6,22 @@ import PlayingScreen from '@/components/cartographers/PlayingScreen';
 import ScoringScreen from '@/components/cartographers/ScoringScreen';
 import { useCartographersStore } from '@/stores/cartographers';
 import styles from './theme.module.css';
+import { GamePhase } from '@/types/cartographers';
+import { ReactNode } from 'react';
 
 export default function CartographersPage() {
   const { gamePhase, currentSeason } = useCartographersStore();
 
+  const screens: Record<GamePhase, ReactNode> = {
+    setup: <SetupScreen />,
+    season_splash: <SeasonSplash season={currentSeason} />,
+    playing: <PlayingScreen />,
+    season_scoring: <ScoringScreen />,
+  };
+
   return (
     <div className={`${styles.theme} ${styles[currentSeason]}`}>
-      {gamePhase === 'setup' && <SetupScreen />}
-      {gamePhase === 'season_splash' && <SeasonSplash season={currentSeason} />}
-      {gamePhase === 'playing' && <PlayingScreen />}
-      {gamePhase === 'season_scoring' && <ScoringScreen />}
+      {screens[gamePhase]}
     </div>
   );
 }
