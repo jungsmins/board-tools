@@ -1,5 +1,7 @@
 import { Shape } from '@/types/cartographers';
 
+import OverlayPanel from './OverlayPanel';
+
 interface ShapeBlockProps {
   shape: Shape;
   hasCoin?: boolean;
@@ -14,7 +16,7 @@ export default function ShapeBlock({
   direction,
 }: ShapeBlockProps) {
   return (
-    <div className='group flex w-full items-center justify-center rounded-lg bg-cartographers-overlay'>
+    <OverlayPanel className='group'>
       <div className={`flex flex-col ${hasCoin ? 'pl-7' : ''}`}>
         {shape.map((row, j) => {
           return (
@@ -35,6 +37,6 @@ export default function ShapeBlock({
         {direction}
       </div>
       {coin}
-    </div>
+    </OverlayPanel>
   );
 }
