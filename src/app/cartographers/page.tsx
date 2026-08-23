@@ -8,9 +8,15 @@ import { useCartographersStore } from '@/stores/cartographers';
 import styles from './theme.module.css';
 import { GamePhase } from '@/types/cartographers';
 import { ReactNode } from 'react';
+import { useShallow } from 'zustand/shallow';
 
 export default function CartographersPage() {
-  const { gamePhase, currentSeason } = useCartographersStore();
+  const { gamePhase, currentSeason } = useCartographersStore(
+    useShallow((s) => ({
+      gamePhase: s.gamePhase,
+      currentSeason: s.currentSeason,
+    })),
+  );
 
   const screens: Record<GamePhase, ReactNode> = {
     setup: <SetupScreen />,

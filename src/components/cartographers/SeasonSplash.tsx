@@ -19,7 +19,7 @@ const SEASON_LABELS: Record<Season, { ko: string; en: string }> = {
 };
 
 export default function SeasonSplash({ season }: props) {
-  const { onSplashComplete } = useCartographersStore();
+  const onSplashComplete = useCartographersStore((s) => s.onSplashComplete);
   const SEASON_IMAGES = { spring, summer, autumn, winter };
   const label = SEASON_LABELS[season];
 
