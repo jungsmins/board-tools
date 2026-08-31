@@ -9,6 +9,9 @@ export const TOOLS: Tool[] = [
       '게임 진행을 도와주는 점수 계산 및 지도 제작 보조 도구. 라운드별 점수를 기록하고 진행 상황을 한눈에 확인하세요.',
     platforms: ['데스크탑'],
     image: '/tool-images/cartographers.png',
+    playerCount: '1~100명',
+    playtime: '30분+',
+    materials: ['펜', '지도 시트'],
   },
   {
     href: '/terraforming-mars',
@@ -18,6 +21,9 @@ export const TOOLS: Tool[] = [
       '테라포밍마스 자원을 추가하고 사용할 수 있는 보조 도구. 테라포밍마스의 자원을 간편하게 관리하세요.',
     platforms: ['모바일', '태블릿'],
     image: '/tool-images/terraforming_mars.png',
+    playerCount: '1~5명',
+    playtime: '120분+',
+    materials: ['보드게임'],
   },
   {
     href: '/avalon-roles',
@@ -27,5 +33,8 @@ export const TOOLS: Tool[] = [
       '방을 만들고 참가자들에게 역할을 배정하는 아발론 보조 도구. 각자 휴대폰에서 본인의 역할과 확인 가능한 대상을 볼 수 있습니다.',
     platforms: ['모바일'],
     image: '/tool-images/avalon.png',
+    playerCount: '5~10명',
+    playtime: '30분+',
+    materials: ['보드게임'],
   },
 ];
