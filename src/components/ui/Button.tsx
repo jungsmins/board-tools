@@ -39,7 +39,7 @@ export default function Button({
       type={type}
       onClick={onClick}
       className={clsx(
-        'cursor-pointer rounded-md font-bold transition active:scale-[0.97]',
+        'cursor-pointer rounded-md font-bold transition active:scale-[0.97] text-center',
         variantClasses[variant],
         sizeClasses[size],
         className,
