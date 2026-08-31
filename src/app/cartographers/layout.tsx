@@ -19,7 +19,7 @@ export default function CartographersLayout({
       toolTitle={cartographersTool.title}
       supportedPlatforms={cartographersTool.platforms}
     >
-      <div className={styles.theme}>{children}</div>;
+      <div className={styles.theme}>{children}</div>
     </DeviceGuard>
   );
 }
