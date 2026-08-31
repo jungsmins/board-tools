@@ -1,17 +1,25 @@
 import { useCartographersStore } from '@/stores/cartographers';
 import Button from '../ui/Button';
+import GamePrepScreen from '../shared/GamePrepScreen';
+import { getToolByHref } from '@/lib/tools';
+
+const tool = getToolByHref('/cartographers');
 
 export default function SetupScreen() {
   const startGame = useCartographersStore((s) => s.startGame);
 
+  if (!tool) return null;
+
   return (
-    <div className='relative w-full h-screen flex flex-col'>
-      <div className='flex-1 flex flex-col items-center mt-20'>
-        <div className='text-4xl font-bold mb-40'>지도제작자들</div>
-        <Button onClick={startGame} variant='primary' size='lg'>
-          시작하기
-        </Button>
-      </div>
-    </div>
+    <GamePrepScreen tool={tool}>
+      <Button
+        onClick={startGame}
+        variant='primary'
+        size='lg'
+        className='w-full'
+      >
+        시작하기
+      </Button>
+    </GamePrepScreen>
   );
 }
