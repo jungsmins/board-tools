@@ -21,7 +21,9 @@ export default function PlayingScreen() {
     prevCard,
     history,
   } = useCartographersStore();
-  const scoringRules = getScoringRulesByIds(Object.values(selectedScoringRules));
+  const scoringRules = getScoringRulesByIds(
+    Object.values(selectedScoringRules),
+  );
   const seasonConfig = getSeasonConfig(currentSeason);
   const exploreCard = getCardById(currentExploreCardId);
 
