@@ -112,3 +112,14 @@ export function getNextSeason(season: Season) {
       return false;
   }
 }
+
+export function startSeasonState(season: Season) {
+  return {
+    gamePhase: 'season_splash' as const,
+    currentSeason: season,
+    currentTimePoints: 0,
+    deck: shuffleDeck(),
+    currentExploreCardId: null,
+    history: [],
+  };
+}

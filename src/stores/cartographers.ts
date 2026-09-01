@@ -11,7 +11,7 @@ import {
   getCardCost,
   getNextSeason,
   selectScoringRules,
-  shuffleDeck,
+  startSeasonState,
 } from '@/lib/cartographers';
 
 function createSnapshot(state: CartographersStore): CartographersSnapshot {
@@ -38,13 +38,8 @@ export const useCartographersStore = create<CartographersStore>()(
 
       startGame: () =>
         set({
-          gamePhase: 'season_splash',
+          ...startSeasonState('spring'),
           selectedScoringRules: selectScoringRules(),
-          currentSeason: 'spring',
-          currentTimePoints: 0,
-          deck: shuffleDeck(),
-          currentExploreCardId: null,
-          history: [],
         }),
 
       onSplashComplete: () => {
@@ -86,12 +81,7 @@ export const useCartographersStore = create<CartographersStore>()(
         }
 
         set({
-          gamePhase: 'season_splash',
-          currentSeason: next,
-          currentTimePoints: 0,
-          deck: shuffleDeck(),
-          currentExploreCardId: null,
-          history: [],
+          ...startSeasonState(next),
         });
       },
 
