@@ -1,3 +1,7 @@
+import spring from '../../public/cartographers_images/season/spring.png';
+import summer from '../../public/cartographers_images/season/summer.png';
+import autumn from '../../public/cartographers_images/season/autumn.png';
+import winter from '../../public/cartographers_images/season/winter.png';
 import type {
   ExploreCard,
   AmbushCard,
@@ -5,6 +9,8 @@ import type {
   ScoringSlot,
   ScoringRule,
 } from '@/types/cartographers';
+
+export const SEASON_IMAGES = { spring, summer, autumn, winter };
 
 export const SCORING_SLOT_BADGE_STYLES: Record<ScoringSlot, string> = {
   A: 'bg-cartographers-forest text-white',

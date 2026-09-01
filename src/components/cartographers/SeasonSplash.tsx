@@ -1,10 +1,7 @@
 import { useEffect } from 'react';
 import Image from 'next/image';
 import { Season } from '@/types/cartographers';
-import spring from '../../../public/cartographers_images/season/spring.png';
-import summer from '../../../public/cartographers_images/season/summer.png';
-import autumn from '../../../public/cartographers_images/season/autumn.png';
-import winter from '../../../public/cartographers_images/season/winter.png';
+import { SEASON_IMAGES } from '@/constants/cartographers';
 import { useCartographersStore } from '@/stores/cartographers';
 
 interface props {
@@ -20,7 +17,6 @@ const SEASON_LABELS: Record<Season, { ko: string; en: string }> = {
 
 export default function SeasonSplash({ season }: props) {
   const onSplashComplete = useCartographersStore((s) => s.onSplashComplete);
-  const SEASON_IMAGES = { spring, summer, autumn, winter };
   const label = SEASON_LABELS[season];
 
   useEffect(() => {
