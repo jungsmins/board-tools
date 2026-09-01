@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { Users, Clock, Dices } from 'lucide-react';
-import cartographersImage from '../../../public/tool-images/cartographers.png';
 import { Tool } from '@/types/tools';
 import { ReactNode } from 'react';
 
@@ -14,7 +13,7 @@ export default function GameInfoCard({ tool, children }: GameInfCard) {
     <div className='w-[min(100%,380px)] overflow-hidden rounded-md bg-surface-raised text-left shadow-modal'>
       <div className='relative h-[420px] w-full'>
         <Image
-          src={cartographersImage}
+          src={tool.image}
           alt='지도제작자들 표지'
           fill
           sizes='380px'
