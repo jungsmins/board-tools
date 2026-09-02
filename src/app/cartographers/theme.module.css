@@ -7,7 +7,7 @@
 
   --color-cartographers-surface: #ecf9ef;
   --color-cartographers-panel: #c0e8cc;
-  --color-cartographers-card: #ffffff;
+  --color-cartographers-card: #f3e9d2;
   --color-cartographers-ink: #16311d;
   --color-cartographers-muted: #4d6a56;
   --color-cartographers-overlay: rgb(0 0 0 / 65%);
@@ -20,7 +20,7 @@
 .spring {
   --color-cartographers-surface: #f0faed;
   --color-cartographers-panel: #a8dc8b;
-  --color-cartographers-card: #ffffff;
+  --color-cartographers-card: #f3e9d2;
   --color-cartographers-ink: #173311;
   --color-cartographers-muted: #44643a;
   --color-cartographers-progress-track: #d8efcf;
@@ -29,7 +29,7 @@
 .summer {
   --color-cartographers-surface: #fff5df;
   --color-cartographers-panel: #f7c56a;
-  --color-cartographers-card: #ffffff;
+  --color-cartographers-card: #f3e9d2;
   --color-cartographers-ink: #3c2503;
   --color-cartographers-muted: #76521a;
   --color-cartographers-progress-track: #f8dba4;
@@ -38,7 +38,7 @@
 .autumn {
   --color-cartographers-surface: #fbece6;
   --color-cartographers-panel: #e49376;
-  --color-cartographers-card: #ffffff;
+  --color-cartographers-card: #f3e9d2;
   --color-cartographers-ink: #351207;
   --color-cartographers-muted: #744131;
   --color-cartographers-progress-track: #efc1af;
@@ -47,7 +47,7 @@
 .winter {
   --color-cartographers-surface: #edf6fc;
   --color-cartographers-panel: #9bc7e8;
-  --color-cartographers-card: #ffffff;
+  --color-cartographers-card: #f3e9d2;
   --color-cartographers-ink: #0d2940;
   --color-cartographers-muted: #365b78;
   --color-cartographers-progress-track: #cbe1f2;
