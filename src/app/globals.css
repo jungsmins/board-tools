@@ -209,6 +209,15 @@
     }
   }
 
+  @keyframes card-image {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   .animate-season-image {
     animation: season-image 1200ms ease-out both;
   }
@@ -219,6 +228,10 @@
 
   .animate-card-content {
     animation: card-content 260ms ease-out both;
+  }
+
+  .animate-card-image {
+    animation: card-image 320ms ease-out both;
   }
 }
 
