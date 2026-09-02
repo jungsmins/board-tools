@@ -1,7 +1,11 @@
-import spring from '../../public/cartographers_images/season/spring.png';
-import summer from '../../public/cartographers_images/season/summer.png';
-import autumn from '../../public/cartographers_images/season/autumn.png';
-import winter from '../../public/cartographers_images/season/winter.png';
+import spring from '../../public/cartographers_images/season/spring_splash.png';
+import summer from '../../public/cartographers_images/season/summer_splash.png';
+import autumn from '../../public/cartographers_images/season/autumn_splash.png';
+import winter from '../../public/cartographers_images/season/winter_splash.png';
+import springPlaying from '../../public/cartographers_images/season/spring_playing.png';
+import summerPlaying from '../../public/cartographers_images/season/summer_playing.png';
+import autumnPlaying from '../../public/cartographers_images/season/autumn_playing.png';
+import winterPlaying from '../../public/cartographers_images/season/winter_playing.png';
 import type {
   ExploreCard,
   AmbushCard,
@@ -11,6 +15,13 @@ import type {
 } from '@/types/cartographers';
 
 export const SEASON_IMAGES = { spring, summer, autumn, winter };
+
+export const SEASON_PLAYING_IMAGES = {
+  spring: springPlaying,
+  summer: summerPlaying,
+  autumn: autumnPlaying,
+  winter: winterPlaying,
+};
 
 export const SCORING_SLOT_BADGE_STYLES: Record<ScoringSlot, string> = {
   A: 'bg-cartographers-forest text-white',
