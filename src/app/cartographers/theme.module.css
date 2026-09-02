@@ -14,8 +14,6 @@
   --color-cartographers-grid: #5f6368;
   --color-cartographers-grid-border: #9aa0a6;
 
-  --color-cartographers-button-primary: var(--color-cartographers-panel);
-  --color-cartographers-button-primary-hover: #abdcbc;
   --color-cartographers-progress-track: #dcefd6;
 }
 
@@ -25,8 +23,6 @@
   --color-cartographers-card: #ffffff;
   --color-cartographers-ink: #173311;
   --color-cartographers-muted: #44643a;
-  --color-cartographers-button-primary: #87c965;
-  --color-cartographers-button-primary-hover: #73b953;
   --color-cartographers-progress-track: #d8efcf;
 }
 
@@ -36,8 +32,6 @@
   --color-cartographers-card: #ffffff;
   --color-cartographers-ink: #3c2503;
   --color-cartographers-muted: #76521a;
-  --color-cartographers-button-primary: #e9a43b;
-  --color-cartographers-button-primary-hover: #d6902a;
   --color-cartographers-progress-track: #f8dba4;
 }
 
@@ -47,8 +41,6 @@
   --color-cartographers-card: #ffffff;
   --color-cartographers-ink: #351207;
   --color-cartographers-muted: #744131;
-  --color-cartographers-button-primary: #d66f4d;
-  --color-cartographers-button-primary-hover: #c65d3a;
   --color-cartographers-progress-track: #efc1af;
 }
 
@@ -58,7 +50,5 @@
   --color-cartographers-card: #ffffff;
   --color-cartographers-ink: #0d2940;
   --color-cartographers-muted: #365b78;
-  --color-cartographers-button-primary: #6fa9d8;
-  --color-cartographers-button-primary-hover: #5b98ca;
   --color-cartographers-progress-track: #cbe1f2;
 }
