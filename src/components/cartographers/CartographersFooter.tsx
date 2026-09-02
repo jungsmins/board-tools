@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Link from 'next/link';
 import ConfirmDialog from '@/components/shared/ConfirmDialog';
 import Button from '../ui/Button';
 
@@ -24,8 +23,7 @@ export default function CartographersFooter({
 
   return (
     <>
-      <footer className='flex h-20 w-full items-center bg-cartographers-surface p-6 text-cartographers-ink'>
-        <Link href='/'>홈</Link>
+      <footer className='flex h-20 w-full items-center rounded-2xl bg-black/60 p-6 text-white'>
         <div className='grid flex-1 grid-cols-3 items-center'>
           <div className='justify-self-end'>
             {onPrev && (
