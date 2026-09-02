@@ -24,7 +24,7 @@ export default function ScoringSection({
 
   return (
     <section
-      className={`flex min-w-0 flex-1 flex-col ${isShowcase ? 'bg-cartographers-panel h-full' : 'overflow-hidden rounded-2xl bg-black/60'}`}
+      className={`flex min-w-0 flex-1 flex-col overflow-hidden rounded-2xl bg-black/60 ${isShowcase ? 'h-full' : ''}`}
     >
       <div className={`flex min-w-0 flex-1 flex-col ${isShowcase ? 'p-8' : 'p-4'}`}>
         {!isShowcase && seasonScoringSlots ? (
