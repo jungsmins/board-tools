@@ -168,7 +168,7 @@ const TERRAIN_MARKS: Record<
 export default function TerrainMark({ terrain }: { terrain: TerrainMarkType }) {
   const { viewBox, paths } = TERRAIN_MARKS[terrain];
   return (
-    <svg viewBox={viewBox} className='h-10 w-10 text-white'>
+    <svg viewBox={viewBox} className='h-9 w-9 text-white'>
       {paths}
     </svg>
   );

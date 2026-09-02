@@ -1,6 +1,5 @@
 import { RiftLandsCard } from '@/types/cartographers';
 import TerrainBlock from './TerrainBlock';
-import OverlayPanel from './OverlayPanel';
 
 export default function RiftLandsCardContent({
   exploreCard,
@@ -10,17 +9,20 @@ export default function RiftLandsCardContent({
   const { terrains } = exploreCard;
 
   return (
-    <>
-      <div className='flex flex-1 gap-10'>
+    <div className='relative flex flex-1 flex-col'>
+      <div className='flex flex-1 items-center justify-evenly'>
         {terrains.map((terrain) => {
-          return <TerrainBlock key={terrain} terrain={terrain} />;
+          return (
+            <div key={terrain} className='flex justify-center px-5'>
+              <TerrainBlock terrain={terrain} />
+            </div>
+          );
         })}
       </div>
-      <div className='flex flex-1 gap-10'>
-        <OverlayPanel className='gap-10'>
-          <div className='h-10 w-10 border border-cartographers-grid-border bg-cartographers-grid'></div>
-        </OverlayPanel>
+      <div className='flex flex-1 items-center justify-center'>
+        <div className='h-8 w-8 border border-cartographers-grid-border bg-cartographers-grid'></div>
       </div>
-    </>
+      <div className='pointer-events-none absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-white/10' />
+    </div>
   );
 }

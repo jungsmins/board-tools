@@ -11,16 +11,17 @@ export default function AmbushCardContent({
   const { shape, direction } = exploreCard;
 
   return (
-    <>
-      <div className='flex flex-1 gap-10'>
+    <div className='relative flex flex-1 flex-col'>
+      <div className='flex flex-1 items-center justify-evenly'>
         <TerrainBlock terrain='monster' />
       </div>
-      <div className='flex flex-1 gap-10'>
+      <div className='flex flex-1 items-center justify-evenly'>
         <ShapeBlock
           shape={shape}
           direction={<DirectionArrow direction={direction} />}
         />
       </div>
-    </>
+      <div className='pointer-events-none absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-white/10' />
+    </div>
   );
 }
