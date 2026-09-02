@@ -16,7 +16,7 @@ describe('ScoringSection', () => {
     expect(screen.getByText('야인의 마을')).toBeInTheDocument();
   });
 
-  it('showcase varian에서는 "칙령" 라벨을 숨긴다.', () => {
+  it('showcase variant에서는 "칙령" 라벨을 숨긴다.', () => {
     render(<ScoringSection scoringRules={scoringRules} variant='showcase' />);
     expect(screen.queryByText('칙령')).not.toBeInTheDocument();
   });

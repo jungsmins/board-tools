@@ -4,7 +4,7 @@ import { Season } from '@/types/cartographers';
 import { SEASON_IMAGES } from '@/constants/cartographers';
 import { useCartographersStore } from '@/stores/cartographers';
 
-interface props {
+interface SeasonSplashProps {
   season: Season;
 }
 
@@ -15,7 +15,7 @@ const SEASON_LABELS: Record<Season, { ko: string; en: string }> = {
   winter: { ko: '겨울', en: 'Winter' },
 };
 
-export default function SeasonSplash({ season }: props) {
+export default function SeasonSplash({ season }: SeasonSplashProps) {
   const onSplashComplete = useCartographersStore((s) => s.onSplashComplete);
   const label = SEASON_LABELS[season];
 

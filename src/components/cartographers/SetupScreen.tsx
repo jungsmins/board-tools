@@ -8,8 +8,6 @@ const tool = getToolByHref('/cartographers');
 export default function SetupScreen() {
   const startGame = useCartographersStore((s) => s.startGame);
 
-  if (!tool) return null;
-
   return (
     <GamePrepScreen tool={tool}>
       <Button
