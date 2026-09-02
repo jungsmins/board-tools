@@ -1,3 +1,11 @@
+import spring from '../../public/cartographers_images/season/spring_splash.png';
+import summer from '../../public/cartographers_images/season/summer_splash.png';
+import autumn from '../../public/cartographers_images/season/autumn_splash.png';
+import winter from '../../public/cartographers_images/season/winter_splash.png';
+import springPlaying from '../../public/cartographers_images/season/spring_playing.png';
+import summerPlaying from '../../public/cartographers_images/season/summer_playing.png';
+import autumnPlaying from '../../public/cartographers_images/season/autumn_playing.png';
+import winterPlaying from '../../public/cartographers_images/season/winter_playing.png';
 import type {
   ExploreCard,
   AmbushCard,
@@ -6,19 +14,28 @@ import type {
   ScoringRule,
 } from '@/types/cartographers';
 
+export const SEASON_IMAGES = { spring, summer, autumn, winter };
+
+export const SEASON_PLAYING_IMAGES = {
+  spring: springPlaying,
+  summer: summerPlaying,
+  autumn: autumnPlaying,
+  winter: winterPlaying,
+};
+
 export const SCORING_SLOT_BADGE_STYLES: Record<ScoringSlot, string> = {
-  A: 'bg-[var(--color-cartographers-forest)] text-white',
-  B: 'bg-[var(--color-cartographers-village)] text-white',
-  C: 'bg-linear-to-r from-[var(--color-cartographers-water)] to-[var(--color-cartographers-farm)] text-white',
-  D: 'bg-[var(--color-cartographers-grid)] text-white',
+  A: 'bg-cartographers-forest text-white',
+  B: 'bg-cartographers-village text-white',
+  C: 'bg-linear-to-r from-cartographers-water to-cartographers-farm text-white',
+  D: 'bg-cartographers-grid text-white',
 };
 
 export const TERRAIN_BG: Record<string, string> = {
-  forest: 'bg-[var(--color-cartographers-forest)]',
-  farm: 'bg-[var(--color-cartographers-farm)]',
-  village: 'bg-[var(--color-cartographers-village)]',
-  water: 'bg-[var(--color-cartographers-water)]',
-  monster: 'bg-[var(--color-cartographers-monster)]',
+  forest: 'bg-cartographers-forest',
+  farm: 'bg-cartographers-farm',
+  village: 'bg-cartographers-village',
+  water: 'bg-cartographers-water',
+  monster: 'bg-cartographers-monster',
 };
 
 export const EXPLORE_CARDS: ExploreCard[] = [
@@ -395,7 +412,7 @@ export const SCORING_RULES: ScoringRule[] = [
     slot: 'A',
     name: '어린 가지',
     description:
-      '숲이 한 칸이라도 있는 가로줄이나 세로줄마다 명성 점수 1점을 얻습니다. 숲 한 칸이 가로줄과 세로줄 점수 계산에 중복으로 사용될 수 있습니다',
+      '숲이 한 칸이라도 있는 가로줄이나 세로줄마다 명성 점수 1점을 얻습니다. 숲 한 칸이 가로줄과 세로줄 점수 계산에 중복으로 사용될 수 있습니다.',
   },
   {
     id: 'stoneside_forest',

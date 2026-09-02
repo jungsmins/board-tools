@@ -9,7 +9,7 @@ export default function DirectionArrow({
     <svg
       viewBox='0 0 120 32'
       aria-label={isLeft ? '왼쪽 방향' : '오른쪽 방향'}
-      className={`mt-4 h-8 w-30 text-white ${isLeft ? 'rotate-180' : ''}`}
+      className={`h-8 w-30 text-white ${isLeft ? 'rotate-180' : ''}`}
       role='img'
     >
       <path

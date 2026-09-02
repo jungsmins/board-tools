@@ -5,4 +5,7 @@ export interface Tool {
   description: string;
   platforms: string[];
   image: string;
+  playerCount?: string;
+  playtime?: string;
+  materials?: string[];
 }

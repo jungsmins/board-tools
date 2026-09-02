@@ -11,12 +11,10 @@ export default function TerrainBlock({
   terrain: TerrainBlockType;
 }) {
   return (
-    <div className='flex w-full items-center justify-center rounded-lg bg-[var(--color-cartographers-overlay)]'>
-      <div
-        className={`flex items-center justify-center h-16 w-16 rounded-lg ${TERRAIN_BG[terrain]}`}
-      >
-        <TerrainMark terrain={terrain} />
-      </div>
+    <div
+      className={`flex h-16 w-16 items-center justify-center rounded-lg ${TERRAIN_BG[terrain]}`}
+    >
+      <TerrainMark terrain={terrain} />
     </div>
   );
 }

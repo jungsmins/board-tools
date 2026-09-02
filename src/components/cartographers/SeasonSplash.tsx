@@ -1,13 +1,10 @@
 import { useEffect } from 'react';
 import Image from 'next/image';
 import { Season } from '@/types/cartographers';
-import spring from '../../../public/cartographers_images/season/spring.png';
-import summer from '../../../public/cartographers_images/season/summer.png';
-import autumn from '../../../public/cartographers_images/season/autumn.png';
-import winter from '../../../public/cartographers_images/season/winter.png';
+import { SEASON_IMAGES } from '@/constants/cartographers';
 import { useCartographersStore } from '@/stores/cartographers';
 
-interface props {
+interface SeasonSplashProps {
   season: Season;
 }
 
@@ -18,9 +15,8 @@ const SEASON_LABELS: Record<Season, { ko: string; en: string }> = {
   winter: { ko: '겨울', en: 'Winter' },
 };
 
-export default function SeasonSplash({ season }: props) {
-  const { onSplashComplete } = useCartographersStore();
-  const SEASON_IMAGES = { spring, summer, autumn, winter };
+export default function SeasonSplash({ season }: SeasonSplashProps) {
+  const onSplashComplete = useCartographersStore((s) => s.onSplashComplete);
   const label = SEASON_LABELS[season];
 
   useEffect(() => {
@@ -37,6 +33,7 @@ export default function SeasonSplash({ season }: props) {
         fill
         alt={`${label.ko} 계절 이미지`}
         src={SEASON_IMAGES[season]}
+        sizes='100vw'
         className='object-cover animate-season-image'
         priority
       />

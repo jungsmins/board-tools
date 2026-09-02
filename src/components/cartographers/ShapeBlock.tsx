@@ -14,8 +14,10 @@ export default function ShapeBlock({
   direction,
 }: ShapeBlockProps) {
   return (
-    <div className='group flex w-full items-center justify-center rounded-lg bg-[var(--color-cartographers-overlay)]'>
-      <div className={`flex flex-col ${hasCoin ? 'pl-7' : ''}`}>
+    <div
+      className={`group flex w-full items-center justify-center ${hasCoin || direction ? 'gap-3' : ''}`}
+    >
+      <div className='flex flex-col'>
         {shape.map((row, j) => {
           return (
             <div key={j} className='flex'>
@@ -23,18 +25,18 @@ export default function ShapeBlock({
                 return filled ? (
                   <div
                     key={k}
-                    className='h-10 w-10 border border-[var(--color-cartographers-grid-border)] bg-[var(--color-cartographers-grid)]'
+                    className='h-8 w-8 border border-cartographers-grid-border bg-cartographers-grid'
                   />
                 ) : (
-                  <div key={k} className='h-10 w-10' />
+                  <div key={k} className='h-8 w-8' />
                 );
               })}
             </div>
           );
         })}
-        {direction}
       </div>
       {coin}
+      {direction}
     </div>
   );
 }
