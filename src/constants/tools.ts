@@ -14,18 +14,6 @@ export const TOOLS: Tool[] = [
     materials: ['펜', '지도 시트'],
   },
   {
-    href: '/terraforming-mars',
-    title: '테라포밍마스',
-    subtitle: '테라포밍마스 자원 트래킹',
-    description:
-      '테라포밍마스 자원을 추가하고 사용할 수 있는 보조 도구. 테라포밍마스의 자원을 간편하게 관리하세요.',
-    platforms: ['모바일', '태블릿'],
-    image: '/tool-images/terraforming_mars.png',
-    playerCount: '1~5명',
-    playtime: '120분+',
-    materials: ['보드게임'],
-  },
-  {
     href: '/avalon-roles',
     title: '레지스탕스 아발론',
     subtitle: '아발론 역할 배정기',

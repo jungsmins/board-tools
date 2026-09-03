@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { TOOLS } from './tools';
 
 describe('TOOLS', () => {
-  it('3개의 도구 데이터를 담고 있다.', () => {
-    expect(TOOLS).toHaveLength(3);
+  it('2개의 도구 데이터를 담고 있다.', () => {
+    expect(TOOLS).toHaveLength(2);
   });
 
   it('각 항목이 href/title/subtitle/decription/platforms를 모두 갖는다.', () => {
