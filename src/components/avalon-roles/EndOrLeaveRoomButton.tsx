@@ -45,7 +45,7 @@ export default function EndOrLeaveRoomButton({
       <button
         disabled={isLoading}
         type='button'
-        className='flex h-14 items-center justify-center rounded-lg bg-[#2d1508] px-5 text-base font-bold text-white shadow-md transition hover:bg-[#482616] focus-visible:ring-2 focus-visible:ring-[#2d1508]/30 disabled:cursor-not-allowed disabled:bg-card-muted disabled:shadow-none'
+        className='flex h-14 items-center justify-center rounded-lg bg-[#2d1508] px-5 text-base font-bold text-white shadow-md transition hover:bg-[#482616] focus-visible:ring-2 focus-visible:ring-[#2d1508]/30 disabled:cursor-not-allowed disabled:bg-ink-muted disabled:shadow-none'
         onClick={handleClick}
       >
         {isLoading ? '처리 중' : isHost ? '게임 종료' : '방 나가기'}

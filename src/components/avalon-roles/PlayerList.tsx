@@ -11,7 +11,7 @@ export default function PlayerList({
 }: PlayerListProps) {
   if (players.length === 0) {
     return (
-      <div className='rounded-lg border border-chip-border bg-white px-4 py-5 text-center text-sm font-bold text-card-muted shadow-sm'>
+      <div className='rounded-lg border border-ink/10 bg-white px-4 py-5 text-center text-sm font-bold text-ink-muted shadow-sm'>
         {emptyMessage}
       </div>
     );
@@ -22,13 +22,13 @@ export default function PlayerList({
       {players.map((player) => (
         <li
           key={player.id}
-          className='flex min-h-14 items-center justify-between rounded-lg border border-chip-border bg-white px-4 shadow-sm'
+          className='flex min-h-14 items-center justify-between rounded-lg border border-ink/10 bg-white px-4 shadow-sm'
         >
           <div className='flex items-center gap-3'>
             <span className='flex h-8 w-8 items-center justify-center rounded-full bg-[#2d1508] text-sm font-bold text-white'>
               {player.seatNumber}
             </span>
-            <span className='font-bold text-card-ink'>{player.nickname}</span>
+            <span className='font-bold text-ink'>{player.nickname}</span>
           </div>
           {player.isHost && (
             <span className='rounded-full bg-[#eef8f2] px-3 py-1 text-xs font-bold text-[#237348]'>

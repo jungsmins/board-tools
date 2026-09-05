@@ -60,10 +60,10 @@ export default function JoinRoomForm() {
 
   return (
     <form noValidate onSubmit={handleSubmit}>
-      <p className='mb-5 text-xl font-bold text-card-ink'>방 참가하기</p>
+      <p className='mb-5 text-xl font-bold text-ink'>방 참가하기</p>
 
       <label className='mb-5 block'>
-        <span className='mb-2 block text-sm font-bold text-card-ink'>
+        <span className='mb-2 block text-sm font-bold text-ink'>
           방 코드
         </span>
         <input
@@ -71,7 +71,7 @@ export default function JoinRoomForm() {
           aria-invalid={Boolean(touchedFields.roomCode && roomCodeError)}
           autoCapitalize='characters'
           autoComplete='off'
-          className='h-13 w-full rounded-lg border border-chip-border bg-white px-4 text-center text-lg font-bold uppercase tracking-[0.2em] text-card-ink outline-none transition placeholder:tracking-normal placeholder:text-card-muted focus:border-[#2d1508] focus:ring-2 focus:ring-[#2d1508]/15 aria-invalid:border-[#8f3a2f] aria-invalid:ring-2 aria-invalid:ring-[#8f3a2f]/15'
+          className='h-13 w-full rounded-lg border border-ink/10 bg-white px-4 text-center text-lg font-bold uppercase tracking-[0.2em] text-ink outline-none transition placeholder:tracking-normal placeholder:text-ink-muted focus:border-[#2d1508] focus:ring-2 focus:ring-[#2d1508]/15 aria-invalid:border-[#8f3a2f] aria-invalid:ring-2 aria-invalid:ring-[#8f3a2f]/15'
           inputMode='text'
           maxLength={ROOM_CODE_LENGTH}
           name='roomCode'
@@ -88,7 +88,7 @@ export default function JoinRoomForm() {
           className={`mt-2 block text-sm font-bold ${
             touchedFields.roomCode && roomCodeError
               ? 'text-[#8f3a2f]'
-              : 'text-card-muted'
+              : 'text-ink-muted'
           }`}
         >
           {touchedFields.roomCode && roomCodeError
@@ -98,14 +98,14 @@ export default function JoinRoomForm() {
       </label>
 
       <label className='mb-6 block'>
-        <span className='mb-2 block text-sm font-bold text-card-ink'>
+        <span className='mb-2 block text-sm font-bold text-ink'>
           닉네임
         </span>
         <input
           aria-describedby='nickname-message'
           aria-invalid={Boolean(touchedFields.nickname && nicknameError)}
           autoComplete='nickname'
-          className='h-13 w-full rounded-lg border border-chip-border bg-white px-4 text-base text-card-ink outline-none transition placeholder:text-card-muted focus:border-[#2d1508] focus:ring-2 focus:ring-[#2d1508]/15 aria-invalid:border-[#8f3a2f] aria-invalid:ring-2 aria-invalid:ring-[#8f3a2f]/15'
+          className='h-13 w-full rounded-lg border border-ink/10 bg-white px-4 text-base text-ink outline-none transition placeholder:text-ink-muted focus:border-[#2d1508] focus:ring-2 focus:ring-[#2d1508]/15 aria-invalid:border-[#8f3a2f] aria-invalid:ring-2 aria-invalid:ring-[#8f3a2f]/15'
           maxLength={NICKNAME_MAX_LENGTH}
           name='nickname'
           onBlur={() =>
@@ -123,7 +123,7 @@ export default function JoinRoomForm() {
           className={`mt-2 block text-sm font-bold ${
             touchedFields.nickname && nicknameError
               ? 'text-[#8f3a2f]'
-              : 'text-card-muted'
+              : 'text-ink-muted'
           }`}
         >
           {touchedFields.nickname && nicknameError
@@ -141,7 +141,7 @@ export default function JoinRoomForm() {
       <button
         disabled={!canJoin}
         type='submit'
-        className='flex h-13 w-full items-center justify-center rounded-lg bg-[#2f8f5b] px-5 text-base font-bold text-white shadow-md transition hover:bg-[#237348] focus-visible:ring-2 focus-visible:ring-[#2f8f5b]/30 disabled:cursor-not-allowed disabled:bg-card-muted disabled:shadow-none'
+        className='flex h-13 w-full items-center justify-center rounded-lg bg-[#2f8f5b] px-5 text-base font-bold text-white shadow-md transition hover:bg-[#237348] focus-visible:ring-2 focus-visible:ring-[#2f8f5b]/30 disabled:cursor-not-allowed disabled:bg-ink-muted disabled:shadow-none'
       >
         {isSubmitting ? '참가 중' : '참가하기'}
       </button>

@@ -117,14 +117,14 @@ export default function CreateRoomForm() {
   return (
     <form noValidate onSubmit={handleSubmit}>
       <label className='mb-8 block'>
-        <span className='mb-2 block text-sm font-bold text-card-ink'>
+        <span className='mb-2 block text-sm font-bold text-ink'>
           방장 닉네임
         </span>
         <input
           aria-describedby='host-nickname-message'
           aria-invalid={Boolean(isNicknameTouched && nicknameError)}
           autoComplete='nickname'
-          className='h-13 w-full rounded-lg border border-chip-border bg-white px-4 text-base text-card-ink outline-none transition placeholder:text-card-muted focus:border-[#2d1508] focus:ring-2 focus:ring-[#2d1508]/15 aria-invalid:border-[#8f3a2f] aria-invalid:ring-2 aria-invalid:ring-[#8f3a2f]/15'
+          className='h-13 w-full rounded-lg border border-ink/10 bg-white px-4 text-base text-ink outline-none transition placeholder:text-ink-muted focus:border-[#2d1508] focus:ring-2 focus:ring-[#2d1508]/15 aria-invalid:border-[#8f3a2f] aria-invalid:ring-2 aria-invalid:ring-[#8f3a2f]/15'
           maxLength={NICKNAME_MAX_LENGTH}
           name='hostNickname'
           onBlur={() => setIsNicknameTouched(true)}
@@ -140,7 +140,7 @@ export default function CreateRoomForm() {
           className={`mt-2 block text-sm font-bold ${
             isNicknameTouched && nicknameError
               ? 'text-[#8f3a2f]'
-              : 'text-card-muted'
+              : 'text-ink-muted'
           }`}
         >
           {isNicknameTouched && nicknameError
@@ -150,7 +150,7 @@ export default function CreateRoomForm() {
       </label>
 
       <fieldset className='mb-8'>
-        <legend className='mb-4 text-xl font-bold text-card-ink'>인원수</legend>
+        <legend className='mb-4 text-xl font-bold text-ink'>인원수</legend>
         <div className='grid grid-cols-3 gap-2 sm:grid-cols-6'>
           {AVALON_PLAYER_COUNTS.map((count) => {
             const countComposition = getAvalonTeamComposition(count);
@@ -165,7 +165,7 @@ export default function CreateRoomForm() {
                   type='radio'
                   value={count}
                 />
-                <span className='flex min-h-20 flex-col items-center justify-center rounded-lg border border-chip-border bg-white px-3 py-3 text-center transition peer-checked:border-[#2d1508] peer-checked:bg-[#2d1508] peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-[#2d1508]/25'>
+                <span className='flex min-h-20 flex-col items-center justify-center rounded-lg border border-ink/10 bg-white px-3 py-3 text-center transition peer-checked:border-[#2d1508] peer-checked:bg-[#2d1508] peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-[#2d1508]/25'>
                   <span className='text-lg font-bold'>{count}명</span>
                   <span className='mt-1 text-xs opacity-75'>
                     선 {countComposition.good} · 악 {countComposition.evil}
@@ -177,9 +177,9 @@ export default function CreateRoomForm() {
         </div>
       </fieldset>
 
-      <fieldset className='mb-8 border-t border-rule pt-8'>
+      <fieldset className='mb-8 border-t border-ink/10 pt-8'>
         <div className='mb-4 flex items-end justify-between gap-3'>
-          <legend className='text-xl font-bold text-card-ink'>선 역할</legend>
+          <legend className='text-xl font-bold text-ink'>선 역할</legend>
           <span className='rounded-full bg-[#eef8f2] px-3 py-1 text-sm font-bold text-[#237348]'>
             {selectedGoodCount} / {composition.good}
           </span>
@@ -199,9 +199,9 @@ export default function CreateRoomForm() {
         </div>
       </fieldset>
 
-      <fieldset className='mb-8 border-t border-rule pt-8'>
+      <fieldset className='mb-8 border-t border-ink/10 pt-8'>
         <div className='mb-4 flex items-end justify-between gap-3'>
-          <legend className='text-xl font-bold text-card-ink'>악 역할</legend>
+          <legend className='text-xl font-bold text-ink'>악 역할</legend>
           <span className='rounded-full bg-[#fff1ee] px-3 py-1 text-sm font-bold text-[#8f3a2f]'>
             {selectedEvilCount} / {composition.evil}
           </span>
@@ -257,7 +257,7 @@ export default function CreateRoomForm() {
       <button
         disabled={!canCreate}
         type='submit'
-        className='flex h-14 w-full items-center justify-center rounded-lg bg-[#2d1508] px-5 text-base font-bold text-white shadow-md transition hover:bg-[#482616] focus-visible:ring-2 focus-visible:ring-[#2d1508]/30 disabled:cursor-not-allowed disabled:bg-card-muted disabled:shadow-none'
+        className='flex h-14 w-full items-center justify-center rounded-lg bg-[#2d1508] px-5 text-base font-bold text-white shadow-md transition hover:bg-[#482616] focus-visible:ring-2 focus-visible:ring-[#2d1508]/30 disabled:cursor-not-allowed disabled:bg-ink-muted disabled:shadow-none'
       >
         {isSubmitting ? '방 생성 중' : '방 생성하기'}
       </button>

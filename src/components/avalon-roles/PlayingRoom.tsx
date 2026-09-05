@@ -152,11 +152,11 @@ export default function PlayingRoom({ roomCode, isHost }: PlayingRoomProps) {
     : null;
 
   return (
-    <section className='rounded-lg border border-card-border bg-card p-5 shadow-md sm:p-7'>
+    <section className='rounded-lg border border-ink/10 bg-surface-raised p-5 shadow-md sm:p-7'>
       <div className='flex items-center justify-between mb-8'>
         <div>
           <p className='mb-2 text-sm font-bold text-[#2f8f5b]'>게임 진행</p>
-          <h1 className='text-3xl font-bold text-title sm:text-4xl'>
+          <h1 className='text-3xl font-bold text-ink sm:text-4xl'>
             게임 진행 중
           </h1>
         </div>
@@ -165,8 +165,8 @@ export default function PlayingRoom({ roomCode, isHost }: PlayingRoomProps) {
 
       <section>
         <div className='mb-4'>
-          <h2 className='text-xl font-bold text-card-ink'>내 역할</h2>
-          <p className='mt-1 text-sm text-card-muted'>
+          <h2 className='text-xl font-bold text-ink'>내 역할</h2>
+          <p className='mt-1 text-sm text-ink-muted'>
             다른 사람이 화면을 보지 않도록 확인 후 다시 가려 주세요.
           </p>
         </div>
@@ -176,8 +176,8 @@ export default function PlayingRoom({ roomCode, isHost }: PlayingRoomProps) {
             {errorMessage}
           </div>
         ) : isLoading || !myRole || !role || !styles ? (
-          <div className='flex min-h-40 items-center justify-center rounded-lg border border-chip-border bg-white shadow-sm'>
-            <p className='text-sm font-bold text-card-muted'>
+          <div className='flex min-h-40 items-center justify-center rounded-lg border border-ink/10 bg-white shadow-sm'>
+            <p className='text-sm font-bold text-ink-muted'>
               역할 정보를 불러오는 중입니다.
             </p>
           </div>
@@ -185,15 +185,15 @@ export default function PlayingRoom({ roomCode, isHost }: PlayingRoomProps) {
           <>
             <div
               className={`mb-4 rounded-lg border p-6 shadow-sm sm:p-8 ${
-                isHidden ? 'border-chip-border bg-white' : styles.panel
+                isHidden ? 'border-ink/10 bg-white' : styles.panel
               }`}
             >
               {isHidden ? (
                 <div className='flex min-h-72 flex-col items-center justify-center text-center'>
-                  <p className='mb-3 text-4xl font-black text-title sm:text-5xl'>
+                  <p className='mb-3 text-4xl font-black text-ink sm:text-5xl'>
                     역할 가림
                   </p>
-                  <p className='max-w-sm text-sm font-bold leading-6 text-card-muted'>
+                  <p className='max-w-sm text-sm font-bold leading-6 text-ink-muted'>
                     역할 확인하기를 누르면 배정된 역할과 확인 가능한 대상이
                     표시됩니다.
                   </p>
@@ -201,7 +201,7 @@ export default function PlayingRoom({ roomCode, isHost }: PlayingRoomProps) {
               ) : (
                 <div className='flex min-h-72 flex-col justify-center'>
                   <div className='mb-6 flex items-center justify-between gap-3'>
-                    <p className='text-sm font-bold text-card-muted'>
+                    <p className='text-sm font-bold text-ink-muted'>
                       배정된 역할
                     </p>
                     <span
@@ -210,10 +210,10 @@ export default function PlayingRoom({ roomCode, isHost }: PlayingRoomProps) {
                       {sideLabels[role.side]}
                     </span>
                   </div>
-                  <p className='mb-5 text-5xl font-black text-title sm:text-6xl'>
+                  <p className='mb-5 text-5xl font-black text-ink sm:text-6xl'>
                     {role.name}
                   </p>
-                  <p className='text-base font-bold leading-7 text-card-ink'>
+                  <p className='text-base font-bold leading-7 text-ink'>
                     {role.description}
                   </p>
                 </div>
@@ -221,13 +221,13 @@ export default function PlayingRoom({ roomCode, isHost }: PlayingRoomProps) {
             </div>
 
             {!isHidden && visiblePlayerSignal && visiblePlayerStyles && (
-              <section className='mb-4 rounded-lg border border-chip-border bg-white p-4 shadow-sm'>
+              <section className='mb-4 rounded-lg border border-ink/10 bg-white p-4 shadow-sm'>
                 <div className='mb-3 flex items-start justify-between gap-3'>
                   <div>
-                    <p className='text-sm font-bold text-card-ink'>
+                    <p className='text-sm font-bold text-ink'>
                       {visiblePlayerSignal.title}
                     </p>
-                    <p className='mt-1 text-xs font-bold leading-5 text-card-muted'>
+                    <p className='mt-1 text-xs font-bold leading-5 text-ink-muted'>
                       {visiblePlayerSignal.description}
                     </p>
                   </div>
@@ -239,7 +239,7 @@ export default function PlayingRoom({ roomCode, isHost }: PlayingRoomProps) {
                 </div>
 
                 {myRole.visiblePlayers.length === 0 ? (
-                  <div className='rounded-lg bg-chip px-4 py-4 text-center text-sm font-bold text-card-muted'>
+                  <div className='rounded-lg bg-surface px-4 py-4 text-center text-sm font-bold text-ink-muted'>
                     {visiblePlayerSignal.emptyMessage}
                   </div>
                 ) : (
@@ -252,7 +252,7 @@ export default function PlayingRoom({ roomCode, isHost }: PlayingRoomProps) {
                         <span className='flex h-8 w-8 items-center justify-center rounded-full bg-[#2d1508] text-sm font-bold text-white'>
                           {player.seatNumber}
                         </span>
-                        <span className='min-w-0 flex-1 font-bold text-card-ink'>
+                        <span className='min-w-0 flex-1 font-bold text-ink'>
                           {player.nickname}
                         </span>
                         <span

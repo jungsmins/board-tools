@@ -36,10 +36,10 @@ export default function RoleOptionCard({
         value={role.id}
       />
       <span
-        className={`relative flex min-h-28 flex-col rounded-lg border border-chip-border bg-white p-4 pr-12 transition after:absolute after:right-4 after:top-4 after:h-5 after:w-5 after:rounded-full after:border after:bg-white after:content-[''] peer-focus-visible:ring-2 ${sideStyles[side]}`}
+        className={`relative flex min-h-28 flex-col rounded-lg border border-ink/10 bg-white p-4 pr-12 transition after:absolute after:right-4 after:top-4 after:h-5 after:w-5 after:rounded-full after:border after:bg-white after:content-[''] peer-focus-visible:ring-2 ${sideStyles[side]}`}
       >
         <span className='text-base font-bold'>{role.name}</span>
-        <span className='mt-2 text-sm leading-6 text-card-muted'>
+        <span className='mt-2 text-sm leading-6 text-ink-muted'>
           {role.description}
         </span>
       </span>

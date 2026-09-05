@@ -127,14 +127,14 @@ export default function AvalonRolesWaitingRoomPage() {
   }, [roomPageStatus, roomDbId, getRoomState, router]);
 
   return (
-    <div className='min-h-dvh bg-canvas text-card-ink'>
+    <div className='min-h-dvh bg-canvas text-ink'>
       <Header />
       <main className='mx-auto flex min-h-[calc(100dvh-4rem)] w-full max-w-[680px] flex-col px-5 py-8 sm:px-8 lg:py-12'>
         <BackLink href='/avalon-roles' />
 
         {roomPageStatus === 'loading' && (
-          <section className='rounded-lg border border-card-border bg-card p-5 text-center shadow-md sm:p-7'>
-            <p className='text-sm font-bold text-card-muted'>
+          <section className='rounded-lg border border-ink/10 bg-surface-raised p-5 text-center shadow-md sm:p-7'>
+            <p className='text-sm font-bold text-ink-muted'>
               방 정보를 불러오는 중입니다.
             </p>
           </section>

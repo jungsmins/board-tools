@@ -9,7 +9,7 @@ export default function BackLink({ href, label = '이전으로' }: BackLinkProps
   return (
     <Link
       href={href}
-      className='mb-6 flex w-fit items-center gap-1.5 text-sm font-semibold text-card-muted underline-offset-4 hover:underline focus-visible:ring-2 focus-visible:ring-[#2d1508]/20'
+      className='mb-6 flex w-fit items-center gap-1.5 text-sm font-semibold text-ink-muted underline-offset-4 hover:underline focus-visible:ring-2 focus-visible:ring-[#2d1508]/20'
     >
       <svg
         aria-hidden='true'

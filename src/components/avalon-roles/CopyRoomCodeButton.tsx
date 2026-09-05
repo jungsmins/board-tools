@@ -30,7 +30,7 @@ export default function CopyRoomCodeButton({
   return (
     <button
       type='button'
-      className='rounded-lg border border-chip-border px-3 py-1.5 text-sm font-bold text-card-ink transition hover:bg-chip focus-visible:ring-2 focus-visible:ring-[#2d1508]/20'
+      className='rounded-lg border border-ink/10 px-3 py-1.5 text-sm font-bold text-ink transition hover:bg-surface focus-visible:ring-2 focus-visible:ring-[#2d1508]/20'
       onClick={handleCopy}
     >
       {label}

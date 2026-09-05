@@ -52,15 +52,15 @@ export default function RoleCompositionSummary({
   };
 
   return (
-    <section className='mb-8 border-t border-rule pt-8'>
+    <section className='mb-8 border-t border-ink/10 pt-8'>
       <div className='mb-4 flex items-end justify-between gap-3'>
         <div>
-          <h2 className='text-xl font-bold text-card-ink'>이번 판 역할</h2>
-          <p className='mt-1 text-sm text-card-muted'>
+          <h2 className='text-xl font-bold text-ink'>이번 판 역할</h2>
+          <p className='mt-1 text-sm text-ink-muted'>
             공개된 역할 구성입니다.
           </p>
         </div>
-        <span className='rounded-full bg-chip px-3 py-1 text-sm font-bold text-card-ink'>
+        <span className='rounded-full bg-surface px-3 py-1 text-sm font-bold text-ink'>
           {roleDeck.length} / {playerCount}
         </span>
       </div>
@@ -75,7 +75,7 @@ export default function RoleCompositionSummary({
           );
 
           return (
-            <section key={side} className='rounded-lg border border-chip-border bg-white p-4 shadow-sm'>
+            <section key={side} className='rounded-lg border border-ink/10 bg-white p-4 shadow-sm'>
               <div className='mb-3 flex items-center justify-between gap-3'>
                 <span className={`rounded-full px-3 py-1 text-sm font-bold ${styles.badge}`}>
                   {sideLabels[side]} 진영
@@ -95,10 +95,10 @@ export default function RoleCompositionSummary({
                       key={roleId}
                       className={`flex min-h-12 items-center justify-between gap-3 rounded-lg border px-3 py-2 ${styles.item}`}
                     >
-                      <span className='text-sm font-bold text-card-ink'>
+                      <span className='text-sm font-bold text-ink'>
                         {role.name}
                       </span>
-                      <span className='shrink-0 text-sm font-black text-title'>
+                      <span className='shrink-0 text-sm font-black text-ink'>
                         x{count}
                       </span>
                     </li>
