@@ -48,7 +48,7 @@ export default function GameInfoCard({ tool, children }: GameInfCard) {
             </span>
           </div>
         )}
-        <div className='mt-1'>{children}</div>
+        <div className='flex gap-3 mt-1'>{children}</div>
       </div>
     </div>
   );

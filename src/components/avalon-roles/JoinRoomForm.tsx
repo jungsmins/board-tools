@@ -3,7 +3,12 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+import Button from '../ui/Button';
+import Input from '../ui/Input';
+import Label from '../ui/Label';
+
 import { joinAvalonRoom } from '@/lib/avalon-roles/api';
+import ErrorMessage from '../ui/ErrorMessage';
 
 const ROOM_CODE_LENGTH = 4;
 const NICKNAME_MAX_LENGTH = 12;
@@ -19,24 +24,40 @@ export default function JoinRoomForm() {
   const router = useRouter();
   const [roomCode, setRoomCode] = useState('');
   const [nickname, setNickname] = useState('');
-  const [touchedFields, setTouchedFields] = useState({
-    roomCode: false,
-    nickname: false,
-  });
+  const [touched, setTouched] = useState({ code: false, nickname: false });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const roomCodeError =
-    roomCode.length === ROOM_CODE_LENGTH ? '' : '방 코드는 4자리입니다.';
-  const nicknameError = nickname.trim() ? '' : '닉네임을 입력해 주세요.';
-  const canJoin = !roomCodeError && !nicknameError && !isSubmitting;
+    roomCode.length === ROOM_CODE_LENGTH ? '' : '코드는 4자리여야 합니다.';
+  const NicknameError =
+    nickname.trim().length >= 1 ? '' : '닉네임은 1자 이상이어야 합니다.';
+  const visibleCodeError =
+    touched.code || isSubmitted ? roomCodeError : undefined;
+  const visibleNicknameError =
+    touched.nickname || isSubmitted ? NicknameError : undefined;
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setTouchedFields({ roomCode: true, nickname: true });
+  const handleBlurRoomCode = () => {
+    setTouched({ ...touched, code: true });
+  };
+
+  const handleBlurNickname = () => {
+    setTouched({ ...touched, nickname: true });
+  };
+
+  const handleChangeRoomCode = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRoomCode(normalizeRoomCode(e.target.value));
+  };
+
+  const handleChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNickname(e.target.value);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setSubmitError('');
-
-    if (!canJoin) return;
-
+    setIsSubmitted(true);
     setIsSubmitting(true);
 
     try {
@@ -59,92 +80,42 @@ export default function JoinRoomForm() {
   };
 
   return (
-    <form noValidate onSubmit={handleSubmit}>
+    <form className='flex flex-col gap-4' noValidate onSubmit={handleSubmit}>
       <p className='mb-5 text-xl font-bold text-ink'>방 참가하기</p>
-
-      <label className='mb-5 block'>
-        <span className='mb-2 block text-sm font-bold text-ink'>
-          방 코드
-        </span>
-        <input
-          aria-describedby='room-code-message'
-          aria-invalid={Boolean(touchedFields.roomCode && roomCodeError)}
-          autoCapitalize='characters'
-          autoComplete='off'
-          className='h-13 w-full rounded-lg border border-ink/10 bg-white px-4 text-center text-lg font-bold uppercase tracking-[0.2em] text-ink outline-none transition placeholder:tracking-normal placeholder:text-ink-muted focus:border-[#2d1508] focus:ring-2 focus:ring-[#2d1508]/15 aria-invalid:border-[#8f3a2f] aria-invalid:ring-2 aria-invalid:ring-[#8f3a2f]/15'
-          inputMode='text'
-          maxLength={ROOM_CODE_LENGTH}
-          name='roomCode'
-          onBlur={() =>
-            setTouchedFields((current) => ({ ...current, roomCode: true }))
-          }
-          onChange={(event) => setRoomCode(normalizeRoomCode(event.target.value))}
-          placeholder='A3K7'
-          type='text'
-          value={roomCode}
-        />
-        <span
-          id='room-code-message'
-          className={`mt-2 block text-sm font-bold ${
-            touchedFields.roomCode && roomCodeError
-              ? 'text-[#8f3a2f]'
-              : 'text-ink-muted'
-          }`}
-        >
-          {touchedFields.roomCode && roomCodeError
-            ? roomCodeError
-            : `${roomCode.length} / ${ROOM_CODE_LENGTH}`}
-        </span>
-      </label>
-
-      <label className='mb-6 block'>
-        <span className='mb-2 block text-sm font-bold text-ink'>
-          닉네임
-        </span>
-        <input
-          aria-describedby='nickname-message'
-          aria-invalid={Boolean(touchedFields.nickname && nicknameError)}
-          autoComplete='nickname'
-          className='h-13 w-full rounded-lg border border-ink/10 bg-white px-4 text-base text-ink outline-none transition placeholder:text-ink-muted focus:border-[#2d1508] focus:ring-2 focus:ring-[#2d1508]/15 aria-invalid:border-[#8f3a2f] aria-invalid:ring-2 aria-invalid:ring-[#8f3a2f]/15'
-          maxLength={NICKNAME_MAX_LENGTH}
-          name='nickname'
-          onBlur={() =>
-            setTouchedFields((current) => ({ ...current, nickname: true }))
-          }
-          onChange={(event) =>
-            setNickname(event.target.value.slice(0, NICKNAME_MAX_LENGTH))
-          }
-          placeholder='이름'
-          type='text'
-          value={nickname}
-        />
-        <span
-          id='nickname-message'
-          className={`mt-2 block text-sm font-bold ${
-            touchedFields.nickname && nicknameError
-              ? 'text-[#8f3a2f]'
-              : 'text-ink-muted'
-          }`}
-        >
-          {touchedFields.nickname && nicknameError
-            ? nicknameError
-            : `${nickname.length} / ${NICKNAME_MAX_LENGTH}`}
-        </span>
-      </label>
-
-      {submitError && (
-        <p className='mb-5 rounded-lg border border-[#e2a7a1] bg-[#fff1ee] px-4 py-3 text-sm font-bold text-[#8f3a2f]'>
-          {submitError}
-        </p>
+      <Label htmlFor='join-code' label='코드' />
+      <Input
+        id='join-code'
+        type='text'
+        value={roomCode}
+        onChange={handleChangeRoomCode}
+        onBlur={handleBlurRoomCode}
+        maxLength={ROOM_CODE_LENGTH}
+        placeholder='A3K7'
+      />
+      {visibleCodeError && <ErrorMessage>{visibleCodeError}</ErrorMessage>}
+      <Label htmlFor='join-nickname' label='닉네임' />
+      <Input
+        id='join-nickname'
+        type='text'
+        value={nickname}
+        onChange={handleChangeNickname}
+        onBlur={handleBlurNickname}
+        maxLength={NICKNAME_MAX_LENGTH}
+        placeholder='이름'
+      />
+      {visibleNicknameError && (
+        <ErrorMessage>{visibleNicknameError}</ErrorMessage>
       )}
-
-      <button
-        disabled={!canJoin}
+      {submitError && <ErrorMessage>{submitError}</ErrorMessage>}
+      <Button
         type='submit'
-        className='flex h-13 w-full items-center justify-center rounded-lg bg-[#2f8f5b] px-5 text-base font-bold text-white shadow-md transition hover:bg-[#237348] focus-visible:ring-2 focus-visible:ring-[#2f8f5b]/30 disabled:cursor-not-allowed disabled:bg-ink-muted disabled:shadow-none'
+        variant='primary'
+        size='lg'
+        className='w-full'
+        disabled={isSubmitting}
       >
-        {isSubmitting ? '참가 중' : '참가하기'}
-      </button>
+        {isSubmitting ? '참가중입니다.' : '참가하기'}
+      </Button>
     </form>
   );
 }
