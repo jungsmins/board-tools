@@ -4,39 +4,7 @@ import type {
   AvalonPlayerCount,
   AvalonRoleId,
   AvalonRoomState,
-  AvalonRoomStatus,
 } from '@/types/avalonRoles';
-
-interface CreateAvalonRoomResponse {
-  player_id: string;
-  room_code: string;
-  room_id: string;
-}
-
-interface JoinAvalonRoomResponse extends CreateAvalonRoomResponse {
-  seat_number: number;
-}
-
-interface AvalonRoomPlayerResponse {
-  id: string;
-  is_host: boolean;
-  nickname: string;
-  seat_number: number;
-}
-
-interface AvalonRoomStateResponse {
-  current_player_id: string;
-  created_at?: string;
-  host_user_id?: string;
-  is_host: boolean;
-  player_count: AvalonPlayerCount;
-  players: AvalonRoomPlayerResponse[];
-  room_code: string;
-  room_id: string;
-  selected_role_ids: AvalonRoleId[];
-  status: AvalonRoomStatus;
-}
-
 interface AvalonVisiblePlayerResponse {
   id: string;
   nickname: string;
@@ -48,10 +16,6 @@ interface GetMyAvalonRoleResponse {
   nickname: string;
   role_id: AvalonRoleId;
   visible_players: AvalonVisiblePlayerResponse[];
-}
-
-interface GetMyActiveAvalonRoomResponse {
-  room_code: string;
 }
 
 export interface CreateAvalonRoomResult {
@@ -85,25 +49,6 @@ export interface GetMyActiveAvalonRoomResult {
   roomCode: string;
 }
 
-function mapCreateAvalonRoomResult(
-  data: CreateAvalonRoomResponse,
-): CreateAvalonRoomResult {
-  return {
-    playerId: data.player_id,
-    roomCode: data.room_code,
-    roomId: data.room_id,
-  };
-}
-
-function mapJoinAvalonRoomResult(
-  data: JoinAvalonRoomResponse,
-): JoinAvalonRoomResult {
-  return {
-    ...mapCreateAvalonRoomResult(data),
-    seatNumber: data.seat_number,
-  };
-}
-
 function mapGetMyAvalonRoleResult(
   data: GetMyAvalonRoleResponse,
 ): GetMyAvalonRoleResult {
@@ -116,36 +61,6 @@ function mapGetMyAvalonRoleResult(
       nickname: player.nickname,
       seatNumber: player.seat_number,
     })),
-  };
-}
-
-function mapGetMyActiveAvalonRoomResult(
-  data: GetMyActiveAvalonRoomResponse,
-): GetMyActiveAvalonRoomResult {
-  return {
-    roomCode: data.room_code,
-  };
-}
-
-function mapAvalonRoomState(data: AvalonRoomStateResponse): AvalonRoomState {
-  return {
-    currentPlayerId: data.current_player_id,
-    isHost: data.is_host,
-    players: data.players.map((player) => ({
-      id: player.id,
-      isHost: player.is_host,
-      nickname: player.nickname,
-      seatNumber: player.seat_number,
-    })),
-    room: {
-      id: data.room_id,
-      code: data.room_code,
-      hostUserId: data.host_user_id ?? '',
-      status: data.status,
-      playerCount: data.player_count,
-      selectedRoleIds: data.selected_role_ids,
-      createdAt: data.created_at ?? '',
-    },
   };
 }
 
@@ -163,82 +78,72 @@ export async function createAvalonRoom(
   playerCount: AvalonPlayerCount,
   selectedRoleIds: AvalonRoleId[],
   nickname: string,
-): Promise<CreateAvalonRoomResult | null> {
+): Promise<CreateAvalonRoomResult> {
   await ensureAnonymousSession();
 
-  const { data, error } = await supabase.rpc('create_avalon_room', {
-    p_player_count: playerCount,
-    p_selected_role_ids: selectedRoleIds,
-    p_nickname: nickname,
+  const res = await fetch(`/api/avalon-roles/rooms`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ playerCount, selectedRoleIds, nickname }),
   });
 
-  if (error) {
-    throw error;
+  if (!res.ok) {
+    const body = await res.json().catch(() => null);
+    throw new Error(body?.error ?? '방 생성에 실패했습니다.');
   }
 
-  const result = data?.[0] as CreateAvalonRoomResponse | undefined;
-
-  return result ? mapCreateAvalonRoomResult(result) : null;
+  return await res.json();
 }
 
 export async function joinAvalonRoom(
   roomCode: string,
   nickname: string,
-): Promise<JoinAvalonRoomResult | null> {
-  await ensureAnonymousSession();
-
-  const { data, error } = await supabase.rpc('join_avalon_room', {
-    p_room_code: roomCode,
-    p_nickname: nickname,
+): Promise<JoinAvalonRoomResult> {
+  const res = await fetch(`/api/avalon-roles/${roomCode}/join`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nickname }),
   });
 
-  if (error) {
-    throw error;
+  if (!res.ok) {
+    const body = await res.json().catch(() => null);
+    throw new Error(body?.error ?? '방 참가에 실패했습니다.');
   }
 
-  const result = data?.[0] as JoinAvalonRoomResponse | undefined;
-
-  return result ? mapJoinAvalonRoomResult(result) : null;
+  return await res.json();
 }
 
 export async function getAvalonRoomState(
   roomCode: string,
 ): Promise<AvalonRoomState | null> {
-  const session = await getCurrentSession();
+  const res = await fetch(`/api/avalon-roles/${roomCode}/state`);
 
-  if (!session) {
+  if (!res.ok) {
+    throw new Error('방 정보를 불러오지 못했습니다.');
+  }
+
+  const data: AvalonRoomState | null = await res.json();
+
+  if (!data) {
     return null;
   }
 
-  const { data, error } = await supabase.rpc('get_avalon_room_state', {
-    p_room_code: roomCode,
-  });
-
-  if (error) {
-    throw error;
-  }
-
-  return mapAvalonRoomState(data as AvalonRoomStateResponse);
+  return data;
 }
 
 export async function startAvalonGame(
   roomCode: string,
-): Promise<StartAvalonGameResult | null> {
-  const session = await getCurrentSession();
-
-  if (!session) {
-    throw new Error('참가 기록을 찾을 수 없습니다.');
-  }
-
-  const { data, error } = await supabase.rpc('start_avalon_game', {
-    p_room_code: roomCode,
+): Promise<StartAvalonGameResult> {
+  const res = await fetch(`/api/avalon-roles/${roomCode}/start`, {
+    method: 'POST',
   });
 
-  if (error) {
-    throw error;
+  if (!res.ok) {
+    const body = await res.json().catch(() => null);
+    throw new Error(body?.error ?? '게임 시작에 실패했습니다.');
   }
 
-  return data as StartAvalonGameResult | null;
+  return await res.json();
 }
 
 export async function getMyAvalonRole(
@@ -264,51 +169,39 @@ export async function getMyAvalonRole(
 }
 
 export async function getMyActiveAvalonRoom(): Promise<GetMyActiveAvalonRoomResult | null> {
-  const session = await getCurrentSession();
+  const res = await fetch('/api/avalon-roles/active-room');
 
-  if (!session) {
+  if (!res.ok) {
+    throw new Error('활성화 된 방 조회에 실패했습니다.');
+  }
+
+  const data: GetMyActiveAvalonRoomResult | null = await res.json();
+
+  if (!data) {
     return null;
   }
 
-  const { data, error } = await supabase.rpc('get_my_active_avalon_room');
-
-  if (error) {
-    throw error;
-  }
-
-  const result = data as GetMyActiveAvalonRoomResponse | null;
-
-  return result ? mapGetMyActiveAvalonRoomResult(result) : null;
+  return data;
 }
 
 export async function leaveAvalonRoom(roomCode: string): Promise<void> {
-  const session = await getCurrentSession();
-
-  if (!session) {
-    throw new Error('참가 기록을 찾을 수 없습니다.');
-  }
-
-  const { error } = await supabase.rpc('leave_avalon_room', {
-    p_room_code: roomCode,
+  const res = await fetch(`/api/avalon-roles/${roomCode}/leave`, {
+    method: 'POST',
   });
 
-  if (error) {
-    throw error;
+  if (!res.ok) {
+    const body = await res.json().catch(() => null);
+    throw new Error(body?.error ?? '방 나가기에 실패했습니다.');
   }
 }
 
 export async function endAvalonRoom(roomCode: string): Promise<void> {
-  const session = await getCurrentSession();
-
-  if (!session) {
-    throw new Error('참가 기록을 찾을 수 없습니다.');
-  }
-
-  const { error } = await supabase.rpc('end_avalon_room', {
-    p_room_code: roomCode,
+  const res = await fetch(`/api/avalon-roles/${roomCode}/end`, {
+    method: 'POST',
   });
 
-  if (error) {
-    throw error;
+  if (!res.ok) {
+    const body = await res.json().catch(() => null);
+    throw new Error(body?.error ?? '방 종료에 실패했습니다.');
   }
 }
