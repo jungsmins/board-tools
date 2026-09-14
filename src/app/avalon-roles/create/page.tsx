@@ -1,29 +1,24 @@
 import BackLink from '@/components/avalon-roles/BackLink';
 import CreateRoomForm from '@/components/avalon-roles/CreateRoomForm';
-import Footer from '@/components/shared/Footer';
-import Header from '@/components/shared/Header';
+import Card from '@/components/ui/Card';
 
 export default function AvalonRolesCreatePage() {
   return (
-    <div className='min-h-dvh bg-canvas text-ink'>
-      <Header />
-
+    <div className='min-h-dvh bg-brand-400 text-ink'>
       <main className='mx-auto flex min-h-[calc(100dvh-4rem)] w-full max-w-[760px] flex-col px-5 py-8 sm:px-8 lg:py-12'>
         <BackLink href='/avalon-roles' />
-
-        <section className='rounded-lg border border-ink/10 bg-surface-raised p-5 shadow-md sm:p-7'>
+        <Card padding='lg'>
           <div className='mb-8'>
-            <p className='mb-2 text-sm font-bold text-[#2f8f5b]'>방장 설정</p>
+            <p className='mb-2 text-sm font-bold text-[var(--color-avalon-good-text)]'>
+              방장 설정
+            </p>
             <h1 className='text-3xl font-bold text-ink sm:text-4xl'>
               방 만들기
             </h1>
           </div>
-
           <CreateRoomForm />
-        </section>
+        </Card>
       </main>
-
-      <Footer />
     </div>
   );
 }

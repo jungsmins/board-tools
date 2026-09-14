@@ -1,12 +1,19 @@
 'use client';
 
 import { useState } from 'react';
+import { Check, Copy, X } from 'lucide-react';
 
 interface CopyRoomCodeButtonProps {
   roomCode: string;
 }
 
 type CopyState = 'idle' | 'copied' | 'failed';
+
+const stateConfig: Record<CopyState, { Icon: typeof Copy; label: string }> = {
+  idle: { Icon: Copy, label: '복사' },
+  copied: { Icon: Check, label: '복사됨' },
+  failed: { Icon: X, label: '실패' },
+};
 
 export default function CopyRoomCodeButton({
   roomCode,
@@ -24,15 +31,15 @@ export default function CopyRoomCodeButton({
     }
   };
 
-  const label =
-    copyState === 'copied' ? '복사됨' : copyState === 'failed' ? '실패' : '복사';
+  const { Icon, label } = stateConfig[copyState];
 
   return (
     <button
       type='button'
-      className='rounded-lg border border-ink/10 px-3 py-1.5 text-sm font-bold text-ink transition hover:bg-surface focus-visible:ring-2 focus-visible:ring-[#2d1508]/20'
+      className='flex items-center gap-1.5 rounded-md border border-ink/10 px-3 py-1.5 text-sm font-bold text-ink transition hover:bg-surface focus-visible:ring-2 focus-visible:ring-[var(--color-avalon-ink)]/20'
       onClick={handleCopy}
     >
+      <Icon className='h-4 w-4' />
       {label}
     </button>
   );

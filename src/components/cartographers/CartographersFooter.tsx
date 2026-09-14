@@ -27,7 +27,7 @@ export default function CartographersFooter({
         <div className='grid flex-1 grid-cols-3 items-center'>
           <div className='justify-self-end'>
             {onPrev && (
-              <Button variant='secondary' size='lg' onClick={onPrev}>
+              <Button variant='brand' size='lg' onClick={onPrev}>
                 이전 카드
               </Button>
             )}

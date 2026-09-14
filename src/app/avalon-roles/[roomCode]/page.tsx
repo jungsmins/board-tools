@@ -3,13 +3,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 
+import clsx from 'clsx';
+
 import { getAvalonRoomState } from '@/lib/avalon-roles/api';
 import { supabase } from '@/lib/supabase/client';
 import BackLink from '@/components/avalon-roles/BackLink';
 import PlayingRoom from '@/components/avalon-roles/PlayingRoom';
 import WaitingRoom from '@/components/avalon-roles/WaitingRoom';
-import Footer from '@/components/shared/Footer';
-import Header from '@/components/shared/Header';
+import Card from '@/components/ui/Card';
+import ErrorMessage from '@/components/ui/ErrorMessage';
 import type { AvalonRoomState } from '@/types/avalonRoles';
 
 type RoomPageStatus = 'loading' | 'error' | 'ready';
@@ -126,27 +128,38 @@ export default function AvalonRolesWaitingRoomPage() {
     };
   }, [roomPageStatus, roomDbId, getRoomState, router]);
 
+  const isWaitingRoom =
+    roomPageStatus === 'ready' && roomState?.room.status === 'waiting';
+
   return (
-    <div className='min-h-dvh bg-canvas text-ink'>
-      <Header />
+    <div
+      className={clsx(
+        'min-h-dvh text-ink',
+        isWaitingRoom ? 'bg-brand-400' : 'bg-canvas',
+      )}
+    >
       <main className='mx-auto flex min-h-[calc(100dvh-4rem)] w-full max-w-[680px] flex-col px-5 py-8 sm:px-8 lg:py-12'>
-        <BackLink href='/avalon-roles' />
+        {/* 방에 들어간 뒤(대기중/게임중)에는 뒤로가기 대신
+            게임 종료·방 나가기로만 나가도록 이전으로 링크를 두지 않는다. */}
+        {(roomPageStatus === 'loading' || roomPageStatus === 'error') && (
+          <BackLink href='/avalon-roles' />
+        )}
 
         {roomPageStatus === 'loading' && (
-          <section className='rounded-lg border border-ink/10 bg-surface-raised p-5 text-center shadow-md sm:p-7'>
+          <Card padding='lg' className='text-center'>
             <p className='text-sm font-bold text-ink-muted'>
               방 정보를 불러오는 중입니다.
             </p>
-          </section>
+          </Card>
         )}
 
         {roomPageStatus === 'error' && (
-          <section className='rounded-lg border border-[#e2a7a1] bg-[#fff1ee] p-5 text-center shadow-md sm:p-7'>
-            <p className='text-sm font-bold text-[#8f3a2f]'>{errorMessage}</p>
-          </section>
+          <ErrorMessage className='p-5 text-center sm:p-7'>
+            {errorMessage}
+          </ErrorMessage>
         )}
 
-        {roomPageStatus === 'ready' && roomState?.room.status === 'waiting' && (
+        {isWaitingRoom && roomState && (
           <WaitingRoom
             isHost={roomState.isHost}
             players={roomState.players}
@@ -162,7 +175,6 @@ export default function AvalonRolesWaitingRoomPage() {
           />
         )}
       </main>
-      <Footer />
     </div>
   );
 }

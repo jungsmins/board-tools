@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import clsx from 'clsx';
 
-type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
+type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'brand';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 type ButtonProps = {
@@ -13,10 +13,12 @@ type ButtonProps = {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    'bg-[var(--color-cartographers-button-primary,var(--color-brand-700))] text-white hover:bg-[var(--color-cartographers-button-primary-hover,var(--color-brand-900))]',
-  secondary: 'bg-[#e7dcc8] text-ink hover:bg-[#dacbae]',
+    'bg-[var(--color-avalon-button-primary,var(--color-cartographers-button-primary,var(--color-brand-700)))] text-white hover:bg-[var(--color-avalon-button-primary-hover,var(--color-cartographers-button-primary-hover,var(--color-brand-900)))]',
+  secondary:
+    'bg-[var(--color-avalon-tan,#e7dcc8)] text-ink hover:bg-[var(--color-avalon-tan-hover,#dacbae)]',
   ghost: 'bg-transparent text-ink hover:bg-black/5',
-  danger: 'bg-danger text-white hover:bg-[#c93b26]',
+  danger: 'bg-danger text-white hover:bg-danger-hover',
+  brand: 'bg-brand-700 text-white hover:bg-brand-900',
 };
 
 const sizeClasses: Record<ButtonSize, string> = {

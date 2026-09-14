@@ -11,7 +11,7 @@ describe('Badge', () => {
   it('기본 배경/텍스트/모양 클래스를 적용한다.', () => {
     render(<Badge>모바일</Badge>);
     expect(screen.getByText('모바일')).toHaveClass(
-      'bg-[#e7dcc8]',
+      'bg-[var(--color-avalon-tan,#e7dcc8)]',
       'text-ink',
       'rounded-full',
     );

@@ -21,10 +21,10 @@ export default function ConfirmDialog({
   return (
     <Modal>
       <h2 className='mb-2 text-xl font-bold'>{title}</h2>
-      <p className='mb-5 text-sm font-bold text-[#7a6555]'>{description}</p>
+      <p className='mb-5 text-sm font-bold text-ink-muted'>{description}</p>
       <div className={`grid gap-2 ${showCancel ? 'grid-cols-2' : ''}`}>
         {showCancel && (
-          <Button variant='secondary' size='lg' onClick={onCancel}>
+          <Button variant='brand' size='lg' onClick={onCancel}>
             취소
           </Button>
         )}

@@ -15,6 +15,7 @@
   --color-ink: #241f1c;
   --color-ink-muted: #7a6555;
   --color-danger: #e04830;
+  --color-danger-hover: #c93b26;
 
   /* cartographers */
   --color-cartographers-forest: #2d8b46;
@@ -28,6 +29,27 @@
   --color-cartographers-overlay: rgb(0 0 0 / 65%);
   --color-cartographers-grid: #5f6368;
   --color-cartographers-grid-border: #9aa0a6;
+
+  /* avalon-roles */
+  --color-avalon-ink: #2d1508;
+  --color-avalon-ink-hover: #482616;
+  --color-avalon-tan: #e7dcc8;
+  --color-avalon-tan-hover: #dacbae;
+  --color-avalon-good: #2f8f5b;
+  --color-avalon-good-bg: #eef8f2;
+  --color-avalon-good-text: #237348;
+  --color-avalon-good-border: #b9dec8;
+  --color-avalon-evil: #8f3a2f;
+  --color-avalon-evil-bg: #fff1ee;
+  --color-avalon-evil-text: #8f3a2f;
+  --color-avalon-evil-border: #e9c0bb;
+  --color-avalon-danger-border: #e2a7a1;
+  --color-avalon-warning-bg: #fff9e8;
+  --color-avalon-warning-border: #ead18d;
+  --color-avalon-warning-text: #765b13;
+  --color-avalon-candidate-bg: #fff6db;
+  --color-avalon-candidate-text: #7a5a12;
+  --color-avalon-candidate-border: #e7cc73;
 
   /* radius */
   --radius-sm: 0.375rem;

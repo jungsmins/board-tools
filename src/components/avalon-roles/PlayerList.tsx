@@ -1,3 +1,5 @@
+import Badge from '@/components/ui/Badge';
+import Card from '@/components/ui/Card';
 import type { AvalonRoomPlayer } from '@/types/avalonRoles';
 
 interface PlayerListProps {
@@ -11,30 +13,28 @@ export default function PlayerList({
 }: PlayerListProps) {
   if (players.length === 0) {
     return (
-      <div className='rounded-lg border border-ink/10 bg-white px-4 py-5 text-center text-sm font-bold text-ink-muted shadow-sm'>
+      <Card padding='sm' className='text-center text-sm font-bold text-ink-muted'>
         {emptyMessage}
-      </div>
+      </Card>
     );
   }
 
   return (
     <ul className='grid gap-2'>
       {players.map((player) => (
-        <li
-          key={player.id}
-          className='flex min-h-14 items-center justify-between rounded-lg border border-ink/10 bg-white px-4 shadow-sm'
-        >
-          <div className='flex items-center gap-3'>
-            <span className='flex h-8 w-8 items-center justify-center rounded-full bg-[#2d1508] text-sm font-bold text-white'>
-              {player.seatNumber}
-            </span>
-            <span className='font-bold text-ink'>{player.nickname}</span>
-          </div>
-          {player.isHost && (
-            <span className='rounded-full bg-[#eef8f2] px-3 py-1 text-xs font-bold text-[#237348]'>
-              방장
-            </span>
-          )}
+        <li key={player.id}>
+          <Card
+            padding='sm'
+            className='flex min-h-14 items-center justify-between'
+          >
+            <div className='flex items-center gap-3'>
+              <span className='flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-avalon-ink)] text-sm font-bold text-white'>
+                {player.seatNumber}
+              </span>
+              <span className='font-bold text-ink'>{player.nickname}</span>
+            </div>
+            {player.isHost && <Badge tone='positive'>방장</Badge>}
+          </Card>
         </li>
       ))}
     </ul>

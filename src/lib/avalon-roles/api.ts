@@ -99,6 +99,8 @@ export async function joinAvalonRoom(
   roomCode: string,
   nickname: string,
 ): Promise<JoinAvalonRoomResult> {
+  await ensureAnonymousSession();
+
   const res = await fetch(`/api/avalon-roles/${roomCode}/join`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

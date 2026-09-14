@@ -4,6 +4,9 @@ import { useState } from 'react';
 
 import { AVALON_PLAYER_COUNTS } from '@/constants/avalonRoles';
 import { startAvalonGame } from '@/lib/avalon-roles/api';
+import Button from '@/components/ui/Button';
+import Card from '@/components/ui/Card';
+import ErrorMessage from '@/components/ui/ErrorMessage';
 import CopyRoomCodeButton from '@/components/avalon-roles/CopyRoomCodeButton';
 import PlayerList from '@/components/avalon-roles/PlayerList';
 import RoleCompositionSummary from '@/components/avalon-roles/RoleCompositionSummary';
@@ -55,25 +58,24 @@ export default function WaitingRoom({
   };
 
   return (
-    <section className='rounded-lg border border-ink/10 bg-surface-raised p-5 shadow-md sm:p-7'>
-      <div className='flex items-center justify-between mb-8'>
-        <div>
-          <p className='mb-2 text-sm font-bold text-[#2f8f5b]'>대기방</p>
-          <h1 className='text-3xl font-bold text-ink sm:text-4xl'>
-            참가자를 기다리는 중
-          </h1>
-        </div>
-        <EndOrLeaveRoomButton isHost={isHost} roomCode={room.code} />
+    <Card padding='lg'>
+      <div className='mb-8'>
+        <p className='mb-2 text-sm font-bold text-[var(--color-avalon-good-text)]'>
+          대기방
+        </p>
+        <h1 className='text-3xl font-bold text-ink sm:text-4xl'>
+          참가자를 기다리는 중
+        </h1>
       </div>
-      <div className='mb-8 rounded-lg border border-ink/10 bg-white p-5 shadow-sm'>
+      <Card padding='md' className='mb-8'>
         <div className='mb-3 flex items-center justify-between gap-3'>
           <p className='text-sm font-bold text-ink-muted'>방 코드</p>
           <CopyRoomCodeButton roomCode={code} />
         </div>
-        <p className='text-center text-5xl font-black tracking-[0.22em] text-[#2d1508] sm:text-6xl'>
+        <p className='text-center text-5xl font-black tracking-[0.22em] text-[var(--color-avalon-ink)] sm:text-6xl'>
           {code}
         </p>
-      </div>
+      </Card>
       <section className='mb-8'>
         <div className='mb-4 flex items-end justify-between gap-4'>
           <div>
@@ -92,19 +94,19 @@ export default function WaitingRoom({
         />
       )}
       {!isHost && (
-        <p className='mb-4 rounded-lg border border-ink/10 bg-white px-4 py-3 text-center text-sm font-bold text-ink-muted shadow-sm'>
+        <Card
+          padding='sm'
+          className='mb-4 text-center text-sm font-bold text-ink-muted'
+        >
           방장이 게임을 시작할 때까지 기다려 주세요.
-        </p>
+        </Card>
       )}
-      {errorMessage && (
-        <p className='mb-4 rounded-lg border border-[#e2a7a1] bg-[#fff1ee] px-4 py-3 text-sm font-bold text-[#8f3a2f]'>
-          {errorMessage}
-        </p>
-      )}
-      <button
+      {errorMessage && <ErrorMessage className='mb-4'>{errorMessage}</ErrorMessage>}
+      <Button
         disabled={!canStart || isLoading}
-        type='button'
-        className='flex h-14 w-full items-center justify-center rounded-lg bg-[#2d1508] px-5 text-base font-bold text-white shadow-md transition hover:bg-[#482616] focus-visible:ring-2 focus-visible:ring-[#2d1508]/30 disabled:cursor-not-allowed disabled:bg-ink-muted disabled:shadow-none'
+        variant='primary'
+        size='lg'
+        className='h-14 w-full disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500 disabled:shadow-none'
         onClick={handleStartGame}
       >
         {isLoading
@@ -112,7 +114,14 @@ export default function WaitingRoom({
           : isFull
             ? '게임 시작'
             : `${neededPlayerCount}명 더 필요`}
-      </button>
-    </section>
+      </Button>
+      <EndOrLeaveRoomButton
+        fullWidth
+        isHost={isHost}
+        roomCode={room.code}
+        variant='danger'
+        className='mt-3'
+      />
+    </Card>
   );
 }

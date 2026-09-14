@@ -3,22 +3,35 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+import clsx from 'clsx';
+
 import { endAvalonRoom, leaveAvalonRoom } from '@/lib/avalon-roles/api';
+import Button from '@/components/ui/Button';
+import ErrorMessage from '@/components/ui/ErrorMessage';
+import ConfirmDialog from '@/components/shared/ConfirmDialog';
 
 interface EndOrLeaveRoomButtonProps {
+  className?: string;
+  fullWidth?: boolean;
   isHost: boolean;
   roomCode: string;
+  variant?: 'secondary' | 'danger';
 }
 
 export default function EndOrLeaveRoomButton({
+  className,
+  fullWidth = false,
   isHost,
   roomCode,
+  variant = 'secondary',
 }: EndOrLeaveRoomButtonProps) {
   const router = useRouter();
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleClick = async () => {
+  const handleConfirm = async () => {
+    setIsConfirmOpen(false);
     setIsLoading(true);
     setErrorMessage('');
 
@@ -41,19 +54,32 @@ export default function EndOrLeaveRoomButton({
   };
 
   return (
-    <div>
-      <button
+    <div className={clsx(fullWidth && 'w-full', className)}>
+      <Button
         disabled={isLoading}
-        type='button'
-        className='flex h-14 items-center justify-center rounded-lg bg-[#2d1508] px-5 text-base font-bold text-white shadow-md transition hover:bg-[#482616] focus-visible:ring-2 focus-visible:ring-[#2d1508]/30 disabled:cursor-not-allowed disabled:bg-ink-muted disabled:shadow-none'
-        onClick={handleClick}
+        variant={variant}
+        size='lg'
+        className={clsx(
+          'h-14 disabled:cursor-not-allowed disabled:opacity-60',
+          fullWidth && 'w-full',
+        )}
+        onClick={() => setIsConfirmOpen(true)}
       >
         {isLoading ? '처리 중' : isHost ? '게임 종료' : '방 나가기'}
-      </button>
-      {errorMessage && (
-        <p className='mt-2 rounded-lg border border-[#e2a7a1] bg-[#fff1ee] px-4 py-3 text-sm font-bold text-[#8f3a2f]'>
-          {errorMessage}
-        </p>
+      </Button>
+      {errorMessage && <ErrorMessage className='mt-2'>{errorMessage}</ErrorMessage>}
+      {isConfirmOpen && (
+        <ConfirmDialog
+          title={isHost ? '게임을 종료할까요?' : '방에서 나갈까요?'}
+          description={
+            isHost
+              ? '방장이 나가면 방이 사라지고, 참가 중인 모두가 게임에서 나가게 됩니다.'
+              : '나가면 다시 방 코드를 입력해야 돌아올 수 있습니다.'
+          }
+          confirmLabel={isHost ? '게임 종료' : '나가기'}
+          onCancel={() => setIsConfirmOpen(false)}
+          onConfirm={handleConfirm}
+        />
       )}
     </div>
   );

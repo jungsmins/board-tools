@@ -32,7 +32,7 @@ export default function AvalonRolesPage() {
         <div className='flex-1'>
           <Button
             onClick={handleModalOpen}
-            variant='secondary'
+            variant='brand'
             size='lg'
             className='w-full'
           >

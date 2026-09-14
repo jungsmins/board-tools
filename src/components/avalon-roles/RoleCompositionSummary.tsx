@@ -1,3 +1,5 @@
+import Badge from '@/components/ui/Badge';
+import Card from '@/components/ui/Card';
 import { AVALON_ROLE_CONFIGS } from '@/constants/avalonRoles';
 import {
   buildAvalonRoleDeck,
@@ -19,23 +21,25 @@ const sideLabels: Record<AvalonRoleSide, string> = {
   evil: '악',
 };
 
+const sideBadgeTone: Record<AvalonRoleSide, 'positive' | 'negative'> = {
+  good: 'positive',
+  evil: 'negative',
+};
+
 const sideStyles: Record<
   AvalonRoleSide,
   {
-    badge: string;
     count: string;
     item: string;
   }
 > = {
   good: {
-    badge: 'bg-[#eef8f2] text-[#237348]',
-    count: 'text-[#237348]',
-    item: 'border-[#b9dec8] bg-[#f8fcfa]',
+    count: 'text-[var(--color-avalon-good-text)]',
+    item: 'border-[var(--color-avalon-good-border)] bg-[var(--color-avalon-good-bg)]',
   },
   evil: {
-    badge: 'bg-[#fff1ee] text-[#8f3a2f]',
-    count: 'text-[#8f3a2f]',
-    item: 'border-[#e9c0bb] bg-[#fffafa]',
+    count: 'text-[var(--color-avalon-evil-text)]',
+    item: 'border-[var(--color-avalon-evil-border)] bg-[var(--color-avalon-evil-bg)]',
   },
 };
 
@@ -75,11 +79,9 @@ export default function RoleCompositionSummary({
           );
 
           return (
-            <section key={side} className='rounded-lg border border-ink/10 bg-white p-4 shadow-sm'>
+            <Card key={side} padding='sm'>
               <div className='mb-3 flex items-center justify-between gap-3'>
-                <span className={`rounded-full px-3 py-1 text-sm font-bold ${styles.badge}`}>
-                  {sideLabels[side]} 진영
-                </span>
+                <Badge tone={sideBadgeTone[side]}>{sideLabels[side]} 진영</Badge>
                 <span className={`text-sm font-bold ${styles.count}`}>
                   {sideCount}명
                 </span>
@@ -105,7 +107,7 @@ export default function RoleCompositionSummary({
                   );
                 })}
               </ul>
-            </section>
+            </Card>
           );
         })}
       </div>

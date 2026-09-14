@@ -1,3 +1,5 @@
+import Badge from '@/components/ui/Badge';
+import ErrorMessage from '@/components/ui/ErrorMessage';
 import { AVALON_ROLE_CONFIGS } from '@/constants/avalonRoles';
 import {
   buildAvalonRoleDeck,
@@ -41,26 +43,21 @@ export default function RoleDeckPreview({
           {previewRoleIds.map((roleId) => {
             const role = AVALON_ROLE_CONFIGS[roleId];
             const count = roleCounts[roleId] ?? 0;
-            const className =
-              role.side === 'good'
-                ? 'border-[#2f8f5b] bg-[#eef8f2] text-[#237348]'
-                : 'border-[#8f3a2f] bg-[#fff1ee] text-[#8f3a2f]';
 
             return (
-              <span
+              <Badge
                 key={roleId}
-                className={`rounded-full border px-3 py-1.5 text-sm font-bold ${className}`}
+                tone={role.side === 'good' ? 'positive' : 'negative'}
+                className='px-3 py-1.5 text-sm font-bold'
               >
                 {role.name}
                 {count > 1 && ` x${count}`}
-              </span>
+              </Badge>
             );
           })}
         </div>
       ) : (
-        <div className='rounded-lg border border-[#e2a7a1] bg-[#fff1ee] px-4 py-4 text-sm font-bold text-[#8f3a2f]'>
-          역할 구성을 고치면 미리보기가 표시됩니다.
-        </div>
+        <ErrorMessage>역할 구성을 고치면 미리보기가 표시됩니다.</ErrorMessage>
       )}
     </section>
   );
