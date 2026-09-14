@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
+import { SITE_URL } from '@/lib/site';
 import '@/app/globals.css';
 
 export const metadata: Metadata = {
-  title: 'BoardTools',
+  title: '보드툴즈',
   description: '보드게임을 편하게, 보드툴즈',
+  metadataBase: new URL(SITE_URL),
 };
 
 export default function RootLayout({
