@@ -19,7 +19,7 @@ export const TOOLS: Tool[] = [
     subtitle: '아발론 역할 배정기',
     description:
       '방을 만들고 참가자들에게 역할을 배정하는 아발론 보조 도구. 각자 휴대폰에서 본인의 역할과 확인 가능한 대상을 볼 수 있습니다.',
-    platforms: ['모바일'],
+    platforms: ['데스크탑', '태블릿', '모바일'],
     image: '/tool-images/avalon.png',
     playerCount: '5~10명',
     playtime: '30분+',
