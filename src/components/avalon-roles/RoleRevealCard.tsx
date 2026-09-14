@@ -1,6 +1,6 @@
 'use client';
 
-import { Shield } from 'lucide-react';
+import { Sparkle } from 'lucide-react';
 
 import Badge from '@/components/ui/Badge';
 import type { AvalonRoleConfig } from '@/types/avalonRoles';
@@ -54,7 +54,7 @@ export default function RoleRevealCard({
       >
         {/* 뒷면 */}
         <div className='bg-grain absolute inset-0 flex flex-col items-center justify-center gap-4 rounded-2xl bg-[var(--color-avalon-ink)] p-6 text-center shadow-modal [backface-visibility:hidden]'>
-          <Shield className='h-12 w-12 text-white/70' strokeWidth={1.5} />
+          <Sparkle className='h-12 w-12 text-white/70' strokeWidth={1.5} />
           <p className='text-lg font-black text-white'>아발론</p>
           <p className='text-sm font-bold text-white/70'>
             카드를 탭하면 역할이 공개됩니다.
@@ -79,7 +79,11 @@ export default function RoleRevealCard({
                   {visiblePlayerInfo.title}
                 </p>
                 <Badge
-                  tone={visiblePlayerInfo.signal === 'evil' ? 'negative' : 'highlight'}
+                  tone={
+                    visiblePlayerInfo.signal === 'evil'
+                      ? 'negative'
+                      : 'highlight'
+                  }
                   className='shrink-0 text-xs'
                 >
                   {visiblePlayerSignalLabels[visiblePlayerInfo.signal]}
