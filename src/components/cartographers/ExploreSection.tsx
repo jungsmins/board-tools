@@ -18,7 +18,7 @@ interface ImageLayer {
 
 export default function ExploreSection({ exploreCard }: ExploreSectionProps) {
   const { name, type, id } = exploreCard;
-  const cardImageSrc = `/cartographers_images/explore/${id}.png`;
+  const cardImageSrc = `/cartographers_images/explore/${id}.jpg`;
 
   // 카드가 바뀌어도 이전 이미지를 바로 걷어내지 않고 새 이미지를 그 위에 겹쳐
   // 페이드인시킨다. 배경이 잠깐 비치는 것을 막고 이미지 -> 이미지로 바로

@@ -1,11 +1,11 @@
-import spring from '../../public/cartographers_images/season/spring_splash.png';
-import summer from '../../public/cartographers_images/season/summer_splash.png';
-import autumn from '../../public/cartographers_images/season/autumn_splash.png';
-import winter from '../../public/cartographers_images/season/winter_splash.png';
-import springPlaying from '../../public/cartographers_images/season/spring_playing.png';
-import summerPlaying from '../../public/cartographers_images/season/summer_playing.png';
-import autumnPlaying from '../../public/cartographers_images/season/autumn_playing.png';
-import winterPlaying from '../../public/cartographers_images/season/winter_playing.png';
+import spring from '../../public/cartographers_images/season/spring_splash.jpg';
+import summer from '../../public/cartographers_images/season/summer_splash.jpg';
+import autumn from '../../public/cartographers_images/season/autumn_splash.jpg';
+import winter from '../../public/cartographers_images/season/winter_splash.jpg';
+import springPlaying from '../../public/cartographers_images/season/spring_playing.jpg';
+import summerPlaying from '../../public/cartographers_images/season/summer_playing.jpg';
+import autumnPlaying from '../../public/cartographers_images/season/autumn_playing.jpg';
+import winterPlaying from '../../public/cartographers_images/season/winter_playing.jpg';
 import type {
   ExploreCard,
   AmbushCard,

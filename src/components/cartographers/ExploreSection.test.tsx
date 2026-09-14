@@ -18,7 +18,7 @@ describe('ExploreSection', () => {
     expect(screen.getByText('농지')).toBeInTheDocument();
     expect(screen.getByAltText('농지 이미지')).toHaveAttribute(
       'src',
-      '/cartographers_images/explore/farmland.png',
+      '/cartographers_images/explore/farmland.jpg',
     );
   });
 });
