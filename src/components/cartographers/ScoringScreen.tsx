@@ -35,6 +35,7 @@ export default function ScoringScreen() {
         fill
         sizes='100vw'
         className='object-cover -z-10'
+        unoptimized
       />
       <CartographersHeader
         seasonConfig={seasonConfig}

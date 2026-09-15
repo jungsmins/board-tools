@@ -36,6 +36,7 @@ export default function SeasonSplash({ season }: SeasonSplashProps) {
         sizes='100vw'
         className='object-cover animate-season-image'
         priority
+        unoptimized
       />
       <div className='absolute inset-x-0 top-16 flex justify-center'>
         <div className='animate-season-title text-center text-white drop-shadow-[0_4px_16px_rgb(0_0_0_/_60%)]'>

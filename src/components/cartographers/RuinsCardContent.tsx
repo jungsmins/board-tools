@@ -9,6 +9,7 @@ export default function RuinsCardContent() {
         src={ruinsImage}
         width={140}
         height={140}
+        unoptimized
       />
     </div>
   );

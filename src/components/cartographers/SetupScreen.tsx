@@ -28,13 +28,21 @@ export default function SetupScreen() {
         className='pointer-events-none fixed inset-0 -z-50 opacity-0'
         aria-hidden
       >
-        <Image src={SEASON_IMAGES.spring} alt='' fill sizes='100vw' priority />
+        <Image
+          src={SEASON_IMAGES.spring}
+          alt=''
+          fill
+          sizes='100vw'
+          priority
+          unoptimized
+        />
         <Image
           src={SEASON_PLAYING_IMAGES.spring}
           alt=''
           fill
           sizes='100vw'
           priority
+          unoptimized
         />
       </div>
     </GamePrepScreen>

@@ -51,6 +51,7 @@ export default function ExploreSection({ exploreCard }: ExploreSectionProps) {
             src={layer.src}
             fill
             sizes='(min-width: 1024px) 33vw, 100vw'
+            unoptimized
             className={`absolute inset-0 object-cover ${
               index === imageLayers.length - 1 && imageLayers.length > 1
                 ? 'animate-card-image'
