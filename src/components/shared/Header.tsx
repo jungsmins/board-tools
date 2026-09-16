@@ -17,7 +17,12 @@ export default function Header() {
         <Image src={logo_icon} alt='로고' width={30} height={30} />
         <Image src={logo_text} alt='로고' width={96} height={28} />
       </Link>
-      <div className='font-display font-bold text-accent'>게임 추천하기</div>
+      <Link
+        href='/feedback'
+        className='font-display font-bold text-accent cursor-pointer hover:underline'
+      >
+        게임 추천하기
+      </Link>
     </header>
   );
 }
