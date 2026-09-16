@@ -40,7 +40,7 @@ export default function ToolListItem({ tool, index }: ToolListItemProps) {
         <p className='min-h-10 text-sm leading-5 opacity-90 line-clamp-2'>
           {tool.description}
         </p>
-        <div className='mt-2 flex items-center gap-2'>
+        <div className='mt-2 flex flex-wrap items-center gap-2'>
           {tool.platforms.map((platform) => (
             <Badge key={platform}>{platform}</Badge>
           ))}
