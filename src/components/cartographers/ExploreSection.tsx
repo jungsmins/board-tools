@@ -1,6 +1,8 @@
 import { DeckCard } from '@/types/cartographers';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { useCartographersStore } from '@/stores/cartographers';
+import { prefetchImage } from '@/lib/prefetchImage';
 import NormalCardContent from './NormalCardContent';
 import AmbushCardContent from './AmbushCardContent';
 import RuinsCardContent from './RuinsCardContent';
@@ -19,10 +21,6 @@ interface ImageLayer {
 export default function ExploreSection({ exploreCard }: ExploreSectionProps) {
   const { name, type, id } = exploreCard;
   const cardImageSrc = `/cartographers_images/explore/${id}.jpg`;
-
-  // 카드가 바뀌어도 이전 이미지를 바로 걷어내지 않고 새 이미지를 그 위에 겹쳐
-  // 페이드인시킨다. 배경이 잠깐 비치는 것을 막고 이미지 -> 이미지로 바로
-  // 전환되는 것처럼 보이게 하기 위함.
   const [prevId, setPrevId] = useState(id);
   const [imageLayers, setImageLayers] = useState<ImageLayer[]>([
     { id, name, src: cardImageSrc },
@@ -30,7 +28,10 @@ export default function ExploreSection({ exploreCard }: ExploreSectionProps) {
 
   if (id !== prevId) {
     setPrevId(id);
-    setImageLayers((layers) => [...layers.slice(-1), { id, name, src: cardImageSrc }]);
+    setImageLayers((layers) => [
+      ...layers.slice(-1),
+      { id, name, src: cardImageSrc },
+    ]);
   }
 
   useEffect(() => {
@@ -40,6 +41,14 @@ export default function ExploreSection({ exploreCard }: ExploreSectionProps) {
 
     return () => clearTimeout(timer);
   }, [id]);
+
+  const nextCardId = useCartographersStore((s) => s.deck[0]);
+
+  useEffect(() => {
+    if (!nextCardId) return;
+
+    prefetchImage(`/cartographers_images/explore/${nextCardId}.jpg`);
+  }, [nextCardId]);
 
   return (
     <section className='flex min-w-0 flex-1 flex-col overflow-hidden rounded-2xl'>

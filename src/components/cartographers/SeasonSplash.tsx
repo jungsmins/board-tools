@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Season } from '@/types/cartographers';
 import { SEASON_IMAGES } from '@/constants/cartographers';
 import { useCartographersStore } from '@/stores/cartographers';
+import { prefetchImage } from '@/lib/prefetchImage';
 
 interface SeasonSplashProps {
   season: Season;
@@ -26,6 +27,14 @@ export default function SeasonSplash({ season }: SeasonSplashProps) {
 
     return () => clearTimeout(timer);
   }, [onSplashComplete]);
+
+  const firstCardId = useCartographersStore((s) => s.deck[0]);
+
+  useEffect(() => {
+    if (!firstCardId) return;
+
+    prefetchImage(`/cartographers_images/explore/${firstCardId}.jpg`);
+  }, [firstCardId]);
 
   return (
     <div className='relative h-screen w-full overflow-hidden'>
