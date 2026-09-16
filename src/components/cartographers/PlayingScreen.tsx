@@ -3,10 +3,15 @@ import { useEffect } from 'react';
 import { useCartographersStore } from '@/stores/cartographers';
 import {
   getCardById,
+  getNextSeason,
   getScoringRulesByIds,
   getSeasonConfig,
 } from '@/lib/cartographers';
-import { SEASON_PLAYING_IMAGES } from '@/constants/cartographers';
+import {
+  SEASON_IMAGES,
+  SEASON_PLAYING_IMAGES,
+} from '@/constants/cartographers';
+import { prefetchImage } from '@/lib/prefetchImage';
 import CartographersHeader from './CartographersHeader';
 import ScoringSection from './ScoringSection';
 import ExploreSection from './ExploreSection';
@@ -46,6 +51,15 @@ export default function PlayingScreen() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleNext, prevCard, canGoPrev]);
+
+  const nextSeason = getNextSeason(currentSeason);
+
+  useEffect(() => {
+    if (!nextSeason) return;
+
+    prefetchImage(SEASON_IMAGES[nextSeason].src);
+    prefetchImage(SEASON_PLAYING_IMAGES[nextSeason].src);
+  }, [nextSeason]);
 
   if (!exploreCard) {
     return null;
