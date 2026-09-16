@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: '/api/', // 크롤링 필요 없는 경로 직접 추가
+      disallow: '/api/',
     },
     sitemap: `${SITE_URL}/sitemap.xml`,
   };

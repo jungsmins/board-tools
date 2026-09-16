@@ -52,7 +52,6 @@ export default function RoleRevealCard({
         className='relative aspect-[2/3] w-full transition-transform duration-500 ease-out [transform-style:preserve-3d] motion-reduce:duration-0'
         style={{ transform: isFlipped ? 'rotateY(180deg)' : undefined }}
       >
-        {/* 뒷면 */}
         <div className='bg-grain absolute inset-0 flex flex-col items-center justify-center gap-4 rounded-2xl bg-[var(--color-avalon-ink)] p-6 text-center shadow-modal [backface-visibility:hidden]'>
           <Sparkle className='h-12 w-12 text-white/70' strokeWidth={1.5} />
           <p className='text-lg font-black text-white'>아발론</p>
@@ -61,7 +60,6 @@ export default function RoleRevealCard({
           </p>
         </div>
 
-        {/* 앞면 */}
         <div className='absolute inset-0 flex flex-col overflow-y-auto rounded-2xl bg-white p-6 text-left shadow-modal [backface-visibility:hidden] [transform:rotateY(180deg)]'>
           <div className='mb-4 flex items-center justify-between gap-3'>
             <p className='text-sm font-bold text-ink-muted'>배정된 역할</p>

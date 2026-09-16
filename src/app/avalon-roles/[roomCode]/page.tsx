@@ -139,8 +139,6 @@ export default function AvalonRolesWaitingRoomPage() {
       )}
     >
       <main className='mx-auto flex min-h-[calc(100dvh-4rem)] w-full max-w-[680px] flex-col px-5 py-8 sm:px-8 lg:py-12'>
-        {/* 방에 들어간 뒤(대기중/게임중)에는 뒤로가기 대신
-            게임 종료·방 나가기로만 나가도록 이전으로 링크를 두지 않는다. */}
         {(roomPageStatus === 'loading' || roomPageStatus === 'error') && (
           <BackLink href='/avalon-roles' />
         )}

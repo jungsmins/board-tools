@@ -149,7 +149,6 @@ export const EXPLORE_CARDS: ExploreCard[] = [
     ],
   },
 
-  // 2 cost + 2 terrains -----------------------
 
   {
     type: 'normal',
@@ -261,8 +260,6 @@ export const EXPLORE_CARDS: ExploreCard[] = [
       },
     ],
   },
-
-  // 특수 --------------------------------------
 
   {
     type: 'ruins',
@@ -389,10 +386,7 @@ export const SEASON_CONFIG: SeasonConfig[] = [
   },
 ];
 
-// 점수계산 --------------------------------------------------------------------
-
 export const SCORING_RULES: ScoringRule[] = [
-  // -- 슬롯 A : 숲 관련 --
   {
     id: 'sentinel_wood',
     slot: 'A',
@@ -421,7 +415,6 @@ export const SCORING_RULES: ScoringRule[] = [
     description: '숲 그룹으로 연결된 산 한 칸마다 명성 점수 3점을 얻습니다.',
   },
 
-  // -- 슬롯 B : 마을 --
   {
     id: 'wildholds',
     slot: 'B',
@@ -451,7 +444,6 @@ export const SCORING_RULES: ScoringRule[] = [
       '두 번째로 큰 마을 그룹의 마을 한 칸당 명성 점수 2점을 얻습니다.',
   },
 
-  // ── 슬롯 C: 농지 & 물 ──
   {
     id: 'canal_lake',
     slot: 'C',
@@ -481,7 +473,6 @@ export const SCORING_RULES: ScoringRule[] = [
       '지도의 테두리나 강에 인접하지 않은 농장 그룹 하나당 명성 점수 3점을 얻습니다. 지도의 테두리나 농장에 인접하지 않은 강 그룹 하나당 명성 점수 3점을 얻습니다.',
   },
 
-  // ── 슬롯 D: 배치 ──
   {
     id: 'borderlands',
     slot: 'D',

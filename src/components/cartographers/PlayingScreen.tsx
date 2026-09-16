@@ -34,7 +34,6 @@ export default function PlayingScreen() {
   const handleNext = isSeasonEnd ? endSeason : nextCard;
   const canGoPrev = history.length > 1;
 
-  // 좌우 화살표 키로 다음 카드 / 이전 카드 버튼과 동일하게 동작하게 한다.
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === 'ArrowRight') {

@@ -6,7 +6,7 @@ import type { Tool } from '@/types/tools';
 
 interface GamePrepScreenProps {
   tool: Tool;
-  children: ReactNode; // 액션 영역
+  children: ReactNode;
 }
 
 export default function GamePrepScreen({
