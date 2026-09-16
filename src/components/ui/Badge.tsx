@@ -1,7 +1,7 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 import clsx from 'clsx';
 
-type BadgeTone = 'neutral' | 'positive' | 'negative' | 'highlight';
+type BadgeTone = 'neutral' | 'positive' | 'negative' | 'highlight' | 'surface';
 
 type BadgeProps = {
   children: ReactNode;
@@ -16,6 +16,7 @@ const toneClasses: Record<BadgeTone, string> = {
     'bg-[var(--color-avalon-evil-bg,#fff1ee)] text-[var(--color-avalon-evil-text,#8f3a2f)]',
   highlight:
     'bg-[var(--color-avalon-candidate-bg,#fff6db)] text-[var(--color-avalon-candidate-text,#7a5a12)]',
+  surface: 'bg-[var(--color-surface,#fffbf2)] text-ink',
 };
 
 export default function Badge({

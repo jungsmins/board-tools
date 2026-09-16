@@ -64,9 +64,9 @@ export default function RoleCompositionSummary({
             공개된 역할 구성입니다.
           </p>
         </div>
-        <span className='rounded-full bg-surface px-3 py-1 text-sm font-bold text-ink'>
+        <Badge tone='surface' className='shrink-0 px-3 py-1 font-bold'>
           {roleDeck.length} / {playerCount}
-        </span>
+        </Badge>
       </div>
 
       <div className='grid gap-3 sm:grid-cols-2'>

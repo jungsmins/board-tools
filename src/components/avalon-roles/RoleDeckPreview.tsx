@@ -33,9 +33,9 @@ export default function RoleDeckPreview({
             부족한 인원은 일반 역할로 자동 채워집니다.
           </p>
         </div>
-        <span className='rounded-full bg-surface px-3 py-1 text-sm font-bold text-ink'>
+        <Badge tone='surface' className='shrink-0 px-3 py-1 font-bold'>
           {roleDeck.length} / {playerCount}
-        </span>
+        </Badge>
       </div>
 
       {isValid ? (
