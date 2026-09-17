@@ -30,6 +30,15 @@
   --color-cartographers-grid: #5f6368;
   --color-cartographers-grid-border: #9aa0a6;
 
+  /* feedback */
+  --color-feedback-bg: #0f201d;
+  --color-feedback-surface: #152b27;
+  --color-feedback-border: #23423c;
+  --color-feedback-text: #f2ede1;
+  --color-feedback-text-muted: #7c9089;
+  --color-feedback-recommend-bg: rgb(92 179 166 / 14%);
+  --color-feedback-suggestion-bg: rgb(242 179 61 / 14%);
+
   /* avalon-roles */
   --color-avalon-ink: #2d1508;
   --color-avalon-ink-hover: #482616;
