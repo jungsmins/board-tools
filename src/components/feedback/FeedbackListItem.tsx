@@ -1,11 +1,11 @@
 import clsx from 'clsx';
-import { FeedbackCategory } from '@/app/feedback/page';
+import { FeedbackCategory } from '@/types/feedback';
 
 type FeedbackListItemProps = {
   category: FeedbackCategory;
   nickname: string;
-  time: string;
-  body: string;
+  createdAt: string;
+  content: string;
 };
 
 const CATEGORY_LABEL: Record<FeedbackCategory, string> = {
@@ -26,8 +26,8 @@ const CATEGORY_BADGE_CLASSES: Record<FeedbackCategory, string> = {
 export default function FeedbackListItem({
   category,
   nickname,
-  time,
-  body,
+  createdAt,
+  content,
 }: FeedbackListItemProps) {
   return (
     <li
@@ -46,9 +46,11 @@ export default function FeedbackListItem({
           {CATEGORY_LABEL[category]}
         </span>
         <span className='text-sm font-bold text-feedback-text'>{nickname}</span>
-        <span className='ml-auto text-xs text-feedback-text-muted'>{time}</span>
+        <span className='ml-auto text-xs text-feedback-text-muted'>
+          {createdAt}
+        </span>
       </div>
-      <p className='text-sm leading-6 text-feedback-text'>{body}</p>
+      <p className='text-sm leading-6 text-feedback-text'>{content}</p>
     </li>
   );
 }

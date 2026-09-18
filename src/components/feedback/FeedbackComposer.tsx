@@ -1,40 +1,50 @@
+'use client';
+
 import { useState } from 'react';
-import { FeedbackCategory } from '@/app/feedback/page';
+import { FeedbackCategory, FeedbackPost } from '@/types/feedback';
+import { createFeedback } from '@/lib/feedback/api';
+import { randomGenerateNickname } from '@/lib/feedback/feedback';
 
 interface FeedbackComposerProps {
   onClose: () => void;
+  addPosts: (post: FeedbackPost) => void;
 }
 
-export default function FeedbackComposer({ onClose }: FeedbackComposerProps) {
-  const [composeValue, setComposeValue] = useState<string>('');
-  const [composeCategory, setComposeCategory] =
-    useState<FeedbackCategory>('build');
+export default function FeedbackComposer({
+  onClose,
+  addPosts,
+}: FeedbackComposerProps) {
+  const [content, setContent] = useState<string>('');
+  const [category, setCategory] = useState<FeedbackCategory>('build');
+  const [nickname] = useState(() => randomGenerateNickname());
 
   function handleChangeComposeValue(
     event: React.ChangeEvent<HTMLTextAreaElement>,
   ) {
-    setComposeValue(event.target.value);
+    setContent(event.target.value);
   }
 
   function handleSelectComposeCategory(feedbackCategory: FeedbackCategory) {
-    setComposeCategory(feedbackCategory);
+    setCategory(feedbackCategory);
   }
 
   async function handleSubmitCompose(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const res = await fetch('', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        composeValue: composeValue,
-        feedbackCategory: composeCategory,
-      }),
-    });
+    const feedbackPost = {
+      category,
+      nickname,
+      content,
+    };
 
-    if (!res.ok) {
-      const body = await res.json().catch(() => null);
-      throw new Error(body?.message ?? '에러입니다.');
+    try {
+      const post: FeedbackPost = await createFeedback(feedbackPost);
+      onClose();
+      addPosts(post);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error.message);
+      }
     }
   }
 
@@ -47,7 +57,7 @@ export default function FeedbackComposer({ onClose }: FeedbackComposerProps) {
         <button
           type='button'
           onClick={() => handleSelectComposeCategory('build')}
-          aria-pressed={composeCategory === 'build'}
+          aria-pressed={category === 'build'}
           className='flex-1 rounded-md border border-feedback-border px-3 py-2 text-sm font-bold text-feedback-text-muted cursor-pointer aria-pressed:text-brand-400 aria-pressed:border-brand-400 aria-pressed:bg-[var(--color-feedback-recommend-bg)]'
         >
           게임 추천
@@ -55,7 +65,7 @@ export default function FeedbackComposer({ onClose }: FeedbackComposerProps) {
         <button
           type='button'
           onClick={() => handleSelectComposeCategory('fix')}
-          aria-pressed={composeCategory === 'fix'}
+          aria-pressed={category === 'fix'}
           className='flex-1 rounded-md border border-feedback-border px-3 py-2 text-sm font-bold text-feedback-text-muted cursor-pointer aria-pressed:text-accent aria-pressed:border-accent aria-pressed:bg-[var(--color-feedback-suggestion-bg)]'
         >
           건의/피드백
@@ -63,13 +73,13 @@ export default function FeedbackComposer({ onClose }: FeedbackComposerProps) {
       </div>
       <p className='mb-2 text-xs text-feedback-text-muted'>
         익명 닉네임{' '}
-        <span className='font-bold text-feedback-text'>느긋한 수달</span>
+        <span className='font-bold text-feedback-text'>{nickname}</span>
         (으)로 등록돼요
       </p>
       <textarea
         rows={3}
         placeholder='내용을 입력하세요'
-        value={composeValue}
+        value={content}
         onChange={handleChangeComposeValue}
         className='w-full rounded-md border border-feedback-border bg-feedback-bg px-3 py-2 text-sm text-feedback-text outline-none placeholder:text-feedback-text-muted focus:border-brand-400'
       />
