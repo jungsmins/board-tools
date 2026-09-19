@@ -5,6 +5,7 @@ import Footer from '@/components/shared/Footer';
 import FeedbackFilterBar from '@/components/feedback/FeedbackFilterBar';
 import FeedbackComposeTrigger from '@/components/feedback/FeedbackComposeTrigger';
 import FeedbackComposer from '@/components/feedback/FeedbackComposer';
+import FeedbackEmpty from '@/components/feedback/FeedbackEmpty';
 import FeedbackListItem from '@/components/feedback/FeedbackListItem';
 import { useEffect, useState } from 'react';
 import { FeedbackFilterCategory, FeedbackPost } from '@/types/feedback';
@@ -15,6 +16,31 @@ export default function FeedbackPage() {
     useState<FeedbackFilterCategory>('all');
   const [isComposerOpen, setIsComposerOpen] = useState<boolean>(false);
   const [posts, setPosts] = useState<FeedbackPost[] | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const filteredPosts = (posts ?? []).filter((post) => {
+    if (filterCategory === 'all') {
+      return post;
+    }
+    return filterCategory === post.category;
+  });
+
+  let listContent;
+
+  if (loadError) {
+    listContent = <FeedbackEmpty>{loadError}</FeedbackEmpty>;
+  } else if (posts === null) {
+    listContent = <FeedbackEmpty>...불러오는중</FeedbackEmpty>;
+  } else if (filteredPosts.length === 0) {
+    listContent = <FeedbackEmpty>아직 작성된 글이 없습니다.</FeedbackEmpty>;
+  } else {
+    listContent = (
+      <ul className='flex flex-col gap-3'>
+        {filteredPosts.map((post) => (
+          <FeedbackListItem key={post.id} {...post} />
+        ))}
+      </ul>
+    );
+  }
 
   function handleFilterChange(category: FeedbackFilterCategory) {
     setFilterCategory(category);
@@ -34,7 +60,7 @@ export default function FeedbackPage() {
         setPosts(feedbackPost);
       } catch (error) {
         if (error instanceof Error) {
-          console.log(error.message);
+          setLoadError(error.message);
         }
       }
     })();
@@ -63,15 +89,7 @@ export default function FeedbackPage() {
           ) : (
             <FeedbackComposeTrigger onOpen={() => setIsComposerOpen(true)} />
           )}
-          {posts === null ? (
-            <div>...불러오는중</div>
-          ) : (
-            <ul className='flex flex-col gap-3'>
-              {posts.map((post) => (
-                <FeedbackListItem key={post.id} {...post} />
-              ))}
-            </ul>
-          )}
+          {listContent}
         </div>
       </section>
       <Footer />

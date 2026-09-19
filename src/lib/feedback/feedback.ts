@@ -11,7 +11,7 @@ const randomNickname = [
   '반짝 주사위',
 ];
 
-export function randomGenerateNickname() {
+export function generateRandomNickname() {
   const randomNumber = Math.floor(Math.random() * randomNickname.length);
 
   return randomNickname[randomNumber];

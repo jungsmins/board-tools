@@ -5,7 +5,7 @@ export async function getFeedback<T>(): Promise<T[]> {
 
   if (!res.ok) {
     const body = await res.json().catch(() => null);
-    throw new Error(body?.error ?? '데이터를 가져오지 못했습니다.');
+    throw new Error(body?.error ?? '글 목록를 가져오지 못했습니다.');
   }
 
   const data: T[] = await res.json();
@@ -24,7 +24,7 @@ export async function createFeedback<T>(
 
   if (!res.ok) {
     const body = await res.json().catch(() => null);
-    throw new Error(body?.error ?? '작성에 실패 했습니다.');
+    throw new Error(body?.error ?? '글 작성에 실패 했습니다.');
   }
 
   const data: T = await res.json();

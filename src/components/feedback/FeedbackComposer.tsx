@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { FeedbackCategory, FeedbackPost } from '@/types/feedback';
 import { createFeedback } from '@/lib/feedback/api';
-import { randomGenerateNickname } from '@/lib/feedback/feedback';
+import { generateRandomNickname } from '@/lib/feedback/feedback';
 
 interface FeedbackComposerProps {
   onClose: () => void;
@@ -16,7 +16,8 @@ export default function FeedbackComposer({
 }: FeedbackComposerProps) {
   const [content, setContent] = useState<string>('');
   const [category, setCategory] = useState<FeedbackCategory>('build');
-  const [nickname] = useState(() => randomGenerateNickname());
+  const [nickname] = useState(() => generateRandomNickname());
+  const [error, setError] = useState<string | null>(null);
 
   function handleChangeComposeValue(
     event: React.ChangeEvent<HTMLTextAreaElement>,
@@ -43,7 +44,7 @@ export default function FeedbackComposer({
       addPosts(post);
     } catch (error) {
       if (error instanceof Error) {
-        console.log(error.message);
+        setError(error.message);
       }
     }
   }
@@ -58,7 +59,7 @@ export default function FeedbackComposer({
           type='button'
           onClick={() => handleSelectComposeCategory('build')}
           aria-pressed={category === 'build'}
-          className='flex-1 rounded-md border border-feedback-border px-3 py-2 text-sm font-bold text-feedback-text-muted cursor-pointer aria-pressed:text-brand-400 aria-pressed:border-brand-400 aria-pressed:bg-[var(--color-feedback-recommend-bg)]'
+          className='flex-1 rounded-md border border-feedback-border px-3 py-2 text-sm font-bold text-feedback-text-muted text-center cursor-pointer aria-pressed:text-brand-400 aria-pressed:border-brand-400 aria-pressed:bg-[var(--color-feedback-recommend-bg)]'
         >
           게임 추천
         </button>
@@ -66,7 +67,7 @@ export default function FeedbackComposer({
           type='button'
           onClick={() => handleSelectComposeCategory('fix')}
           aria-pressed={category === 'fix'}
-          className='flex-1 rounded-md border border-feedback-border px-3 py-2 text-sm font-bold text-feedback-text-muted cursor-pointer aria-pressed:text-accent aria-pressed:border-accent aria-pressed:bg-[var(--color-feedback-suggestion-bg)]'
+          className='flex-1 rounded-md border border-feedback-border px-3 py-2 text-sm font-bold text-feedback-text-muted text-center cursor-pointer aria-pressed:text-accent aria-pressed:border-accent aria-pressed:bg-[var(--color-feedback-suggestion-bg)]'
         >
           건의/피드백
         </button>
@@ -83,6 +84,7 @@ export default function FeedbackComposer({
         onChange={handleChangeComposeValue}
         className='w-full rounded-md border border-feedback-border bg-feedback-bg px-3 py-2 text-sm text-feedback-text outline-none placeholder:text-feedback-text-muted focus:border-brand-400'
       />
+      {error && <p className='text-danger'>{error}</p>}
       <div className='mt-3 flex justify-end gap-2'>
         <button
           type='button'

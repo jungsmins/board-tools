@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { FeedbackCategory } from '@/types/feedback';
+import formatRelativeTime from '@/lib/formatRelativeTime';
 
 type FeedbackListItemProps = {
   category: FeedbackCategory;
@@ -47,7 +48,7 @@ export default function FeedbackListItem({
         </span>
         <span className='text-sm font-bold text-feedback-text'>{nickname}</span>
         <span className='ml-auto text-xs text-feedback-text-muted'>
-          {createdAt}
+          {formatRelativeTime(createdAt)}
         </span>
       </div>
       <p className='text-sm leading-6 text-feedback-text'>{content}</p>
