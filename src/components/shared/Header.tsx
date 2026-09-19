@@ -12,10 +12,22 @@ export default function Header() {
     >
       <Link
         href='/'
-        className='flex items-center gap-2.5 rounded-full bg-surface px-4 py-1.5'
+        className='flex items-center gap-2.5 rounded-full bg-surface px-3 py-1.5 sm:px-4'
       >
-        <Image src={logo_icon} alt='로고' width={30} height={30} />
-        <Image src={logo_text} alt='로고' width={96} height={28} />
+        <Image
+          src={logo_icon}
+          alt='로고'
+          width={30}
+          height={30}
+          className='w-[22px] h-[22px] sm:w-[30px] sm:h-[30px]'
+        />
+        <Image
+          src={logo_text}
+          alt='로고'
+          width={96}
+          height={28}
+          className='w-[70px] h-auto sm:w-24'
+        />
       </Link>
       <Link
         href='/feedback'
