@@ -14,7 +14,7 @@ export default function GamePrepScreen({
   children,
 }: GamePrepScreenProps) {
   return (
-    <div className='relative flex min-h-screen w-full flex-col'>
+    <div className='relative flex min-h-screen w-full flex-col bg-surface bg-grain'>
       <Header />
       <main className='flex flex-1 flex-col items-center justify-center gap-7 px-6 py-14 text-center'>
         <span className='text-sm font-bold tracking-[0.2em] text-accent'>
