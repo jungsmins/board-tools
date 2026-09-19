@@ -10,7 +10,7 @@ export default function Footer() {
         href='mailto:boardtools@gmail.com'
         className='text-sm text-surface/70 underline-offset-4 transition hover:text-accent hover:underline'
       >
-        boardtools@gmail.com
+        boardtools1@gmail.com
       </a>
     </footer>
   );
