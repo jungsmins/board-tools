@@ -28,7 +28,7 @@ export default function ConfirmDialog({
             취소
           </Button>
         )}
-        <Button variant='primary' size='lg' onClick={onConfirm}>
+        <Button variant='danger' size='lg' onClick={onConfirm}>
           {confirmLabel}
         </Button>
       </div>
